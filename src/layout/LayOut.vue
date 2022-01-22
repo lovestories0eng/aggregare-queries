@@ -1,7 +1,7 @@
 <template>
   <div>
     <side-bar></side-bar>
-    <head-searcher></head-searcher>
+    <head-searcher :sample-queries="sampleQueries"></head-searcher>
     <results-table></results-table>
     <candidate-answers></candidate-answers>
     <query-graph></query-graph>
@@ -17,8 +17,10 @@ import CandidateAnswers from "./CandidateAnswers";
 import QueryGraph from "./QueryGraph";
 import ControlButtons from "./ControlButtons";
 
+import { sampleQueries } from "../data/SampleQueries";
+
 export default {
-  name: "index",
+  name: "LayOut",
   components: {
     SideBar,
     HeadSearcher,
@@ -26,6 +28,14 @@ export default {
     CandidateAnswers,
     QueryGraph,
     ControlButtons
+  },
+  data() {
+    return {
+      sampleQueries: sampleQueries
+    }
+  },
+  mounted() {
+    console.log(this.sampleQueries)
   }
 }
 </script>
