@@ -1,0 +1,14 @@
+// base color
+$blue:#324157;
+$lightBlue:#3A71A8;
+
+// side bar
+$sideBarWidth: 30%;
+$sideBarHeight: 85%;
+
+:export {
+  blue: $blue;
+  light-blue: $lightBlue;
+  sideBarWidth: $sideBarWidth;
+  sideBarHeight: $sideBarHeight;
+};
