@@ -1,52 +1,51 @@
 <template>
-<div id="root">
-  <div class="query-container">
-    <div class="query-wrap">
-      <div class="query-header">
-       <span>Sample Queries</span>
-      </div>
-      <div class="query-itemcontainer">
-      <div class="query-maincontainer">
-      <ul class="query-main">
-        <li v-for="query in queries" :key="query.query">         
-            <span>{{query.query}}</span>            
-        </li>
-      </ul>
-      </div>
+  <div id="root">
+    <div class="query-container">
+      <div class="query-wrap">
+        <div class="query-header">
+          <span>Sample Queries</span>
+        </div>
+        <div class="query-itemcontainer">
+          <div class="query-maincontainer">
+            <ul class="query-main">
+              <li v-for="query in queries" :key="query.query">
+                <span>{{ query.query }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
 </template>
 
 <script>
-import{staticArray}from'../data/SampleQueries'
+import sampleQueries from '@/data/SampleQueries'
+
 export default {
   name: "SideBar",
-  data()
-  {
-    return{
-    queries:[]
-  }
+  data() {
+    return {
+      queries: []
+    }
   },
-  mounted()
-  {
-    this.queries=staticArray()
+  mounted() {
+    this.queries = sampleQueries
   }
 }
 </script>
 
-<style >
+<style>
 /*base*/
 body {
   background: #fff;
 }
 
 .query-container {
-  width:300px;
-  float:left;
+  width: 300px;
+  float: left;
 }
+
 .query-container .query-wrap {
   padding: 10px;
   border: 1px solid #ddd;
@@ -55,7 +54,7 @@ body {
 
 /*header*/
 .query-header {
-  
+
   height: 28px;
   font-size: 14px;
   border: 2px solid #ccc;
@@ -67,22 +66,24 @@ body {
 
 
 /*main*/
-.query-itemcontainer{
-   background-color:gainsboro;
-    margin-top: 10px;
-    border-radius: 3px;
-    padding:5px;
+.query-itemcontainer {
+  background-color: gainsboro;
+  margin-top: 10px;
+  border-radius: 3px;
+  padding: 5px;
 }
-.query-maincontainer{
-  width:100%;
-  height:550px;
+
+.query-maincontainer {
+  width: 100%;
+  height: 550px;
   overflow: auto;
-  
+
 }
+
 .query-main {
-  width:600px;
-  height:1200px;
-  float:left;
+  width: 600px;
+  height: 1200px;
+  float: left;
 }
 
 .query-empty {
@@ -93,12 +94,13 @@ body {
   padding-left: 5px;
   margin-top: 10px;
 }
+
 /*item*/
 
 li {
   height: 36px;
-  padding:10px;
-  cursor:pointer;
+  padding: 10px;
+  cursor: pointer;
   font-size: 12px;
 }
 

@@ -1,15 +1,15 @@
 <template>
   <div class="contain">
     <div class="leftcolumn">
-    <side-bar></side-bar>
+      <side-bar></side-bar>
     </div>
     <div class="rightcolumn">
-    <head-searcher :sample-queries="sampleQueries"></head-searcher>
-    <results-table></results-table>
-    <candidate-answers></candidate-answers>
-    <query-graph></query-graph>
-    <control-buttons></control-buttons>
-  </div>
+      <head-searcher :sample-queries="sampleQueries"></head-searcher>
+      <results-table></results-table>
+      <candidate-answers></candidate-answers>
+      <query-graph></query-graph>
+      <control-buttons></control-buttons>
+    </div>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ import CandidateAnswers from "./CandidateAnswers";
 import QueryGraph from "./QueryGraph";
 import ControlButtons from "./ControlButtons";
 
-import { sampleQueries } from "../data/SampleQueries";
+import sampleQueries from "../data/SampleQueries";
 
 export default {
   name: "LayOut",
@@ -54,7 +54,7 @@ export default {
 {
   width:30%;
   float:left;
-  
+
 }
 .rightcolumn
 {

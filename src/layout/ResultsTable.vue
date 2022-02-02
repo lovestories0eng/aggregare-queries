@@ -1,14 +1,14 @@
 <template>
-<div class="tableContainer">
-<table class="imagetable">
-    <tr>
+  <div class="tableContainer">
+    <table class="imagetable">
+      <tr>
         <th>result</th><th>error</th><th>confidence interval</th><th>confidence level-fixed</th><th>runtime of this round</th>
-    </tr>
-    <tr v-for="i in resultTable" :key="i.result">
-        <td>{{i.result}}</td><td>{{i.error}}</td><td>{{i.confidence_interval}}</td><td>{{i.confidence_level_fixed}}</td><td>{{i.runtime}}</td>
-    </tr>
+      </tr>
+      <tr v-for="i in resultTable" :key="i.result">
+        <td>{{ i.result }}</td><td>{{ i.error }}</td><td>{{ i.confidence_interval }}</td><td>{{ i.confidence_level_fixed }}</td><td>{{ i.runtime }}</td>
+      </tr>
     </table>
-</div>
+  </div>
 </template>
 
 <script>

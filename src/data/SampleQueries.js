@@ -11,7 +11,5 @@ let sampleQueries = [
     {query: 'How many cars are designed by German designers?'},
 ]
 
-export function staticArray()  {
-    return sampleQueries
-}
+export default sampleQueries
 
