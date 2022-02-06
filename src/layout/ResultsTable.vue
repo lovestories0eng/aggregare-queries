@@ -1,57 +1,81 @@
 <template>
-  <div class="tableContainer">
-    <table class="imagetable">
-      <tr>
-        <th>result</th><th>error</th><th>confidence interval</th><th>confidence level-fixed</th><th>runtime of this round</th>
-      </tr>
-      <tr v-for="i in resultTable" :key="i.result">
-        <td>{{ i.result }}</td><td>{{ i.error }}</td><td>{{ i.confidence_interval }}</td><td>{{ i.confidence_level_fixed }}</td><td>{{ i.runtime }}</td>
-      </tr>
-    </table>
-  </div>
+<div>
+  <el-table
+    :data="tableData"
+    empty-text="Please choose a query"
+    border
+    style="width: 100;margin-top:20px">
+
+    <el-table-column
+      prop="index"
+      label="round"
+      width="100">
+    </el-table-column>
+    <el-table-column
+      prop="result"
+      label="result"
+      width="100">
+    </el-table-column>
+    <el-table-column
+      prop="error"
+      label="error"
+      width="100"
+     >
+    </el-table-column>
+    <el-table-column
+      prop="confidence_interval"
+      label="confidence interval">
+    </el-table-column>
+     <el-table-column
+      prop="confidence_level_fixed"
+      label="confidencelevel fixed">
+    </el-table-column>
+      <el-table-column
+      prop="runtime"
+      label="runtime of this round">
+    </el-table-column>
+  </el-table>
+<el-button type="primary" :disabled="judge"  @click="slice()" class="button_style">continue</el-button>
+</div>
 </template>
 
 <script>
 import ResultsTable, { resultArray } from '../data/ResultTable'
 export default {
-  name: "ResultsTable",
+    name: "ResultsTable",
   data()
   {
+    
     return{
-      resultTable:[]
+      i:1,
+      judge:false,   
+      tableData:[],
+      copyData:[]
     }
   },
   mounted()
   {
-    this.resultTable=resultArray()
-  }
-}
-</script>
+    this.copyData=resultArray()
+  },
+  methods:
+  {
+    slice()
+   {
+    
+     this.tableData=this.copyData.slice(0,this.i);
+     this.$emit('getmessage',this.i);
+      this.i++;
+     if(this.i>Object.keys(this.copyData).length)
+      this.judge=true;
 
+   }
+  }
+  }
+</script>
 <style scoped>
-.tableContainer{
-  margin-top:20px;
+.button_style
+{
+  margin-top:10px;
+  float: right;
 }
- table.imagetable {
-        font-family: verdana,arial,sans-serif;
-        font-size:11px;
-        color:#333333;
-        border-width: 1px;
-        border-color: #999999;
-        border-collapse: collapse;
-    }
-    table.imagetable th {
-        background:#b5cfd2 ;
-        border-width: 1px;
-        padding: 8px;
-        border-style: solid;
-        border-color: #999999;
-    }
-    table.imagetable td {
-        background:#dcddc0 ;
-        border-width: 1px;
-        padding: 8px;
-        border-style: solid;
-        border-color: #999999;
-    }
 </style>

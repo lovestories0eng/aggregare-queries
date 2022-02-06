@@ -3,7 +3,7 @@
     <div class="query-container">
       <div class="query-wrap">
         <div class="query-header">
-          <span>Sample Queries</span>
+          <span >Sample Queries</span>
         </div>
         <div class="query-itemcontainer">
           <div class="query-maincontainer">
@@ -44,6 +44,8 @@ body {
 .query-container {
   width: 300px;
   float: left;
+   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+
 }
 
 .query-container .query-wrap {
@@ -56,7 +58,7 @@ body {
 .query-header {
 
   height: 28px;
-  font-size: 14px;
+  font-size: 20px;
   border: 2px solid #ccc;
   border-radius: 4px;
   padding: 4px 7px;
@@ -81,8 +83,6 @@ body {
 }
 
 .query-main {
-  width: 600px;
-  height: 1200px;
   float: left;
 }
 
@@ -98,10 +98,10 @@ body {
 /*item*/
 
 li {
-  height: 36px;
+
   padding: 10px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 

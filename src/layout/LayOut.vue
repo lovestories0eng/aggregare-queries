@@ -5,8 +5,12 @@
     </div>
     <div class="rightcolumn">
       <head-searcher :sample-queries="sampleQueries"></head-searcher>
-      <results-table></results-table>
-      <candidate-answers></candidate-answers>
+      <div class="result_container">
+      <results-table @getmessage="sendmessage"></results-table>
+      </div>
+      <div class="candidate_answers_container">
+      <candidate-answers :message="round"></candidate-answers>
+      </div>
       <query-graph></query-graph>
       <control-buttons></control-buttons>
     </div>
@@ -35,12 +39,21 @@ export default {
   },
   data() {
     return {
-      sampleQueries: sampleQueries
+      sampleQueries: sampleQueries,
+      round:0
     }
   },
   mounted() {
     console.log(this.sampleQueries)
+  },
+  methods:
+{
+  sendmessage(msg)
+  {
+    this.round=msg
+    
   }
+}
 }
 </script>
 
@@ -52,13 +65,26 @@ export default {
 }
 .leftcolumn
 {
-  width:30%;
+  width:25%;
   float:left;
 
 }
 .rightcolumn
 {
-  width:65%;
+  width:70%;
   float:right;
+}
+.result_container
+{
+ float:right;
+  width:100%;
+}
+.candidate_answers_container
+{
+  height:300px;
+  width:100%;
+  float: right;
+  margin-top:10px;
+  
 }
 </style>
