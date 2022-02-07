@@ -1,20 +1,20 @@
 <template>
-  <div class="contain">
-    <div class="leftcolumn">
-      <side-bar></side-bar>
-    </div>
-    <div class="rightcolumn">
+  <el-container class="contain">
+    <el-aside class="left-column">
+      <side-bar :sample-queries="sampleQueries"></side-bar>
+    </el-aside>
+    <el-main class="right-column">
       <head-searcher :sample-queries="sampleQueries"></head-searcher>
-      <div class="result_container">
-      <results-table @getmessage="sendmessage"></results-table>
+      <div class="result-container">
+        <results-table @get-message="sendMessage"></results-table>
       </div>
-      <div class="candidate_answers_container">
-      <candidate-answers :message="round"></candidate-answers>
+      <div class="candidate-answers-container">
+        <candidate-answers :message="round"></candidate-answers>
       </div>
       <query-graph></query-graph>
       <control-buttons></control-buttons>
-    </div>
-  </div>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
@@ -46,45 +46,35 @@ export default {
   mounted() {
     console.log(this.sampleQueries)
   },
-  methods:
-{
-  sendmessage(msg)
-  {
-    this.round=msg
-    
+  methods: {
+    sendMessage(msg) {
+      this.round = msg
+    }
   }
-}
 }
 </script>
 
 <style scoped>
-.contain
-{
-  width:1200px;
-  margin:auto;
+.contain {
+  width:80%;
+  margin: 20px auto auto;
 }
-.leftcolumn
-{
+.left-column {
   width:25%;
-  float:left;
-
+  box-shadow: 0 2px 15px rgba(0, 0, 255, .2);
 }
-.rightcolumn
-{
+.right-column {
+  padding-top: 0 !important;
   width:70%;
-  float:right;
 }
-.result_container
-{
+.result-container {
  float:right;
   width:100%;
 }
-.candidate_answers_container
-{
+.candidate-answers-container {
   height:300px;
   width:100%;
   float: right;
   margin-top:10px;
-  
 }
 </style>

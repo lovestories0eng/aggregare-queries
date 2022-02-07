@@ -65,17 +65,11 @@ export default {
 
 <style lang="scss" scoped>
 .header-search {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
   font-size: 0 !important;
-
-  el-button {
-    display: inline-block;
-  }
-
-  .search-icon {
-    cursor: pointer;
-    font-size: 14px;
-    vertical-align: middle;
-  }
 
   .header-search-select {
     font-size: 18px;
@@ -98,8 +92,13 @@ export default {
 
   &.show {
     .header-search-select {
-      width: 45%;
-      margin-left: 10px;
+      width: 85%;
+    }
+    .search-icon {
+      cursor: pointer;
+      font-size: 14px;
+      vertical-align: middle;
+      width: 15%;
     }
   }
 }

@@ -1,36 +1,71 @@
 <template>
-  <div id="root">
-    <div class="query-container">
-      <div class="query-wrap">
-        <div class="query-header">
-          <span >Sample Queries</span>
-        </div>
-        <div class="query-itemcontainer">
-          <div class="query-maincontainer">
-            <ul class="query-main">
-              <li v-for="query in queries" :key="query.query">
-                <span>{{ query.query }}</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+  <!--<div id="root">-->
+  <!--  <div class="query-container">-->
+  <!--    <div class="query-wrap">-->
+  <!--      <div class="query-header">-->
+  <!--        <span>Sample Queries</span>-->
+  <!--      </div>-->
+  <!--      <div class="query-itemcontainer">-->
+  <!--        <div class="query-maincontainer">-->
+  <!--          <ul class="query-main">-->
+  <!--            <li v-for="query in sampleQueries" :key="query.query">-->
+  <!--              <span>{{ query.query }}</span>-->
+  <!--            </li>-->
+  <!--          </ul>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </div>-->
+  <!--</div>-->
+  <div id="side-bar">
+    <el-table
+      stripe
+      :data="sampleQueries"
+      :height="autoHeight.height"
+    >
+      <el-table-column
+        prop="query"
+        label="sample queries"
+        align="center"
+        :show-overflow-tooltip="true"
+      >
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
 <script>
-import sampleQueries from '@/data/SampleQueries'
-
 export default {
   name: "SideBar",
-  data() {
-    return {
-      queries: []
+  props: {
+    sampleQueries: {
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
-  mounted() {
-    this.queries = sampleQueries
+  data() {
+    return {
+      windowHeight: 0,
+      autoHeight: {
+        height: ''
+      },
+    }
+  },
+  created() {
+    window.addEventListener('resize', this.getHeight)
+    this.getHeight()
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.getHeight)
+  },
+  methods: {
+    getHeight() {
+      this.windowHeight = window.innerHeight
+      this.autoHeight.height = (this.windowHeight - 40) + 'px';
+      console.log(this.autoHeight.height)
+    },
   }
 }
 </script>
