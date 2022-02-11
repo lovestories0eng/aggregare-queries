@@ -222,28 +222,16 @@ export default {
         },
         // 布局
         //物理引擎-计算节点之前斥力，进行自动排列的属性
-        // physics: {
-        //   enabled: true, //默认是true，设置为false后，节点将不会自动改变，拖动谁谁动。不影响其他的节点
-        //   barnesHut: {
-        //     gravitationalConstant: -4000,
-        //     centralGravity: 0.3,
-        //     springLength: 120,
-        //     springConstant: 0.04,
-        //     damping: 0.09,
-        //     avoidOverlap: 0,
-        //   },
-        // },
         physics: {
-          forceAtlas2Based: {
-            gravitationalConstant: -26,
-            centralGravity: 0.005,
-            springLength: 230,
-            springConstant: 0.18
+          enabled: true, //默认是true，设置为false后，节点将不会自动改变，拖动谁谁动。不影响其他的节点
+          barnesHut: {
+            gravitationalConstant: -4000,
+            centralGravity: 0.3,
+            springLength: 120,
+            springConstant: 0.04,
+            damping: 0.09,
+            avoidOverlap: 0,
           },
-          maxVelocity: 146,
-          solver: 'forceAtlas2Based',
-          timestep: 0.35,
-          stabilization: {iterations: 150}
         },
         //用于所有用户与网络的交互。处理鼠标和触摸事件以及导航按钮和弹出窗口
         interaction: {
