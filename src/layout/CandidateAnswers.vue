@@ -1,45 +1,77 @@
 <template>
   <div>
-    <el-container v-for="sample in samples" :key="sample.round" :style="'height: 200px;float:left; border: 1px solid #eee;width: '+wide+'%'">
-      <el-container>
-        <el-main style="padding:0px">
-          <el-table :data="sample.sampledetail">
-            <el-table-column prop="samplename" :label="'round: '+sample.round">
-            </el-table-column>
-          </el-table>
-        </el-main>
-      </el-container>
+    <el-container>
+      <el-main style="padding:0;text-align:center;height: 30vh;">
+        <el-select v-model="value" placeholder="please choose round" @change="changeRound">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+        <el-table :data="candidateAnswers[roundShow - 1]">
+          <el-table-column
+            align="center"
+            prop="sampleName"
+            label="sample name"
+          >
+          </el-table-column>
+        </el-table>
+      </el-main>
     </el-container>
-    <el-button type="primary" :disabled="false" class="button_showmore">show more</el-button>
+    <el-button type="primary" class="button-show-more" @click="changeStatus">show more</el-button>
   </div>
 </template>
 
 <script>
-import sampleNames from '@/data/SampleName'
 export default {
   name: "CandidateAnswers",
   props: {
-    message: {
+    options: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
+    candidateAnswers: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
+    roundShow: {
+      type: Number,
+      default: 1
+    },
+    threshold: {
+      type: Number,
+      default: 5
+    },
+    round: {
+      type: Number,
+      default: 0
+    },
+    maxRound: {
       type: Number,
       default: 0
     }
   },
- data() {
-   return{
-     round:0,
-     samples:[],
-     copyArray:sampleNames,
-     wide:0,
-   }
- },
-  watch: {
-    message(val){
-      this.round=val;
-      console.log("round"+this.round);
-      this.wide=100/this.round;
-      this.samples=this.copyArray.slice(0,this.round);
+  data() {
+    return {
+      showMore: false,
+      value: ''
     }
   },
+  methods: {
+    changeStatus() {
+      this.showMore = true
+    },
+    changeRound(value) {
+      this.$emit('changeRound', value)
+    }
+  }
 }
 </script>
 
@@ -53,7 +85,7 @@ export default {
   .el-aside {
     color: #333;
   }
-  .button_showmore
+  .button-show-more
 {
   margin-top:10px;
   float: right;

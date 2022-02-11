@@ -6,12 +6,20 @@
     <el-main class="right-column">
       <head-searcher :sample-queries="sampleQueries"></head-searcher>
       <div class="result-container">
-        <results-table @get-message="sendMessage"></results-table>
+        <results-table :table-data="tableData" @getMessage="getMessage"></results-table>
       </div>
       <div class="candidate-answers-container">
-        <candidate-answers :message="round"></candidate-answers>
+        <candidate-answers
+          :candidate-answers="candidateAnswers"
+          :options="options"
+          :round="round"
+          :round-show="roundShow"
+          :max-round="maxRound"
+          @changeRound="changeRound"
+        >
+        </candidate-answers>
       </div>
-      <query-graph></query-graph>
+      <query-graph :graph-data="graphData"></query-graph>
       <control-buttons></control-buttons>
     </el-main>
   </el-container>
@@ -26,6 +34,8 @@ import QueryGraph from "./QueryGraph";
 import ControlButtons from "./ControlButtons";
 
 import sampleQueries from "../data/SampleQueries";
+import axios from "axios";
+import {Message} from "element-ui";
 
 export default {
   name: "LayOut",
@@ -40,15 +50,66 @@ export default {
   data() {
     return {
       sampleQueries: sampleQueries,
-      round:0
+      candidateAnswers: [],
+      queryData: {},
+      graphData: [],
+      tableData: [],
+      round: 1,
+      roundShow: 1,
+      maxRound: 0,
+      options: []
     }
   },
   mounted() {
-    console.log(this.sampleQueries)
+    axios.get("/data/sampleData.json").then(res => {
+      res = res.data
+      this.queryData = res
+      this.maxRound = Object.keys(this.queryData).length
+      this.initTableData()
+      this.initGraphData()
+      this.initCandidateAnswers()
+    })
   },
   methods: {
-    sendMessage(msg) {
-      this.round = msg
+    getMessage() {
+      if (this.round + 1 > this.maxRound) {
+        Message.error('Reaches the maximum number of iterations')
+        return
+      }
+      this.round++
+      this.initTableData()
+      this.initGraphData()
+    },
+    initTableData() {
+      let tempData = {}
+      tempData["round"] = this.round
+      tempData["confidence interval"] = this.queryData[this.round]["confidence interval"]
+      tempData["confidence level-fixed"] = this.queryData[this.round]["confidence level-fixed"]
+      tempData["error"] = this.queryData[this.round]["error"]
+      tempData["result"] = this.queryData[this.round]["result"]
+      tempData["runtime of this round"] = this.queryData[this.round]["runtime of this round"]
+
+      this.tableData = []
+      this.tableData.push(tempData)
+
+      this.graphData = this.queryData[this.round]
+    },
+    initGraphData() {
+      this.graphData = this.queryData[this.round]["queryPath"]
+    },
+    initCandidateAnswers() {
+      this.candidateAnswers = []
+      for (let i = 1; i <= this.maxRound; i++) {
+        this.options.push({ label: "round " + i, value: i })
+        let tempData = []
+        this.queryData[i]["queryPath"].forEach(item => {
+          tempData.push({ sampleName: item.path[0] })
+        })
+        this.candidateAnswers.push(tempData)
+      }
+    },
+    changeRound(value) {
+      this.roundShow = value
     }
   }
 }

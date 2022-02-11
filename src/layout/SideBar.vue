@@ -46,7 +46,6 @@ export default {
     getHeight() {
       this.windowHeight = window.innerHeight
       this.autoHeight.height = (this.windowHeight - 40) + 'px';
-      console.log(this.autoHeight.height)
     },
   }
 }

@@ -4,10 +4,10 @@
       :data="tableData"
       empty-text="Please choose a query"
       border
-      style="width: 100%;margin-top:20px"
+      style="width: calc(100% - 40px); margin:20px"
     >
       <el-table-column
-        prop="index"
+        prop="round"
         label="round"
         width="100"
       >
@@ -25,54 +25,51 @@
       >
       </el-table-column>
       <el-table-column
-        prop="confidence_interval"
+        prop="confidence interval"
         label="confidence interval"
       >
       </el-table-column>
       <el-table-column
-        prop="confidence_level_fixed"
-        label="confidencelevel fixed"
+        prop="confidence level-fixed"
+        label="confidence level-fixed"
       >
       </el-table-column>
       <el-table-column
-        prop="runtime"
+        prop="runtime of this round"
         label="runtime of this round"
       >
       </el-table-column>
     </el-table>
-    <el-button type="primary" :disabled="judge" class="button_style" @click="slice()">continue</el-button>
+    <el-button type="primary" :disabled="disabled" class="button-style" @click="proceed">continue</el-button>
   </div>
 </template>
 
 <script>
-import ResultsTable, { resultArray } from '../data/ResultTable'
 export default {
   name: "ResultsTable",
-  data() {
-    return{
-      i:1,
-      judge:false,
-      tableData:[],
-      copyData:[]
+  props: {
+    tableData: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
+    disabled: {
+      type: Boolean,
+      default() {
+        return false;
+      }
     }
   },
-  mounted() {
-    this.copyData = resultArray()
-  },
   methods: {
-    slice() {
-     this.tableData=this.copyData.slice(0,this.i);
-     this.$emit('get-message',this.i);
-     this.i++;
-     if(this.i > Object.keys(this.copyData).length)
-       this.judge=true;
-
-   }
+    proceed() {
+      this.$emit('getMessage');
+    }
   }
-  }
+}
 </script>
 <style scoped>
-.button_style
+.button-style
 {
   margin-top:10px;
   float: right;
