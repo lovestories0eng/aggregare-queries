@@ -61,7 +61,7 @@ export default {
     }
   },
   mounted() {
-    axios.get("/data/sampleData.json").then(res => {
+    axios.get("./data/sampleData.json").then(res => {
       res = res.data
       this.queryData = res
       this.maxRound = Object.keys(this.queryData).length

@@ -26,37 +26,9 @@ export default {
       edges: [],
       container: null,
       // network: null,
-      //   节点数组
-      nodesArray: [// {
-      //   "id": 0,
-      //   "name": "Mercedes-Benz_B-Class__econd_generation__1"
-      // },
-      //   {
-      //     "id": 1,
-      //     "name": "Germany"
-      //   },
-      //   {
-      //     "id": 2,
-      //     "name": "Lujo_Brentano"
-      //   },
-      //   {
-      //     "id": 3,
-      //     "name": "Mercedes-Benz_B-Class__First_generation__1"
-      //   },
-      //   {
-      //     "id": 4,
-      //     "name": "aaaaaaaaaaaaaaaaaaaaaaa"
-      //   },
-      //   {
-      //     "id": 5,
-      //     "name": "bbbbbbbbbbbbbbbbbbbbbb"
-      //   }
-      ],
-      edgesArray: [
-        // { "from": 0, "to": 2, "label": "assembly" },
-        // { "from": 1, "to": 2, "label": "deathPlace" },
-        // { "from": 3, "to": 1, "label": "assembly" },
-      ],
+      // 节点数组
+      nodesArray: [],
+      edgesArray: [],
       options: {},
       data: {},
       sampleMapId: {},
@@ -84,20 +56,27 @@ export default {
         count = 1
         for (let i=0;i<paths.length;i++) {
           if (count % 2 === 0) {
-            let previous = this.sampleMapId[paths[i - 1]]
-            let next = this.sampleMapId[paths[i + 1]]
+            let next = this.sampleMapId[paths[i - 1]]
+            let previous = this.sampleMapId[paths[i + 1]]
             if (this.edgesArray.length === 0) {
               this.edgesArray.push({ from: previous, to: next, label:paths[i] })
             } else {
               let flag = true
               for (let j=0;j<this.edgesArray.length;j++) {
-                if (previous === (this.edgesArray[j]).from && next === (this.edgesArray[j]).to) {
+                if (next === (this.edgesArray[j]).to && previous === (this.edgesArray[j]).from) {
                   flag = false
                   break
                 }
               }
               if (flag) {
                 this.edgesArray.push({ from: previous, to: next, label:paths[i] })
+                if (i === paths.length - 2) {
+                  this.nodesArray.forEach(item => {
+                    if (item.id === previous) {
+                      item.group = 'startPoint'
+                    }
+                  })
+                }
               }
             }
           }
@@ -105,6 +84,7 @@ export default {
         }
       })
       this.reinitialize()
+
     }
   },
   mounted() {
@@ -115,7 +95,7 @@ export default {
       this.init();
       this.network.moveTo({ scale: 0.85 });
       let param = { nodes: this.nodesArray, edges: this.edgesArray };
-      this.addNetworkParams(param);
+      this.addNetworkParams(param)
     },
     // 初始化network
     init() {
