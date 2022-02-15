@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table
-      :data="tableData"
+      :data="copydata"
       empty-text="Please choose a query"
       border
       style="width: calc(100% - 40px); margin:20px"
@@ -48,6 +48,9 @@
 export default {
   name: "ResultsTable",
   props: {
+     round:{
+
+    },
     tableData: {
       type: Array,
       default() {
@@ -60,10 +63,24 @@ export default {
         return false;
       }
     }
+
+  },
+  data(){
+    return{
+    copydata:[]
+    }
   },
   methods: {
     proceed() {
       this.$emit('getMessage');
+      this.copydata=this.tableData.slice(0,this.round); 
+    }
+  },
+  watch:{
+    round(val)
+    {
+      if(val==2)//点击submit时显示第一轮
+      this.copydata=this.tableData.slice(0,this.round-1); 
     }
   }
 }

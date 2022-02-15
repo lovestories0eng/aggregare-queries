@@ -11,7 +11,7 @@
     >
       <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" />
     </el-select>
-    <el-button type="primary" class="search-icon">submit query</el-button>
+    <el-button type="primary" class="search-icon" @click="proceed">submit query</el-button>
   </div>
 </template>
 
@@ -28,6 +28,12 @@ export default {
       default() {
         return []
       }
+    },
+   query:{
+       type: String,
+      default() {
+        return '';
+      }
     }
   },
   data() {
@@ -41,6 +47,7 @@ export default {
   },
   mounted() {
     this.searchPool = this.sampleQueries
+
     this.fuse = new Fuse(this.searchPool, {
       shouldSort: true,
       threshold: 0.4,
@@ -51,6 +58,13 @@ export default {
       keys: ['query']
     })
   },
+  watch:{
+   query(val)
+    {
+      this.search=val;
+      
+    }
+  },
   methods: {
     querySearch(query) {
       if (query !== '') {
@@ -58,6 +72,10 @@ export default {
       } else {
         this.options = []
       }
+    },
+      proceed() {
+      this.$emit('getQuery');
+      
     }
   }
 }

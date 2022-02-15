@@ -4,6 +4,7 @@
       stripe
       :data="sampleQueries"
       :height="autoHeight.height"
+      @row-click="clickData"
     >
       <el-table-column
         prop="query"
@@ -33,6 +34,7 @@ export default {
       autoHeight: {
         height: ''
       },
+      cardInfoList:''
     }
   },
   created() {
@@ -43,6 +45,12 @@ export default {
     window.removeEventListener('resize', this.getHeight)
   },
   methods: {
+    
+      clickData(row) {   
+       this.cardInfoList=row
+      
+      this.$emit('choosedQuery',this.cardInfoList);
+     },
     getHeight() {
       this.windowHeight = window.innerHeight
       this.autoHeight.height = (this.windowHeight - 40) + 'px';
