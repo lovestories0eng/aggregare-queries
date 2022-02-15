@@ -13,14 +13,12 @@
           :candidate-answers="candidateAnswers"
           :options="options"
           :round="round"
-          :round-show="roundShow"
           :max-round="maxRound"
-          @changeRound="changeRound"
         >
         </candidate-answers>
       </div>
       <div class="query-graph-container">
-      <query-graph :graph-data="graphData"></query-graph>
+        <query-graph :graph-data="graphData"></query-graph>
       </div>
       <control-buttons></control-buttons>
     </el-main>
@@ -56,15 +54,22 @@ export default {
       queryData: {},
       graphData: [],
       tableData: [],
-      round: 1,
-      roundShow: 1,
+      round: 0,
       maxRound: 0,
       options: [],
       query:''
     }
   },
   mounted() {
-    axios.get("./data/sampleData.json").then(res => {
+    // axios.get("./data/sampleData.json").then(res => {
+    //   res = res.data
+    //   this.queryData = res
+    //   this.maxRound = Object.keys(this.queryData).length
+    //   this.initTableData()
+    //   this.initGraphData()
+    //   this.initCandidateAnswers()
+    // })
+    axios.get("./data/How_many_astronaut_from_Russia.json").then(res => {
       res = res.data
       this.queryData = res
       this.maxRound = Object.keys(this.queryData).length
@@ -74,36 +79,30 @@ export default {
     })
   },
   methods: {
-    choosedQuery(val)
-    {
+    choosedQuery(val) {
       this.query=val.query;
-      
     },
-    getQuery()
-    {
-      if(this.round>1)
-      return
-      this.round++
+    // 提交查询后默认显示第一轮
+    getQuery() {
+      if(this.round >= 1) {
+        return
+      }
+      this.round = 1
       this.initTableData()
       this.initGraphData()
     },
     getMessage() {
-     
-      if(this.round  > this.maxRound)
-      {
+      if(this.round  >= this.maxRound) {
          Message.error('Reaches the maximum number of iterations')
         return
       }
-      //为了让初始的时候不显示，直接改初始round为0会报错不知道为啥，所以绕了个弯
-      else if (this.round+1  > this.maxRound) {
-        this.round++
-        return
-      }
-     this.round++
+      this.round++
       this.initTableData()
       this.initGraphData()
     },
     initTableData() {
+      if (this.round === 0)
+        return
       let tempData = {}
       tempData["round"] = this.round
       tempData["confidence interval"] = this.queryData[this.round]["confidence interval"]
@@ -111,11 +110,13 @@ export default {
       tempData["error"] = this.queryData[this.round]["error"]
       tempData["result"] = this.queryData[this.round]["result"]
       tempData["runtime of this round"] = this.queryData[this.round]["runtime of this round"]
-      
+
       this.tableData.push(tempData)
       this.graphData = this.queryData[this.round]
     },
     initGraphData() {
+      if (this.round === 0)
+        return
       this.graphData = this.queryData[this.round]["queryPath"]
     },
     initCandidateAnswers() {
@@ -126,13 +127,9 @@ export default {
         this.queryData[i]["queryPath"].forEach(item => {
           tempData.push({ sampleName: item.path[0] ,visitprobality: item["visit probality"],semanticsimilarities: item["semantic similarities"]})
         })
-    console.log(tempData)
         this.candidateAnswers.push(tempData)
       }
-      
-    },
-    changeRound(value) {
-      this.roundShow = value
+
     }
   }
 }
@@ -162,7 +159,7 @@ export default {
   margin-top:10px;
 }
 .query-graph-container{
-  margin-top:10px;
-  width:100%;
+  margin-top: 50px;
+  width: 100%;
 }
 </style>

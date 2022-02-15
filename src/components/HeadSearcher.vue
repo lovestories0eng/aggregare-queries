@@ -45,6 +45,13 @@ export default {
       fuse: undefined
     }
   },
+  watch:{
+   query(val)
+    {
+      this.search=val;
+      
+    }
+  },
   mounted() {
     this.searchPool = this.sampleQueries
 
@@ -57,13 +64,6 @@ export default {
       minMatchCharLength: 1,
       keys: ['query']
     })
-  },
-  watch:{
-   query(val)
-    {
-      this.search=val;
-      
-    }
   },
   methods: {
     querySearch(query) {

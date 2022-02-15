@@ -48,8 +48,9 @@
 export default {
   name: "ResultsTable",
   props: {
-     round:{
-
+    round:{
+       type: Number,
+       default: 0
     },
     tableData: {
       type: Array,
@@ -70,17 +71,17 @@ export default {
     copydata:[]
     }
   },
+  watch:{
+    round(val) {
+      // if(val === 2)//点击submit时显示第一轮
+      // this.copydata = this.tableData.slice(0, this.round);
+      this.copydata = this.tableData.slice(0, val);
+    }
+  },
   methods: {
     proceed() {
       this.$emit('getMessage');
-      this.copydata=this.tableData.slice(0,this.round); 
-    }
-  },
-  watch:{
-    round(val)
-    {
-      if(val==2)//点击submit时显示第一轮
-      this.copydata=this.tableData.slice(0,this.round-1); 
+      // this.copydata = this.tableData.slice(0, this.round);
     }
   }
 }

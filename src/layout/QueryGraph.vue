@@ -2,7 +2,7 @@
   <!-- vis关系图基础展示 -->
   <div>
     <!--width,height 画布的宽度，高度。 可以是百分比或像素，一般在dom元素上设置 -->
-    <div id="query-graph" class="network" style="width:100%; height:60vh;border:1px solid #ccc;">
+    <div id="query-graph" class="network" style="width:100%;height:450px;border:1px solid #ccc;">
     </div>
   </div>
 </template>
