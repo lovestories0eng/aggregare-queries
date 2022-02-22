@@ -1,14 +1,19 @@
 let sampleQueries = [
-    {query: 'How many cars are produced in Germany?'},
-    {query: 'What’s the average price of cars that are produced in Germany?'},
-    {query: 'What’s the average price of cars produced in Germany with a fuel economy between 25MPG and 30MPG?'},
-    {query: 'How many football clubs are there in each country?'},
-    {query: 'How many languages are spoken in Nigeria?'},
-    {query: 'What’s the total box office of the movies that were directed by Steven Spielberg?'},
-    {query: 'How many museums are there in England?'},
-    {query: 'What’s the average population of China’s cities?'},
-    {query: 'How many soccer players were born in Spain and played for Barcelona FC?'},
-    {query: 'How many cars are designed by German designers?'},
+  { query: 'How many airports are located in California' },
+  { query: 'How many astronaut from Russia' },
+  { query: 'How many books written by Danielle Steel' },
+  { query: 'How many companies in Munich' },
+  { query: 'How many companies in the advertising industry' },
+  { query: 'How many films in Danish' },
+  { query: 'How many films produced by Hal Roach' },
+  { query: 'How many politicians in Methodism' },
+  { query: 'How many soccerclubs in Spain' },
+  { query: 'How many software has been developed by organizations founded in California' },
+  { query: 'What’s the average age of soccer player from Spain' },
+  { query: 'What’s the average height of basketball player from United_States' },
+  { query: 'What’s the average value of soccer player from Spain' },
+  { query: 'What’s the sum salary of soccer player from Spain' },
+  { query: 'What’s the sum value of soccer player from Spain' }
 ]
 
 export default sampleQueries

@@ -57,18 +57,10 @@ export default {
       round: 0,
       maxRound: 0,
       options: [],
-      query:''
+      query: ''
     }
   },
   mounted() {
-    // axios.get("./data/sampleData.json").then(res => {
-    //   res = res.data
-    //   this.queryData = res
-    //   this.maxRound = Object.keys(this.queryData).length
-    //   this.initTableData()
-    //   this.initGraphData()
-    //   this.initCandidateAnswers()
-    // })
     axios.get("./data/How_many_astronaut_from_Russia.json").then(res => {
       res = res.data
       this.queryData = res
@@ -80,14 +72,24 @@ export default {
   },
   methods: {
     choosedQuery(val) {
-      this.query=val.query;
+      this.query = val.query;
+      axios.get("./data/" + val.query + ".json").then(res => {
+        res = res.data
+        this.queryData = res
+        this.maxRound = Object.keys(this.queryData).length
+        this.round = 1
+        this.initTableData()
+        this.initGraphData()
+        this.initCandidateAnswers()
+      })
     },
     // 提交查询后默认显示第一轮
     getQuery() {
       if(this.round >= 1) {
         return
+      } else {
+        this.round = 1
       }
-      this.round = 1
       this.initTableData()
       this.initGraphData()
     },
