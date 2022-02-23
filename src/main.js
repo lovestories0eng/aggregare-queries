@@ -5,6 +5,7 @@ import Element from 'element-ui'
 import 'normalize.css/normalize.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/index.scss'
+import "vis-network/dist/dist/vis-network.min.css"
 
 
 Vue.config.productionTip = false

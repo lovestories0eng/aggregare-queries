@@ -16,6 +16,7 @@
     "normalize.css": "^8.0.1",
     "sass-loader": "^8.0.2",
     "vis": "^4.21.0-EOL",
+    "vis-network": "^9.1.0",
     "vis.js": "^1.1.0",
     "vue": "^2.6.11",
     "vuex": "^3.6.2"

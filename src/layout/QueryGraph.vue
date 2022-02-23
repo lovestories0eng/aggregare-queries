@@ -8,7 +8,8 @@
 </template>
 
 <script>
-import Vis from "vis"
+// import Vis from "vis"
+import Vis from "vis-network/dist/vis-network.min.js"
 export default {
   name: "QueryGraph",
   props: {
@@ -94,6 +95,7 @@ export default {
     reinitialize() {
       this.init();
       this.network.moveTo({ scale: 0.85 });
+      console.log(this.network);
       let param = { nodes: this.nodesArray, edges: this.edgesArray };
       this.addNetworkParams(param)
     },
@@ -111,6 +113,7 @@ export default {
         edges: this.edges,
       };
       // 5.全局配置
+      //该配置项主要用来生成一个可视化的配置器
       this.options = {
         autoResize: true, //网络将自动检测其容器的大小调整，并相应地重绘自身
         // 设置节点样式
@@ -215,15 +218,23 @@ export default {
         },
         //用于所有用户与网络的交互。处理鼠标和触摸事件以及导航按钮和弹出窗口
         interaction: {
-          dragNodes: true, //是否能拖动节点
-          dragView: true, //是否能拖动画布
-          hover: true, //鼠标移过后加粗该节点和连接线
-          multiselect: true, //按 ctrl 多选
-          selectable: true, //是否可以点击选择
-          selectConnectedEdges: true, //选择节点后是否显示连接线
-          hoverConnectedEdges: true, //鼠标滑动节点后是否显示连接线
-          hideEdgesOnDrag: false, //拖动视图时不会绘制边
-          zoomView: true, //是否能缩放画布
+          dragNodes: true,
+          dragView: true,
+          hideEdgesOnDrag: false,
+          hideNodesOnDrag: false,
+          hover: false,
+          hoverConnectedEdges: true,
+          keyboard: {
+            enabled: true,
+            speed: {x: 10, y: 10, zoom: 0.02},
+            bindToWindow: true,
+          },
+          multiselect: false,
+          navigationButtons: true,
+          selectable: true,
+          selectConnectedEdges: true,
+          tooltipDelay: 300,
+          zoomView: true
         },
       };
       // 6.初始化网络拓扑图
@@ -252,5 +263,7 @@ export default {
 </script>
 
 <style scoped>
-
+#query-graph {
+  float: left;
+}
 </style>
