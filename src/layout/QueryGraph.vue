@@ -33,7 +33,9 @@ export default {
       options: {},
       data: {},
       sampleMapId: {},
-      idCount: 1
+      idCount: 1,
+      // 最多显示120条路径
+      pathLimit: 100
     };
   },
   watch: {
@@ -42,6 +44,8 @@ export default {
       this.edgesArray = []
       this.sampleMapId = {}
       this.idCount = 1
+      newValue = this.dataCut(newValue, this.pathLimit)
+      console.log(newValue)
       newValue.forEach(item => {
         let paths = item.path
         let count = 1
@@ -84,6 +88,8 @@ export default {
           count++
         }
       })
+      // console.log(this.nodesArray)
+      // console.log(this.edgesArray)
       this.reinitialize()
 
     }
@@ -92,10 +98,39 @@ export default {
     this.reinitialize()
   },
   methods: {
+    // // 找出nodesArray中的起始点的id
+    // determineInitialPoint(nodesArray) {
+    //   let length = nodesArray.length
+    //   for (let index=0;index<length;index++) {
+    //     if ((nodesArray[index]).group !== undefined) {
+    //       return (nodesArray[index]).id
+    //     }
+    //   }
+    // },
+    // // 构建邻接链表
+    // buildAdjacencyList(edgesArray) {
+    //
+    // },
+    // // 深度优先搜索找出所有样本
+    // deepFirstSearch(node) {
+    //
+    // },
+    // 路径过多则裁剪相应数据
+    dataCut(pathArray, length) {
+      if (pathArray.length <= length) {
+        return pathArray
+      } else {
+        let index = 0
+        let newArray = []
+        for (let index=0;index<length;index++) {
+          newArray.push(pathArray[index])
+        }
+        return newArray
+      }
+    },
     reinitialize() {
       this.init();
       this.network.moveTo({ scale: 0.85 });
-      console.log(this.network);
       let param = { nodes: this.nodesArray, edges: this.edgesArray };
       this.addNetworkParams(param)
     },

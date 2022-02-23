@@ -62,14 +62,6 @@ export default {
     }
   },
   mounted() {
-    axios.get("./data/How_many_astronaut_from_Russia.json").then(res => {
-      res = res.data
-      this.queryData = res
-      this.maxRound = Object.keys(this.queryData).length
-      this.initTableData()
-      this.initGraphData()
-      this.initCandidateAnswers()
-    })
   },
   methods: {
     choosedQuery(val) {
@@ -82,9 +74,9 @@ export default {
         this.round = 0
         this.tableData=[]
         this.candidateAnswers=[]
-      this.graphData=[]
-     this.tableData=[]
-     this.options=[]
+        this.graphData=[]
+        this.tableData=[]
+        this.options=[]
         this.initTableData()
         this.initGraphData()
         this.initCandidateAnswers()
@@ -110,7 +102,7 @@ export default {
          Message.error('Reaches the maximum number of iterations')
         return
       }
-      else if(this.click===0)
+      else if(this.click === 0)
       {
          Message.error('Please choose a query')
         return
