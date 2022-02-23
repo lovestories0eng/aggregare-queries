@@ -57,7 +57,8 @@ export default {
       round: 0,
       maxRound: 0,
       options: [],
-      query: ''
+      query: '',
+      click:0
     }
   },
   mounted() {
@@ -72,12 +73,18 @@ export default {
   },
   methods: {
     choosedQuery(val) {
+      this.click=1;
       this.query = val.query;
       axios.get("./data/" + val.query + ".json").then(res => {
         res = res.data
         this.queryData = res
         this.maxRound = Object.keys(this.queryData).length
-        this.round = 1
+        this.round = 0
+        this.tableData=[]
+        this.candidateAnswers=[]
+      this.graphData=[]
+     this.tableData=[]
+     this.options=[]
         this.initTableData()
         this.initGraphData()
         this.initCandidateAnswers()
@@ -85,6 +92,11 @@ export default {
     },
     // 提交查询后默认显示第一轮
     getQuery() {
+      if(this.click===0)
+      {
+         Message.error('Please choose a query')
+        return
+      }
       if(this.round >= 1) {
         return
       } else {
@@ -96,6 +108,11 @@ export default {
     getMessage() {
       if(this.round  >= this.maxRound) {
          Message.error('Reaches the maximum number of iterations')
+        return
+      }
+      else if(this.click===0)
+      {
+         Message.error('Please choose a query')
         return
       }
       this.round++
