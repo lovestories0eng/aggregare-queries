@@ -89,9 +89,10 @@ export const options = {
   // 布局
   //物理引擎-计算节点之前斥力，进行自动排列的属性
   physics: {
+    stabilization: true,
     enabled: true, //默认是true，设置为false后，节点将不会自动改变，拖动谁谁动。不影响其他的节点
     barnesHut: {
-      gravitationalConstant: -4000,
+      gravitationalConstant: -15000,
       centralGravity: 0.2,
       springLength: 120,
       springConstant: 0.04,
@@ -109,7 +110,7 @@ export const options = {
     hoverConnectedEdges: true,
     keyboard: {
       enabled: true,
-      speed: {x: 10, y: 10, zoom: 0.02},
+      speed: {x: 10, y: 10, zoom: 0.05},
       bindToWindow: true,
     },
     multiselect: false,

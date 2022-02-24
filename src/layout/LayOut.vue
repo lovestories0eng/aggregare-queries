@@ -165,7 +165,7 @@ export default {
   width:70%;
 }
 .result-container {
- float:right;
+  float:right;
   width:100%;
 }
 .candidate-answers-container {

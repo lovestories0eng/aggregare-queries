@@ -2,9 +2,8 @@
   <!-- vis关系图基础展示 -->
   <div>
     <!--width,height 画布的宽度，高度。 可以是百分比或像素，一般在dom元素上设置 -->
-    <div id="selected-query-graph" class="network" style="width: 100%;height: 200px;border:1px solid #ccc;"></div>
-    <div id="query-graph" class="network" style="width:100%;height:450px;border:1px solid #ccc;">
-    </div>
+    <!--<div id="selected-query-graph" class="network" style="width: 100%;height: 200px;border:1px solid #ccc;"></div>-->
+    <div id="query-graph" class="network" style="width:100%;height:450px;border:1px solid #ccc;"></div>
   </div>
 </template>
 
@@ -38,27 +37,70 @@ export default {
       // 节点数组
       nodesArray: [],
       edgesArray: [],
+      // 原始路径数据
       originArray: [],
+      // 可视化参数设置
       options: options,
+      // 可视化所需数据结构
       data: {},
+      // 样本和Id的映射值
       sampleMapId: {},
+      // 节点Id
       idCount: 1,
-      // 最多显示100条路径
-      pathLimit: 100,
-      selectedPath: []
+      // 边Id,
+      valueCount: 1,
+      // 最多显示的路径条数
+      pathLimit: 150,
+      // 需要高亮的路径
+      selectedPath: [],
+      // 曾经选择过的路径
+      selectedPathHistory: [],
     };
   },
   watch: {
     // 所选择地样本名称
     selectedSample(newValue) {
+      let selectedPathId = []
+      let selectedPathHistoryId = []
       for (let i=0;i<this.originArray.length;i++) {
         if (this.originArray[i].path[0] === newValue) {
           // 所选择的样本的查询路径
+          if (this.selectedPath.length !== 0)
+            this.selectedPathHistory = this.selectedPath
           this.selectedPath = this.originArray[i].path
-          console.log(this.selectedPath)
+          let count = 0
+          for (let i=0;i<this.selectedPath.length;i++) {
+            if (count % 2 === 0) {
+              selectedPathId.push(this.sampleMapId[this.selectedPath[i]])
+            }
+            count ++
+          }
+          count = 0
+          for (let i=0;i<this.selectedPathHistory.length;i++) {
+            if (count % 2 === 0) {
+              selectedPathHistoryId.push(this.sampleMapId[this.selectedPathHistory[i]])
+            }
+            count++
+          }
           break
         }
       }
+      // 更新结点颜色和边的颜色
+      this.updateNodeColor(selectedPathId[0], 'red')
+      for (let i=1;i<selectedPathId.length;i++) {
+        this.updateNodeColor(selectedPathId[i], 'red')
+        this.updateEdgeColor(this.findPathId(selectedPathId[i], selectedPathId[i-1]), 'red', 10)
+      }
+
+      if (selectedPathHistoryId.length !== 0) {
+        this.updateNodeColor(selectedPathHistoryId[0], '#eee')
+        for (let i=1;i<selectedPathHistoryId.length - 1;i++) {
+          this.updateNodeColor(selectedPathHistoryId[i], '#eee')
+          this.updateEdgeColor(this.findPathId(selectedPathHistoryId[i], selectedPathHistoryId[i-1]), '#eee', 1)
+        }
+        this.updateEdgeColor(this.findPathId(selectedPathHistoryId[selectedPathHistoryId.length - 1], selectedPathHistoryId[selectedPathHistoryId.length - 2]), '#848499', 1)
+      }
+
     },
     graphData(newValue) {
       this.originArray = newValue
@@ -86,7 +128,8 @@ export default {
             let next = this.sampleMapId[paths[i - 1]]
             let previous = this.sampleMapId[paths[i + 1]]
             if (this.edgesArray.length === 0) {
-              this.edgesArray.push({ from: previous, to: next, label:paths[i] })
+              this.edgesArray.push({ from: previous, to: next, width: 1, id: this.valueCount, label:paths[i]})
+              this.valueCount++
             } else {
               let flag = true
               for (let j=0;j<this.edgesArray.length;j++) {
@@ -96,7 +139,8 @@ export default {
                 }
               }
               if (flag) {
-                this.edgesArray.push({ from: previous, to: next, label:paths[i] })
+                this.edgesArray.push({ from: previous, to: next, width: 1, id: this.valueCount, label:paths[i]})
+                this.valueCount++
                 if (i === paths.length - 2) {
                   this.nodesArray.forEach(item => {
                     if (item.id === previous) {
@@ -121,13 +165,32 @@ export default {
     this.reinitialize()
   },
   methods: {
+    findPathId(from, to) {
+      for (let i=0;i<this.edgesArray.length;i++) {
+        console.log(this.edgesArray[i])
+        if ((this.edgesArray[i]).from === from && (this.edgesArray[i]).to === to) {
+          console.log((this.edgesArray[i]).id)
+          return (this.edgesArray[i]).id
+        }
+      }
+    },
+    updateNodeColor(nodeId, color) {
+      let chosenNode = this.nodes.get(nodeId)
+      chosenNode.color = color
+      this.nodes.update(chosenNode)
+    },
+    updateEdgeColor(id, color, width) {
+      let chosenEdge = this.edges.get(id)
+      chosenEdge.color = color
+      chosenEdge.width = width
+      this.edges.update(chosenEdge)
+    },
     // 路径过多则裁剪相应数据
     dataCut(pathArray, length) {
       if (pathArray.length <= length) {
         return pathArray
       } else {
         this.$message.warning('There are too many paths, and some paths have been cut out for better display.')
-        let index = 0
         let newArray = []
         for (let index=0;index<length;index++) {
           newArray.push(pathArray[index])
@@ -161,7 +224,7 @@ export default {
     addNetworkParams(param) {
       //添加节点
       for (let i = 0; i < param.nodes.length; i++) {
-        let node = param.nodes[i];
+        let node = param.nodes[i]
         this.nodes.add({
           label: node.name,
           ...node,
@@ -173,7 +236,6 @@ export default {
         this.edges.add({
           ...edge,
         });
-
       }
     },
   },
