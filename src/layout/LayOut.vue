@@ -14,11 +14,12 @@
           :options="options"
           :round="round"
           :max-round="maxRound"
+          @getSelectedSample="getSelectedSample"
         >
         </candidate-answers>
       </div>
       <div class="query-graph-container">
-        <query-graph :graph-data="graphData"></query-graph>
+        <query-graph :graph-data="graphData" :selected-sample="selectedSample"></query-graph>
       </div>
       <control-buttons></control-buttons>
     </el-main>
@@ -35,7 +36,7 @@ import ControlButtons from "./ControlButtons";
 
 import sampleQueries from "../data/SampleQueries";
 import axios from "axios";
-import {Message} from "element-ui";
+import { Message } from "element-ui";
 
 export default {
   name: "LayOut",
@@ -58,14 +59,19 @@ export default {
       maxRound: 0,
       options: [],
       query: '',
-      click:0
+      click:0,
+      selectedSample: ''
     }
   },
   mounted() {
   },
   methods: {
+    // 获取子组件所选择的sample
+    getSelectedSample(val) {
+      this.selectedSample = val.samplename
+    },
     choosedQuery(val) {
-      this.click=1;
+      this.click = 1;
       this.query = val.query;
       axios.get("./data/" + val.query + ".json").then(res => {
         res = res.data
@@ -84,9 +90,8 @@ export default {
     },
     // 提交查询后默认显示第一轮
     getQuery() {
-      if(this.click===0)
-      {
-         Message.error('Please choose a query')
+      if(this.click===0) {
+        Message.error('Please choose a query')
         return
       }
       if(this.round >= 1) {

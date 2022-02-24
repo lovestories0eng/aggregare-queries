@@ -26,6 +26,12 @@ export default {
       default() {
         return []
       }
+    },
+    singlePath: {
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
   data() {
@@ -45,10 +51,10 @@ export default {
     window.removeEventListener('resize', this.getHeight)
   },
   methods: {
-    
-      clickData(row) {   
+
+      clickData(row) {
        this.cardInfoList=row
-      
+
       this.$emit('choosedQuery',this.cardInfoList);
      },
     getHeight() {

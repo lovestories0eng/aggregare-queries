@@ -70,9 +70,10 @@ export default {
   },
   methods:{
     clickData(row) {
-      this.selectsample[0].visitprobality = row.visitprobality;
-      this.selectsample[0].semanticsimilarities = row.semanticsimilarities;
-      this.selectsample[0].samplename = row.sampleName;
+      this.selectsample[0].visitprobality = row.visitprobality
+      this.selectsample[0].semanticsimilarities = row.semanticsimilarities
+      this.selectsample[0].samplename = row.sampleName
+      this.$emit('getSelectedSample', this.selectsample[0])
     }
   },
 
