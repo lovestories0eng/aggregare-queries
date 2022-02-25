@@ -37,6 +37,7 @@ import ControlButtons from "./ControlButtons";
 import sampleQueries from "../data/SampleQueries";
 import axios from "axios";
 import { Message } from "element-ui";
+import {deepClone} from "utils";
 
 export default {
   name: "LayOut",
@@ -66,6 +67,45 @@ export default {
   mounted() {
   },
   methods: {
+    // 每一轮次的路径数据进行叠加
+    dataProcess(Obj) {
+      if (Object.keys(Obj).length === 0) {
+        return Obj
+      }
+      let keys = Object.keys(Obj)
+      // for (let u=1;u<=keys.length;u++) {
+      //   console.log((Obj[u].queryPath).length)
+      // }
+      for (let i=2;i<=keys.length;i++) {
+        let tempData = deepClone(Obj[i].queryPath)
+        // 需要深拷贝
+        let tempDataHistory = deepClone(Obj[i-1].queryPath)
+        let tempDataLength = tempData.length
+        let tempDataHistoryLength = tempDataHistory.length
+        let currentPath
+        let historyPath
+        for (let j=0;j<tempDataLength;j++) {
+          currentPath = tempData[j].path
+          let flag = true
+          for (let k=0;k<tempDataHistoryLength;k++) {
+            historyPath = tempDataHistory[k].path
+            if (currentPath.toString() === historyPath.toString()) {
+              // console.log('true')
+              flag = false
+              break
+            }
+          }
+          if (flag) {
+            console.log(i)
+            console.log('pushed')
+            tempDataHistory.push(tempData[j])
+          }
+        }
+        Obj[i].queryPath = tempDataHistory
+      }
+      console.log(Obj)
+      return Obj
+    },
     // 获取子组件所选择的sample
     getSelectedSample(val) {
       this.selectedSample = val.samplename
@@ -76,6 +116,8 @@ export default {
       axios.get("./data/" + val.query + ".json").then(res => {
         res = res.data
         this.queryData = res
+        // console.log(this.queryData)
+        this.queryData = this.dataProcess(this.queryData)
         this.maxRound = Object.keys(this.queryData).length
         this.round = 0
         this.tableData=[]

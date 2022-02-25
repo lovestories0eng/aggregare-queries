@@ -8,8 +8,7 @@
 </template>
 
 <script>
-// import Vis from "vis"
-import {options} from "utils";
+import { options, deepClone } from "utils";
 import Vis from "vis-network/dist/vis-network.min.js"
 export default {
   name: "QueryGraph",
@@ -167,9 +166,7 @@ export default {
   methods: {
     findPathId(from, to) {
       for (let i=0;i<this.edgesArray.length;i++) {
-        console.log(this.edgesArray[i])
         if ((this.edgesArray[i]).from === from && (this.edgesArray[i]).to === to) {
-          console.log((this.edgesArray[i]).id)
           return (this.edgesArray[i]).id
         }
       }
@@ -218,7 +215,7 @@ export default {
         edges: edges,
       }
       // 6.初始化网络拓扑图
-      this.network = new Vis.Network(this.container, this.data, this.options);
+      this.network = new Vis.Network(this.container, this.data, this.options)
     },
     //扩展节点 增加nodes和edges集合参数
     addNetworkParams(param) {
