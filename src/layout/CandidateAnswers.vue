@@ -66,6 +66,9 @@ export default {
     options(val)
     {
       this.copyArray=val//因为初始化时候的option长为3后续选择别的option时没有更新过了，所以大于3的就会出bug
+      this.selectsample[0].visitprobality = ''
+      this.selectsample[0].semanticsimilarities = ''
+      this.selectsample[0].samplename = ''
     }
   },
   methods:{
