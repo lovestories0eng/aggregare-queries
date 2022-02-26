@@ -92,7 +92,7 @@ export const options = {
     stabilization: true,
     enabled: true, //默认是true，设置为false后，节点将不会自动改变，拖动谁谁动。不影响其他的节点
     barnesHut: {
-      gravitationalConstant: -15000,
+      gravitationalConstant: -12000,
       centralGravity: 0.2,
       springLength: 120,
       springConstant: 0.04,

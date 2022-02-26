@@ -96,14 +96,11 @@ export default {
             }
           }
           if (flag) {
-            console.log(i)
-            console.log('pushed')
             tempDataHistory.push(tempData[j])
           }
         }
         Obj[i].queryPath = tempDataHistory
       }
-      console.log(Obj)
       return Obj
     },
     // 获取子组件所选择的sample

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { options, deepClone } from "utils";
+import { options } from "utils";
 import Vis from "vis-network/dist/vis-network.min.js"
 export default {
   name: "QueryGraph",
@@ -85,19 +85,23 @@ export default {
         }
       }
       // 更新结点颜色和边的颜色
-      this.updateNodeColor(selectedPathId[0], 'red')
-      for (let i=1;i<selectedPathId.length;i++) {
-        this.updateNodeColor(selectedPathId[i], 'red')
-        this.updateEdgeColor(this.findPathId(selectedPathId[i], selectedPathId[i-1]), 'red', 10)
+      let nodeNum = selectedPathId.length
+      let step = 100
+      this.updateNodeColor(selectedPathId[0], '#00b050', (nodeNum - 1) * step, (nodeNum - 1) * step, true)
+      for (let i=1;i<selectedPathId.length - 1;i++) {
+        this.updateNodeColor(selectedPathId[i], '#00b050', (nodeNum - i - 1) * step, (nodeNum - i - 1) * step, true)
+        this.updateEdgeColor(this.findPathId(selectedPathId[i], selectedPathId[i-1]), '#0070c0', 5, true)
       }
+      this.updateEdgeColor(this.findPathId(selectedPathId[selectedPathId.length - 1], selectedPathId[selectedPathId.length - 2]), '#0070c0', 5, true)
+
 
       if (selectedPathHistoryId.length !== 0) {
-        this.updateNodeColor(selectedPathHistoryId[0], '#eee')
+        this.updateNodeColor(selectedPathHistoryId[0], '#eee',  160, 160, false)
         for (let i=1;i<selectedPathHistoryId.length - 1;i++) {
-          this.updateNodeColor(selectedPathHistoryId[i], '#eee')
-          this.updateEdgeColor(this.findPathId(selectedPathHistoryId[i], selectedPathHistoryId[i-1]), '#eee', 1)
+          this.updateNodeColor(selectedPathHistoryId[i], '#eee', 160, 160, false)
+          this.updateEdgeColor(this.findPathId(selectedPathHistoryId[i], selectedPathHistoryId[i-1]), '#eee', 1, false)
         }
-        this.updateEdgeColor(this.findPathId(selectedPathHistoryId[selectedPathHistoryId.length - 1], selectedPathHistoryId[selectedPathHistoryId.length - 2]), '#848499', 1)
+        this.updateEdgeColor(this.findPathId(selectedPathHistoryId[selectedPathHistoryId.length - 1], selectedPathHistoryId[selectedPathHistoryId.length - 2]), '#848499', 1, false)
       }
 
     },
@@ -143,7 +147,7 @@ export default {
                 if (i === paths.length - 2) {
                   this.nodesArray.forEach(item => {
                     if (item.id === previous) {
-                      item.group = 'startPoint'
+                      item.color = '#c00000'
                     }
                   })
                 }
@@ -171,15 +175,29 @@ export default {
         }
       }
     },
-    updateNodeColor(nodeId, color) {
+    updateNodeColor(nodeId, color, x, y, flag) {
       let chosenNode = this.nodes.get(nodeId)
       chosenNode.color = color
+      chosenNode.physics = !flag;
+      if (x !== undefined)
+        chosenNode.x = x
+      else
+        chosenNode.x = undefined
+
+      if (y !== undefined)
+        chosenNode.y = y
+      else
+        chosenNode.y = undefined
       this.nodes.update(chosenNode)
     },
-    updateEdgeColor(id, color, width) {
+    updateEdgeColor(id, color, width, flag) {
       let chosenEdge = this.edges.get(id)
       chosenEdge.color = color
       chosenEdge.width = width
+      if (flag)
+        chosenEdge.length = 1
+      else
+        chosenEdge.length = undefined
       this.edges.update(chosenEdge)
     },
     // 路径过多则裁剪相应数据
@@ -243,5 +261,33 @@ export default {
 .network {
   float: left;
   margin-top: 15px;
+}
+
+/deep/ .vis-up {
+  top: 10px !important;
+}
+
+/deep/ .vis-down {
+  top: 50px !important;
+}
+
+/deep/ .vis-left {
+  top: 50px !important;
+}
+
+/deep/ .vis-right {
+  top: 50px !important;
+}
+
+/deep/ .vis-zoomIn {
+  top: 50px !important;
+}
+
+/deep/ .vis-zoomOut {
+  top: 50px !important;
+}
+
+/deep/ .vis-zoomExtends {
+  top: 10px !important;
 }
 </style>
