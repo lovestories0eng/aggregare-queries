@@ -87,21 +87,21 @@ export default {
       // 更新结点颜色和边的颜色
       let nodeNum = selectedPathId.length
       let step = 100
-      this.updateNodeColor(selectedPathId[0], '#00b050', (nodeNum - 1) * step, (nodeNum - 1) * step, true)
+      this.updateNodeColor(selectedPathId[0], '#00b050', (nodeNum) * step, (nodeNum) * step, true)
       for (let i=1;i<selectedPathId.length - 1;i++) {
-        this.updateNodeColor(selectedPathId[i], '#00b050', (nodeNum - i - 1) * step, (nodeNum - i - 1) * step, true)
-        this.updateEdgeColor(this.findPathId(selectedPathId[i], selectedPathId[i-1]), '#0070c0', 5, true)
+        this.updateNodeColor(selectedPathId[i], '#00b050', (nodeNum - i) * step, (nodeNum - i) * step, true)
+        this.updateEdgeColor(this.findPathId(selectedPathId[i], selectedPathId[i-1]), '#0070c0', 5)
       }
-      this.updateEdgeColor(this.findPathId(selectedPathId[selectedPathId.length - 1], selectedPathId[selectedPathId.length - 2]), '#0070c0', 5, true)
+      this.updateEdgeColor(this.findPathId(selectedPathId[selectedPathId.length - 1], selectedPathId[selectedPathId.length - 2]), '#0070c0', 5)
 
 
       if (selectedPathHistoryId.length !== 0) {
-        this.updateNodeColor(selectedPathHistoryId[0], '#eee',  160, 160, false)
+        this.updateNodeColor(selectedPathHistoryId[0], '#eee',  undefined, undefined, false)
         for (let i=1;i<selectedPathHistoryId.length - 1;i++) {
-          this.updateNodeColor(selectedPathHistoryId[i], '#eee', 160, 160, false)
-          this.updateEdgeColor(this.findPathId(selectedPathHistoryId[i], selectedPathHistoryId[i-1]), '#eee', 1, false)
+          this.updateNodeColor(selectedPathHistoryId[i], '#eee', undefined, undefined, false)
+          this.updateEdgeColor(this.findPathId(selectedPathHistoryId[i], selectedPathHistoryId[i-1]), '#848499', 1)
         }
-        this.updateEdgeColor(this.findPathId(selectedPathHistoryId[selectedPathHistoryId.length - 1], selectedPathHistoryId[selectedPathHistoryId.length - 2]), '#848499', 1, false)
+        this.updateEdgeColor(this.findPathId(selectedPathHistoryId[selectedPathHistoryId.length - 1], selectedPathHistoryId[selectedPathHistoryId.length - 2]), '#848499', 1)
       }
 
     },
@@ -190,14 +190,10 @@ export default {
         chosenNode.y = undefined
       this.nodes.update(chosenNode)
     },
-    updateEdgeColor(id, color, width, flag) {
+    updateEdgeColor(id, color, width) {
       let chosenEdge = this.edges.get(id)
       chosenEdge.color = color
       chosenEdge.width = width
-      if (flag)
-        chosenEdge.length = 1
-      else
-        chosenEdge.length = undefined
       this.edges.update(chosenEdge)
     },
     // 路径过多则裁剪相应数据
