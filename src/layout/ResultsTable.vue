@@ -8,35 +8,37 @@
     >
       <el-table-column
         prop="round"
-        label="round"
-        width="100"
+        label="Round"
       >
       </el-table-column>
       <el-table-column
         prop="result"
-        label="result"
-        width="100"
+        label="Approximate Result"
+        min-width="120"
+      >
+      </el-table-column>
+      
+      <el-table-column
+        prop="confidence interval"
+        label="MoE ε"
       >
       </el-table-column>
       <el-table-column
         prop="error"
-        label="error"
-        width="100"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="confidence interval"
-        label="confidence interval"
+        label="Relative Error"
+           min-width="120"
       >
       </el-table-column>
       <el-table-column
         prop="confidence level-fixed"
-        label="confidence level-fixed"
+        label="Confidence Level"
+        min-width="110"
       >
       </el-table-column>
       <el-table-column
         prop="runtime of this round"
-        label="runtime of this round"
+        label="Runtime (ms)"
+        min-width="100"
       >
       </el-table-column>
     </el-table>

@@ -4,18 +4,18 @@
       <el-container>
         <el-main style="padding:0">
           <el-table :data="candidateAnswers[option.value-1]" @row-click="clickData">
-            <el-table-column prop="sampleName" :label="'round: '+option.value">
+            <el-table-column prop="sampleName" :label="'round: '+option.value+': '+Object.keys(candidateAnswers[option.value-1]).length+' samples'">
             </el-table-column>
           </el-table>
         </el-main>
       </el-container>
     </el-container>
     <el-table :data="selectsample">
-      <el-table-column prop="samplename" label="sample name" :show-overflow-tooltip="true">
+      <el-table-column prop="samplename" label="Sample Name" :show-overflow-tooltip="true">
       </el-table-column>
-      <el-table-column prop="visitprobality" label="sample visitprobality" :show-overflow-tooltip="true">
+      <el-table-column prop="visitprobality" label="Visiting Probability" :show-overflow-tooltip="true">
       </el-table-column>
-      <el-table-column prop="semanticsimilarities" label="sample semanticsimilarities" :show-overflow-tooltip="true">
+      <el-table-column prop="semanticsimilarities" label="Semantic Similarity" :show-overflow-tooltip="true">
       </el-table-column>
     </el-table>
   </div>
@@ -94,3 +94,4 @@ export default {
     color: #333;
   }
 </style>
+

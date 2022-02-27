@@ -7,7 +7,6 @@ import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/index.scss'
 import "vis-network/dist/dist/vis-network.min.css"
 
-
 Vue.config.productionTip = false
 Vue.use(Element)
 new Vue({

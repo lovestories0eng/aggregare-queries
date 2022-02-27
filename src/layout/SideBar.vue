@@ -4,14 +4,21 @@
       stripe
       :data="sampleQueries"
       :height="autoHeight.height"
+      :header-cell-style="{'font-size':'20px','color':'#303133','font-weight': '520'}"
       @row-click="clickData"
     >
       <el-table-column
         prop="query"
-        label="sample queries"
-        align="center"
-        :show-overflow-tooltip="true"
+        label="Query Examples"
+        align="center" 
       >
+      <template slot-scope="scope">
+      <el-tooltip effect="dark" disabled:false :content=scope.row.query placement="top" :open-delay="500">
+        
+        <span>{{scope.row.query| ellipsis}}</span>
+       
+         </el-tooltip>
+          </template>
       </el-table-column>
     </el-table>
   </div>
@@ -50,6 +57,10 @@ export default {
   destroyed() {
     window.removeEventListener('resize', this.getHeight)
   },
+  mounted()
+  {
+    
+  },
   methods: {
 
       clickData(row) {
@@ -60,10 +71,20 @@ export default {
     getHeight() {
       this.windowHeight = window.innerHeight
       this.autoHeight.height = (this.windowHeight - 40) + 'px';
-    },
-  }
+    }
+  },
+  filters: {
+    ellipsis(value) {
+      if (!value) return "";
+      if (value.length > 30) {
+        return value.slice(0, 30) + "...";
+      }
+      return value;
+    }
+  },
 }
 </script>
 
-<style>
+<style >
+  
 </style>

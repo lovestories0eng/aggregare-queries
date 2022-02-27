@@ -142,13 +142,14 @@ export default {
       this.initGraphData()
     },
     getMessage() {
-      if(this.round  >= this.maxRound) {
-         Message.error('Reaches the maximum number of iterations')
-        return
-      }
-      else if(this.click === 0)
+      
+      if(this.click === 0)
       {
          Message.error('Please choose a query')
+        return
+      }
+      else if(this.round  >= this.maxRound) {
+         Message.error('Reaches the maximum number of iterations')
         return
       }
       this.round++
