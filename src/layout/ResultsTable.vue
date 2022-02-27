@@ -26,7 +26,7 @@
       <el-table-column
         prop="error"
         label="Relative Error"
-           min-width="120"
+        min-width="120"
       >
       </el-table-column>
       <el-table-column

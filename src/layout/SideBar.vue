@@ -12,13 +12,11 @@
         label="Query Examples"
         align="center" 
       >
-      <template slot-scope="scope">
-      <el-tooltip effect="dark" disabled:false :content=scope.row.query placement="top" :open-delay="500">
-        
-        <span>{{scope.row.query| ellipsis}}</span>
-       
-         </el-tooltip>
-          </template>
+        <template slot-scope="scope">
+          <el-tooltip effect="dark" disabled:false :content="scope.row.query" placement="top" :open-delay="500">
+            <span>{{ scope.row.query| ellipsis }}</span>
+          </el-tooltip>
+        </template>
       </el-table-column>
     </el-table>
   </div>
@@ -27,6 +25,15 @@
 <script>
 export default {
   name: "SideBar",
+  filters: {
+    ellipsis(value) {
+      if (!value) return "";
+      if (value.length > 30) {
+        return value.slice(0, 30) + "...";
+      }
+      return value;
+    }
+  },
   props: {
     sampleQueries: {
       type: Array,
@@ -71,15 +78,6 @@ export default {
     getHeight() {
       this.windowHeight = window.innerHeight
       this.autoHeight.height = (this.windowHeight - 40) + 'px';
-    }
-  },
-  filters: {
-    ellipsis(value) {
-      if (!value) return "";
-      if (value.length > 30) {
-        return value.slice(0, 30) + "...";
-      }
-      return value;
     }
   },
 }

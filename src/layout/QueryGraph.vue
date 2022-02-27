@@ -259,31 +259,31 @@ export default {
   margin-top: 15px;
 }
 
- .vis-up {
+/deep/ .vis-up {
   top: 10px !important;
 }
 
- .vis-down {
+/deep/ .vis-down {
   top: 50px !important;
 }
 
- .vis-left {
+/deep/ .vis-left {
   top: 50px !important;
 }
 
- .vis-right {
+/deep/ .vis-right {
   top: 50px !important;
 }
 
- .vis-zoomIn {
+/deep/ .vis-zoomIn {
   top: 50px !important;
 }
 
- .vis-zoomOut {
+/deep/ .vis-zoomOut {
   top: 50px !important;
 }
 
- .vis-zoomExtends {
+/deep/ .vis-zoomExtends {
   top: 10px !important;
 }
 </style>
