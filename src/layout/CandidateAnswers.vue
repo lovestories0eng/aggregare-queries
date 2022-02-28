@@ -3,14 +3,14 @@
     <el-container v-for="option in samples" :key="option.value" :style="'height: 200px;float:left; border: 1px solid #eee;width: '+wide+'%'">
       <el-container>
         <el-main style="padding:0">
-          <el-table :data="candidateAnswers[option.value-1]" @row-click="clickData">
+          <el-table :data="candidateAnswers[option.value-1]" @row-click="clickData" :header-cell-style="{background:'#EDCA96',color:'#ffff',align:'center'}">
             <el-table-column prop="sampleName" :label="'round: '+option.value+': '+Object.keys(candidateAnswers[option.value-1]).length+' samples'">
             </el-table-column>
           </el-table>
         </el-main>
       </el-container>
     </el-container>
-    <el-table :data="selectsample">
+    <el-table :data="selectsample" :header-cell-style="{background:'#F4B0B0',color:'#fff',align:'center'}" style="padding-top:10px ;border:#DCDFE6 solid 1.5px ">
       <el-table-column prop="samplename" label="Sample Name" :show-overflow-tooltip="true">
       </el-table-column>
       <el-table-column prop="visitprobality" label="Visiting Probability" :show-overflow-tooltip="true">

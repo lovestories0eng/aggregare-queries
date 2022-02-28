@@ -4,9 +4,9 @@
       <side-bar :sample-queries="sampleQueries" @choosedQuery="choosedQuery"></side-bar>
     </el-aside>
     <el-main class="right-column">
-      <head-searcher :query="query" :sample-queries="sampleQueries" @getQuery="getQuery"></head-searcher>
-      <div class="result-container">
-        <results-table :round="round" :table-data="tableData" @getMessage="getMessage"></results-table>
+      <head-searcher :query="query" :sample-queries="sampleQueries" @getQuery="getQuery" @getMessage="getMessage" style="width:85%"></head-searcher>
+      <div style="padding-top:10px">
+        <results-table :round="round" :table-data="tableData" ></results-table>
       </div>
       <div class="candidate-answers-container">
         <candidate-answers
@@ -203,10 +203,6 @@ export default {
 .right-column {
   padding-top: 0 !important;
   width:70%;
-}
-.result-container {
-  float:right;
-  width:100%;
 }
 .candidate-answers-container {
   height:300px;

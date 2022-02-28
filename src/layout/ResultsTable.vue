@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div style="border:#DCDFE6 solid 1.5px ">
     <el-table
       :data="copydata"
       empty-text="Please choose a query"
       border
-      style="width: calc(100% - 40px); margin:20px"
+       :header-cell-style="{backgroundColor:'lightblue',color:'#ffff',fontWight:'500',textAlign:'center'}"
     >
       <el-table-column
         prop="round"
@@ -42,11 +42,6 @@
       >
       </el-table-column>
     </el-table>
-    <el-tooltip content="continue">
-      <el-button type="primary" :disabled="disabled" class="button-style" @click="proceed">
-        <svg t="1646027791988" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2864" width="200" height="200"><path d="M104 0v1024l816-512z" p-id="2865"></path></svg>
-      </el-button>
-    </el-tooltip>
   </div>
 </template>
 
@@ -79,23 +74,22 @@ export default {
   },
   watch:{
     round(val) {
-      // if(val === 2)//点击submit时显示第一轮
-      // this.copydata = this.tableData.slice(0, this.round);
+  
       this.copydata = this.tableData.slice(0, val);
     }
   },
   methods: {
-    proceed() {
-      this.$emit('getMessage');
-      // this.copydata = this.tableData.slice(0, this.round);
-    }
+  
   }
 }
 </script>
 <style scoped>
-.button-style
-{
-  margin-top:10px;
-  float: right;
+.el-table td, .el-table th.is-leaf,.el-table--border, .el-table--group{
+  border-color: #DCDFE6; 
+  border:10px;
+}
+.el-table--border::after, .el-table--group::after, .el-table::before{
+  background-color: #DCDFE6;
+  border:10px;
 }
 </style>
