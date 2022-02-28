@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { options } from "utils";
+import { options, randomNum } from "utils";
 import Vis from "vis-network/dist/vis-network.min.js"
 export default {
   name: "QueryGraph",
@@ -86,10 +86,14 @@ export default {
       }
       // 更新结点颜色和边的颜色
       let nodeNum = selectedPathId.length
-      let step = 100
-      this.updateNodeColor(selectedPathId[0], '#00b050', (nodeNum) * step, (nodeNum) * step, true)
+      let theta = randomNum(0, 360)
+      let arc = theta * Math.PI / 180
+      let step = 100 * 1.414
+      let xStep = step * Math.cos(arc)
+      let yStep = step * Math.sin(arc)
+      this.updateNodeColor(selectedPathId[0], '#00b050', (nodeNum) * xStep, (nodeNum) * yStep, true)
       for (let i=1;i<selectedPathId.length - 1;i++) {
-        this.updateNodeColor(selectedPathId[i], '#00b050', (nodeNum - i) * step, (nodeNum - i) * step, true)
+        this.updateNodeColor(selectedPathId[i], '#00b050', (nodeNum - i) * xStep, (nodeNum - i) * yStep, true)
         this.updateEdgeColor(this.findPathId(selectedPathId[i], selectedPathId[i-1]), '#0070c0', 5)
       }
       this.updateEdgeColor(this.findPathId(selectedPathId[selectedPathId.length - 1], selectedPathId[selectedPathId.length - 2]), '#0070c0', 5)

@@ -17,7 +17,7 @@
         min-width="120"
       >
       </el-table-column>
-      
+
       <el-table-column
         prop="confidence interval"
         label="MoE ε"
@@ -42,7 +42,11 @@
       >
       </el-table-column>
     </el-table>
-    <el-button type="primary" :disabled="disabled" class="button-style" @click="proceed">continue</el-button>
+    <el-tooltip content="continue">
+      <el-button type="primary" :disabled="disabled" class="button-style" @click="proceed">
+        <svg t="1646027791988" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2864" width="200" height="200"><path d="M104 0v1024l816-512z" p-id="2865"></path></svg>
+      </el-button>
+    </el-tooltip>
   </div>
 </template>
 
