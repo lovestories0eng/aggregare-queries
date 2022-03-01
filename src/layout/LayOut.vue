@@ -108,16 +108,12 @@ export default {
       this.selectedSample = val.samplename
     },
     choosedQuery(val) {
-      console.log(val)
-      console.log('choosedQuery')
       this.click = 1;
       this.query = val.query;
       axios.get("./data/" + val.query + ".json").then(res => {
-        console.log(res)
         res = res.data
         this.queryData = res
         this.queryData = this.dataProcess(this.queryData)
-        console.log(this.queryData)
         this.maxRound = Object.keys(this.queryData).length
         if (val.flag === 1)
           this.round = 0
@@ -135,7 +131,6 @@ export default {
     },
     // 提交查询后默认显示第一轮
     getQuery() {
-      console.log('getQuery')
       if(this.click === 0) {
         Message.error('Please choose a query')
         return
@@ -150,7 +145,6 @@ export default {
       this.initCandidateAnswers()
     },
     getMessage() {
-      console.log('getMessage')
       if(this.click === 0)
       {
          Message.error('Please choose a query')
@@ -168,7 +162,6 @@ export default {
       if (this.round === 0)
         return
       let tempData = {}
-      console.log(this.queryData)
       tempData["round"] = this.round
       tempData["confidence interval"] = this.queryData[this.round]["confidence interval"]
       tempData["confidence level-fixed"] = this.queryData[this.round]["confidence level-fixed"]
