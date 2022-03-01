@@ -4,9 +4,9 @@
       <side-bar :sample-queries="sampleQueries" @choosedQuery="choosedQuery"></side-bar>
     </el-aside>
     <el-main class="right-column">
-      <head-searcher :query="query" :sample-queries="sampleQueries" @getQuery="getQuery" @getMessage="getMessage" style="width:85%"></head-searcher>
+      <head-searcher :query="query" :sample-queries="sampleQueries" @getQuery="getQuery" @getMessage="getMessage" @choosedQuery="choosedQuery"></head-searcher>
       <div style="padding-top:10px">
-        <results-table :round="round" :table-data="tableData" ></results-table>
+        <results-table :round="round" :table-data="tableData"></results-table>
       </div>
       <div class="candidate-answers-container">
         <candidate-answers
@@ -108,20 +108,26 @@ export default {
       this.selectedSample = val.samplename
     },
     choosedQuery(val) {
+      console.log(val)
+      console.log('choosedQuery')
       this.click = 1;
       this.query = val.query;
       axios.get("./data/" + val.query + ".json").then(res => {
+        console.log(res)
         res = res.data
         this.queryData = res
-        // console.log(this.queryData)
         this.queryData = this.dataProcess(this.queryData)
+        console.log(this.queryData)
         this.maxRound = Object.keys(this.queryData).length
-        this.round = 0
-        this.tableData=[]
-        this.candidateAnswers=[]
-        this.graphData=[]
-        this.tableData=[]
-        this.options=[]
+        if (val.flag === 1)
+          this.round = 0
+        else if (val.flag === 2)
+          this.round = 1
+        this.tableData = []
+        this.candidateAnswers = []
+        this.graphData = []
+        this.tableData = []
+        this.options = []
         this.initTableData()
         this.initGraphData()
         this.initCandidateAnswers()
@@ -129,7 +135,8 @@ export default {
     },
     // 提交查询后默认显示第一轮
     getQuery() {
-      if(this.click===0) {
+      console.log('getQuery')
+      if(this.click === 0) {
         Message.error('Please choose a query')
         return
       }
@@ -140,9 +147,10 @@ export default {
       }
       this.initTableData()
       this.initGraphData()
+      this.initCandidateAnswers()
     },
     getMessage() {
-      
+      console.log('getMessage')
       if(this.click === 0)
       {
          Message.error('Please choose a query')
@@ -160,6 +168,7 @@ export default {
       if (this.round === 0)
         return
       let tempData = {}
+      console.log(this.queryData)
       tempData["round"] = this.round
       tempData["confidence interval"] = this.queryData[this.round]["confidence interval"]
       tempData["confidence level-fixed"] = this.queryData[this.round]["confidence level-fixed"]

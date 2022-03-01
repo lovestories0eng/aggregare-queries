@@ -3,7 +3,7 @@
     <el-container v-for="option in samples" :key="option.value" :style="'height: 200px;float:left; border: 1px solid #eee;width: '+wide+'%'">
       <el-container>
         <el-main style="padding:0">
-          <el-table :data="candidateAnswers[option.value-1]" @row-click="clickData" :header-cell-style="{background:'#EDCA96',color:'#ffff',align:'center'}">
+          <el-table :data="candidateAnswers[option.value-1]" :header-cell-style="{background:'#EDCA96',color:'#ffff',align:'center'}" @row-click="clickData">
             <el-table-column prop="sampleName" :label="'round: '+option.value+': '+Object.keys(candidateAnswers[option.value-1]).length+' samples'">
             </el-table-column>
           </el-table>

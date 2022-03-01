@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'show':show}" class="header-search">
+  <div class="show">
     <el-select
       ref="headerSearchSelect"
       v-model="search"
@@ -8,6 +8,7 @@
       remote
       placeholder="Search"
       class="header-search-select"
+      @change="consoles"
     >
       <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" />
     </el-select>
@@ -16,8 +17,8 @@
         <svg t="1646027529363" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2442" width="200" height="200"><path d="M439.488 960l124.416-169.984-124.416-35.84L439.488 960 439.488 960 439.488 960M0 559.936l353.472 107.072 435.328-369.6-337.408 398.144 377.92 116.736L1024 64.064 0 559.936 0 559.936 0 559.936M0 559.936" p-id="2443" fill="#333333"></path></svg>
       </el-button>
     </el-tooltip>
-     <el-tooltip content="continue">
-      <el-button type="primary" :disabled="disabled"  @click="proceedContinue">
+    <el-tooltip content="continue">
+      <el-button type="primary" class="search-icon" @click="proceedContinue">
         <svg t="1646027791988" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2864" width="200" height="200"><path d="M104 0v1024l816-512z" p-id="2865"></path></svg>
       </el-button>
     </el-tooltip>
@@ -55,11 +56,9 @@ export default {
     }
   },
   watch:{
-   query(val)
-    {
+   query(val) {
       this.search=val;
-
-    }
+   }
   },
   mounted() {
     this.searchPool = this.sampleQueries
@@ -75,60 +74,64 @@ export default {
     })
   },
   methods: {
+    consoles() {
+      console.log(this.search)
+    },
     querySearch(query) {
       if (query !== '') {
         this.options = this.fuse.search(query)
       } else {
-        this.options = []
+        // this.options = []
       }
     },
       proceed() {
-      this.$emit('getQuery');
-    },
+      let Obj = {}
+      Obj.query = this.search
+      Obj.flag = 2
+      this.$emit('getQuery')
+      this.$emit('choosedQuery', Obj)
+      },
       proceedContinue() {
-      this.$emit('getMessage');  
+      this.$emit('getMessage');
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.header-search {
+
+.header-search-select {
+  font-size: 18px;
+  transition: width 0.2s;
+  background: transparent;
+  border-radius: 0;
+  display: inline-block;
+  vertical-align: middle;
+  ::v-deep .el-input__inner {
+    border-radius: 0;
+    border: 0;
+    padding-left: 0;
+    padding-right: 0;
+    box-shadow: none !important;
+    border-bottom: 1px solid #d9d9d9;
+    vertical-align: middle;
+  }
+}
+
+.show {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-around;
   align-items: center;
   font-size: 0 !important;
-
   .header-search-select {
-    font-size: 18px;
-    transition: width 0.2s;
-    background: transparent;
-    border-radius: 0;
-    display: inline-block;
-    vertical-align: middle;
-
-    ::v-deep .el-input__inner {
-      border-radius: 0;
-      border: 0;
-      padding-left: 0;
-      padding-right: 0;
-      box-shadow: none !important;
-      border-bottom: 1px solid #d9d9d9;
-      vertical-align: middle;
-    }
+    width: 100%;
   }
+  .search-icon {
+    width: 7.5%;
+    cursor: pointer;
+    font-size: 14px;
 
-  &.show {
-    .header-search-select {
-      width: 85%;
-    }
-    .search-icon {
-      cursor: pointer;
-      font-size: 14px;
-      vertical-align: middle;
-      
-    }
   }
 }
 </style>

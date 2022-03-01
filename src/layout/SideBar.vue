@@ -10,7 +10,7 @@
       <el-table-column
         prop="query"
         label="Query Examples"
-        align="center" 
+        align="center"
       >
         <template slot-scope="scope">
           <el-tooltip effect="dark" disabled:false :content="scope.row.query" placement="top" :open-delay="500">
@@ -66,14 +66,13 @@ export default {
   },
   mounted()
   {
-    
+
   },
   methods: {
-
       clickData(row) {
-       this.cardInfoList=row
-
-      this.$emit('choosedQuery',this.cardInfoList);
+       this.cardInfoList = row
+       this.cardInfoList.flag = 1
+      this.$emit('choosedQuery',this.cardInfoList, 1);
      },
     getHeight() {
       this.windowHeight = window.innerHeight
@@ -84,5 +83,5 @@ export default {
 </script>
 
 <style >
-  
+
 </style>

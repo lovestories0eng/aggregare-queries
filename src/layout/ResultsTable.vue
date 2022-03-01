@@ -4,7 +4,7 @@
       :data="copydata"
       empty-text="Please choose a query"
       border
-       :header-cell-style="{backgroundColor:'lightblue',color:'#ffff',fontWight:'500',textAlign:'center'}"
+      :header-cell-style="{backgroundColor:'lightblue',color:'#ffff',fontWight:'500',textAlign:'center'}"
     >
       <el-table-column
         prop="round"
