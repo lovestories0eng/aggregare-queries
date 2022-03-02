@@ -4,8 +4,9 @@
       <side-bar :sample-queries="sampleQueries" @choosedQuery="choosedQuery"></side-bar>
     </el-aside>
     <el-main class="right-column">
-      <head-searcher :query="query" :sample-queries="sampleQueries" @getQuery="getQuery" @getMessage="getMessage" @choosedQuery="choosedQuery"></head-searcher>
-      <miniQueryGraph :graph-data="predicate.split(' ')"></miniQueryGraph>
+      <head-searcher :query="query" :sample-queries="sampleQueries" @getQuery="getQuery" @getMessage="getMessage" @choosedQuery="choosedQuery">
+        <miniQueryGraph :graph-data="predicate.split(' ')"></miniQueryGraph>
+      </head-searcher>
       <largeQueryGraph :graph-data="largeGraph"></largeQueryGraph>
       <div style="padding-top:10px">
         <results-table :round="round" :table-data="tableData"></results-table>

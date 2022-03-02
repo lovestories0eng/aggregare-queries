@@ -1,9 +1,8 @@
 <template>
   <!-- vis关系图基础展示 -->
-  <div>
+  <div id="mini-query-graph">
     <!--width,height 画布的宽度，高度。 可以是百分比或像素，一般在dom元素上设置 -->
-    <!--<div id="selected-query-graph" class="network" style="width: 100%;height: 200px;border:1px solid #ccc;"></div>-->
-    <div id="query-graph-mini" class="network" style="width:100%;height:150px;border:1px solid #ccc;"></div>
+    <div id="query-graph-mini" class="network cancel" style="width:300px;height:40px;border:1px solid #ccc;"></div>
   </div>
 </template>
 
@@ -38,7 +37,7 @@ export default {
     graphData(newValue) {
       this.edgesArray = []
       this.nodesArray = []
-      this.nodesArray = [{id: 1, name: newValue[2], color: '#c00000'}, {id: 2, name: newValue[0], color: '#00b050'}]
+      this.nodesArray = [{id: 1, name: newValue[2], color: '#c00000', x: -100, y: 0}, {id: 2, name: newValue[0], color: '#00b050', x: 100, y: 0}]
       this.edgesArray.push({from: 1, to: 2, label: newValue[1], color: '#0070c0'})
       this.reinitialize()
     }
@@ -97,31 +96,35 @@ export default {
   margin-top: 15px;
 }
 
+.cancel {
+  margin-top: 0 !important;
+}
+
 /deep/ .vis-up {
-  top: 10px !important;
+  display: none !important;
 }
 
 /deep/ .vis-down {
-  top: 50px !important;
+  display: none !important;
 }
 
 /deep/ .vis-left {
-  top: 50px !important;
+  display: none !important;
 }
 
 /deep/ .vis-right {
-  top: 50px !important;
+  display: none !important;
 }
 
 /deep/ .vis-zoomIn {
-  top: 50px !important;
+  display: none!important;
 }
 
 /deep/ .vis-zoomOut {
-  top: 50px !important;
+  display: none !important;
 }
 
 /deep/ .vis-zoomExtends {
-  top: 10px !important;
+  display: none !important;
 }
 </style>

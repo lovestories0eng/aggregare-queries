@@ -117,31 +117,31 @@ export default {
   margin-top: 15px;
 }
 
-/deep/ .vis-up {
-  top: 10px !important;
-}
+/*/deep/ .vis-up {*/
+/*  top: 10px !important;*/
+/*}*/
 
-/deep/ .vis-down {
-  top: 50px !important;
-}
+/*/deep/ .vis-down {*/
+/*  top: 50px !important;*/
+/*}*/
 
-/deep/ .vis-left {
-  top: 50px !important;
-}
+/*/deep/ .vis-left {*/
+/*  top: 50px !important;*/
+/*}*/
 
-/deep/ .vis-right {
-  top: 50px !important;
-}
+/*/deep/ .vis-right {*/
+/*  top: 50px !important;*/
+/*}*/
 
-/deep/ .vis-zoomIn {
-  top: 50px !important;
-}
+/*/deep/ .vis-zoomIn {*/
+/*  top: 50px !important;*/
+/*}*/
 
-/deep/ .vis-zoomOut {
-  top: 50px !important;
-}
+/*/deep/ .vis-zoomOut {*/
+/*  top: 50px !important;*/
+/*}*/
 
-/deep/ .vis-zoomExtends {
-  top: 10px !important;
-}
+/*/deep/ .vis-zoomExtends {*/
+/*  top: 10px !important;*/
+/*}*/
 </style>

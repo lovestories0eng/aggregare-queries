@@ -12,6 +12,7 @@
     >
       <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" />
     </el-select>
+    <slot></slot>
     <el-tooltip content="submit query">
       <el-button type="primary" class="search-icon" @click="proceed">
         <svg t="1646027529363" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2442" width="200" height="200"><path d="M439.488 960l124.416-169.984-124.416-35.84L439.488 960 439.488 960 439.488 960M0 559.936l353.472 107.072 435.328-369.6-337.408 398.144 377.92 116.736L1024 64.064 0 559.936 0 559.936 0 559.936M0 559.936" p-id="2443" fill="#333333"></path></svg>
