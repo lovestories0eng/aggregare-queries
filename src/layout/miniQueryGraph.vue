@@ -2,7 +2,7 @@
   <!-- vis关系图基础展示 -->
   <div id="mini-query-graph">
     <!--width,height 画布的宽度，高度。 可以是百分比或像素，一般在dom元素上设置 -->
-    <div id="query-graph-mini" class="network cancel" style="width:300px;height:40px;border:1px solid #ccc;"></div>
+    <div id="query-graph-mini" class="network cancel" style="width:300px;height:38px;border:1px solid #ccc;"></div>
   </div>
 </template>
 
