@@ -4,7 +4,7 @@
       <side-bar :sample-queries="sampleQueries" @choosedQuery="choosedQuery"></side-bar>
     </el-aside>
     <el-main class="right-column">
-      <head-searcher :query="query" :sample-queries="sampleQueries" @getQuery="getQuery" @getMessage="getMessage" @choosedQuery="choosedQuery">
+      <head-searcher  :graph-data="predicate.split(' ')" :query="query" :sample-queries="sampleQueries" @getQuery="getQuery" @getMessage="getMessage" @choosedQuery="choosedQuery" @selectChage="choosedQuery" >
         <miniQueryGraph :graph-data="predicate.split(' ')"></miniQueryGraph>
       </head-searcher>
       <largeQueryGraph :graph-data="largeGraph"></largeQueryGraph>
@@ -177,7 +177,7 @@ export default {
         return
       let tempData = {}
       tempData["round"] = this.round
-      tempData["confidence interval"] = this.queryData[this.round]["confidence interval"]
+      tempData["confidence interval"] = this.queryData[this.round]["MoE"]
       tempData["confidence level-fixed"] = this.queryData[this.round]["confidence level-fixed"]
       tempData["error"] = this.queryData[this.round]["error"]
       tempData["result"] = this.queryData[this.round]["result"]
@@ -209,11 +209,11 @@ export default {
 
 <style scoped>
 .contain {
-  width:80%;
+  width:90%;
   margin: 20px auto auto;
 }
 .left-column {
-  width:25%;
+  width:20%;
   box-shadow: 0 2px 15px rgba(0, 0, 255, .2);
 }
 .right-column {
@@ -221,7 +221,7 @@ export default {
   width:70%;
 }
 .candidate-answers-container {
-  height: 300px;
+  
   width: 100%;
   float: right;
   margin-top:10px;
