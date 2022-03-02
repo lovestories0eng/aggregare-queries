@@ -5,6 +5,8 @@
     </el-aside>
     <el-main class="right-column">
       <head-searcher :query="query" :sample-queries="sampleQueries" @getQuery="getQuery" @getMessage="getMessage" @choosedQuery="choosedQuery"></head-searcher>
+      <miniQueryGraph :graph-data="predicate.split(' ')"></miniQueryGraph>
+      <largeQueryGraph :graph-data="largeGraph"></largeQueryGraph>
       <div style="padding-top:10px">
         <results-table :round="round" :table-data="tableData"></results-table>
       </div>
@@ -33,6 +35,8 @@ import ResultsTable from "./ResultsTable";
 import CandidateAnswers from "./CandidateAnswers";
 import QueryGraph from "./QueryGraph";
 import ControlButtons from "./ControlButtons";
+import miniQueryGraph from "layout/miniQueryGraph";
+import largeQueryGraph from "layout/largeQueryGraph";
 
 import sampleQueries from "../data/SampleQueries";
 import axios from "axios";
@@ -47,7 +51,9 @@ export default {
     ResultsTable,
     CandidateAnswers,
     QueryGraph,
-    ControlButtons
+    ControlButtons,
+    miniQueryGraph,
+    largeQueryGraph
   },
   data() {
     return {
@@ -61,7 +67,9 @@ export default {
       options: [],
       query: '',
       click:0,
-      selectedSample: ''
+      selectedSample: '',
+      predicate: '',
+      largeGraph: []
     }
   },
   mounted() {
@@ -69,14 +77,14 @@ export default {
   methods: {
     // 每一轮次的路径数据进行叠加
     dataProcess(Obj) {
-      if (Object.keys(Obj).length === 0) {
+      if (Object.keys(Obj).length - 1 === 0) {
         return Obj
       }
       let keys = Object.keys(Obj)
       // for (let u=1;u<=keys.length;u++) {
       //   console.log((Obj[u].queryPath).length)
       // }
-      for (let i=2;i<=keys.length;i++) {
+      for (let i=2;i<=keys.length - 1;i++) {
         let tempData = deepClone(Obj[i].queryPath)
         // 需要深拷贝
         let tempDataHistory = deepClone(Obj[i-1].queryPath)
@@ -112,9 +120,10 @@ export default {
       this.query = val.query;
       axios.get("./data/" + val.query + ".json").then(res => {
         res = res.data
+        this.predicate = res.predicate
         this.queryData = res
         this.queryData = this.dataProcess(this.queryData)
-        this.maxRound = Object.keys(this.queryData).length
+        this.maxRound = Object.keys(this.queryData).length - 1
         if (val.flag === 1)
           this.round = 0
         else if (val.flag === 2)
@@ -127,6 +136,10 @@ export default {
         this.initTableData()
         this.initGraphData()
         this.initCandidateAnswers()
+      })
+
+      axios.get("./data/" + val.query + ' graph' + ".json").then(res => {
+        this.largeGraph = res['data'].edges
       })
     },
     // 提交查询后默认显示第一轮
@@ -207,8 +220,8 @@ export default {
   width:70%;
 }
 .candidate-answers-container {
-  height:300px;
-  width:100%;
+  height: 300px;
+  width: 100%;
   float: right;
   margin-top:10px;
 }
