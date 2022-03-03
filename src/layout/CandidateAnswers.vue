@@ -3,7 +3,7 @@
     <el-container v-for="option in samples" :key="option.value" :style="'cursor:pointer;margin-bottom:20px;height: 200px;float:left; border: 1px solid #eee;width: '+wide+'%'">
       <el-container>
         <el-main style="padding:0">
-          <el-table  empty-text="No new samples" :data="candidateCopy[option.value-1]" :header-cell-style="{background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default'}" @row-click="clickData">
+          <el-table empty-text="No new samples" :data="candidateCopy[option.value-1]" :header-cell-style="{background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default'}" @row-click="clickData">
             <el-table-column prop="sampleName" :label="'round: '+option.value+': '+Object.keys(candidateCopy[option.value-1]).length+' samples'">
             </el-table-column>
           </el-table>

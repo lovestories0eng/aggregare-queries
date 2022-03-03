@@ -1,45 +1,44 @@
 <template>
   <div class="show">
-      <el-col :span="13" style="display:flex;align-items:center">
-    <el-link :style="'width:'+widthLink+'%;display:flex;height:38px;text-algin:start;justify-content:flex-start;border-bottom:1px solid #DCDFE6;font-size:'+fontsize+'px'" @click="widthChange()">
-      <span style="padding-top:10px;">
-        <span>{{str[0]}}</span>
-        <span style="color:#F56C6C">{{str[1]}}</span>
-        <span>{{str[2]}}</span>
-        <span style="color:#409EFF">{{str[3]}}</span>
-        <span>{{str[4]}}</span>
-      </span>
-    </el-link>
-    <el-select
-      ref="headerSearchSelect"
-      v-model="containSearch"
-      :remote-method="querySearch"
-      filterable
-      remote
-     :placeholder=beforeContain
-      class="header-search-select"
-      @change="selectChage"
-       :style="'width:'+widthSearch+'%'"
-       id="select"
-    >
-      <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" />
-    </el-select>
+    <el-col :span="13" style="display:flex;align-items:center">
+      <el-link :style="'width:'+widthLink+'%;display:flex;height:38px;text-algin:start;justify-content:flex-start;border-bottom:1px solid #DCDFE6;font-size:'+fontsize+'px'" @click="widthChange()">
+        <span style="padding-top:10px;">
+          <span>{{ str[0] }}</span>
+          <span style="color:#F56C6C">{{ str[1] }}</span>
+          <span>{{ str[2] }}</span>
+          <span style="color:#409EFF">{{ str[3] }}</span>
+          <span>{{ str[4] }}</span>
+        </span>
+      </el-link>
+      <el-select
+        id="select"
+        ref="headerSearchSelect"
+        v-model="containSearch"
+        :remote-method="querySearch"
+        filterable
+        remote
+        :placeholder="beforeContain"
+        class="header-search-select"
+        :style="'width:'+widthSearch+'%'"
+        @change="selectChage"
+      >
+        <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" />
+      </el-select>
     </el-col>
     <el-col :span="11" style="display:flex;align-items:center;justify-content:center">
-    <slot></slot>
-    
-    <el-tooltip content="submit query" style="margin-left:10px">
-      <el-button type="primary" class="search-icon" @click="proceed">
-        <svg t="1646027529363" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2442" width="200" height="200"><path d="M439.488 960l124.416-169.984-124.416-35.84L439.488 960 439.488 960 439.488 960M0 559.936l353.472 107.072 435.328-369.6-337.408 398.144 377.92 116.736L1024 64.064 0 559.936 0 559.936 0 559.936M0 559.936" p-id="2443" fill="#333333"></path></svg>
-      </el-button>
-    </el-tooltip>
-    <el-tooltip content="continue">
-      <el-button type="primary" class="search-icon" @click="proceedContinue">
-        <svg t="1646027791988" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2864" width="200" height="200"><path d="M104 0v1024l816-512z" p-id="2865"></path></svg>
-      </el-button>
-    </el-tooltip>
-    
-     </el-col>
+      <slot></slot>
+
+      <el-tooltip content="submit query" style="margin-left:10px">
+        <el-button type="primary" class="search-icon" @click="proceed">
+          <svg t="1646027529363" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2442" width="200" height="200"><path d="M439.488 960l124.416-169.984-124.416-35.84L439.488 960 439.488 960 439.488 960M0 559.936l353.472 107.072 435.328-369.6-337.408 398.144 377.92 116.736L1024 64.064 0 559.936 0 559.936 0 559.936M0 559.936" p-id="2443" fill="#fff"></path></svg>
+        </el-button>
+      </el-tooltip>
+      <el-tooltip content="continue">
+        <el-button type="primary" class="search-icon" @click="proceedContinue">
+          <svg t="1646027791988" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2864" width="200" height="200" fill="#fff"><path d="M104 0v1024l816-512z" p-id="2865"></path></svg>
+        </el-button>
+      </el-tooltip>
+    </el-col>
   </div>
 </template>
 
@@ -69,7 +68,7 @@ export default {
         return []
       }
     }
-     
+
   },
   data() {
     return {
@@ -89,7 +88,7 @@ export default {
   },
   watch:{
    query(val) {
-    
+
       this.search=val
       this.containLink=val
       this.containSearch=""
@@ -108,7 +107,7 @@ export default {
      for(let i=0;i<=this.search.length-4;i++)
      {
        if(this.search.substring(i,i+3)==from||this.search.substring(i,i+1)>='A'&&this.search.substring(i,i+1)<='Z'&&i>=1&&fromIndex==-1)
-        {  
+        {
           fromIndex=i
            for(let j=i+3;j<=this.search.length;j++)
            {
@@ -117,7 +116,7 @@ export default {
                 fromEnd=j;
                 break
               }
-        
+
            }
         }
         if (this.search.substring(i,i+3)==to)
@@ -133,9 +132,9 @@ export default {
                 {
                   console.log(j-i-2+":"+this.search.substring(j,j+1))
                 }
-            }    
+            }
           }
-        
+
       }
       if(fromIndex!=-1&&toIndex!=-1)
           {
@@ -234,12 +233,12 @@ export default {
   justify-content: space-around;
   align-items: center;
   font-size: 0 !important;
-  
+
   .header-search-select {
     width: 100%;
   }
   .search-icon {
-    
+
     cursor: pointer;
     font-size: 14px;
 

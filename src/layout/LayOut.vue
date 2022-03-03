@@ -4,10 +4,9 @@
       <side-bar :sample-queries="sampleQueries" @choosedQuery="choosedQuery"></side-bar>
     </el-aside>
     <el-main class="right-column">
-      <head-searcher  :graph-data="predicate.split(' ')" :query="query" :sample-queries="sampleQueries" @getQuery="getQuery" @getMessage="getMessage" @choosedQuery="choosedQuery" @selectChage="choosedQuery" >
+      <head-searcher :graph-data="predicate.split(' ')" :query="query" :sample-queries="sampleQueries" @getQuery="getQuery" @getMessage="getMessage" @choosedQuery="choosedQuery" @selectChage="choosedQuery">
         <miniQueryGraph :graph-data="predicate.split(' ')"></miniQueryGraph>
       </head-searcher>
-      <largeQueryGraph :graph-data="largeGraph"></largeQueryGraph>
       <div style="padding-top:10px">
         <results-table :round="round" :table-data="tableData"></results-table>
       </div>
@@ -23,6 +22,7 @@
       </div>
       <div class="query-graph-container">
         <query-graph :graph-data="graphData" :selected-sample="selectedSample"></query-graph>
+        <largeQueryGraph :graph-data="largeGraph"></largeQueryGraph>
       </div>
       <control-buttons></control-buttons>
     </el-main>
@@ -221,7 +221,7 @@ export default {
   width:70%;
 }
 .candidate-answers-container {
-  
+
   width: 100%;
   float: right;
   margin-top:10px;
