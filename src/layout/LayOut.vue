@@ -22,8 +22,8 @@
         </candidate-answers>
       </div>
       <div class="query-graph-container">
-        <query-graph :graph-data="graphData" :selected-sample="selectedSample"></query-graph>
-        <largeQueryGraph :graph-data="largeGraph"></largeQueryGraph>
+        <query-graph v-if="round !== 0" :graph-data="graphData" :selected-sample="selectedSample"></query-graph>
+        <largeQueryGraph v-else-if="round === 0" :graph-data="largeGraph"></largeQueryGraph>
       </div>
       <control-buttons></control-buttons>
     </el-main>

@@ -1,7 +1,7 @@
 <template>
   <div class="show">
     <el-col :span="13" style="display:flex;align-items:center">
-      <el-link :style="'width:'+widthLink+'%;display:flex;height:38px;text-algin:start;justify-content:flex-start;border-bottom:1px solid #DCDFE6;font-size:'+fontsize+'px'" @click="widthChange()">
+      <el-link :style="'width:'+widthLink+'%;display:flex;height:38px;text-align:start;justify-content:flex-start;border-bottom:1px solid #DCDFE6;font-size:'+fontsize+'px'" @click="widthChange()">
         <span style="padding-top:10px;">
           <span>{{ str[0] }}</span>
           <span style="color:#F56C6C;font-weight:600">{{ str[1] }}</span>
@@ -128,7 +128,7 @@ export default {
                   toEnd=j
                   break
                 }
-                
+
             }
           }
 
