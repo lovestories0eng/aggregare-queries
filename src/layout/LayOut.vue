@@ -16,6 +16,7 @@
           :options="options"
           :round="round"
           :max-round="maxRound"
+          :click="click"
           @getSelectedSample="getSelectedSample"
         >
         </candidate-answers>

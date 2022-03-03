@@ -4,9 +4,9 @@
       <el-link :style="'width:'+widthLink+'%;display:flex;height:38px;text-algin:start;justify-content:flex-start;border-bottom:1px solid #DCDFE6;font-size:'+fontsize+'px'" @click="widthChange()">
         <span style="padding-top:10px;">
           <span>{{ str[0] }}</span>
-          <span style="color:#F56C6C">{{ str[1] }}</span>
+          <span style="color:#F56C6C;font-weight:600">{{ str[1] }}</span>
           <span>{{ str[2] }}</span>
-          <span style="color:#409EFF">{{ str[3] }}</span>
+          <span style="color:#409EFF;font-weight:600">{{ str[3] }}</span>
           <span>{{ str[4] }}</span>
         </span>
       </el-link>
@@ -128,10 +128,7 @@ export default {
                   toEnd=j
                   break
                 }
-                else
-                {
-                  console.log(j-i-2+":"+this.search.substring(j,j+1))
-                }
+                
             }
           }
 
@@ -144,12 +141,6 @@ export default {
               str4=this.search.substring(fromIndex,fromEnd)
               str5=this.search.substring(fromEnd)
           }
-          console.log(toIndex,toEnd,fromIndex,fromEnd)
-          console.log("1:"+str1)
-          console.log("2:"+str2)
-          console.log("3:"+str3)
-          console.log("4:"+str4)
-          console.log("5:"+str5)
           this.str[0]=str1;
           this.str[1]=str2;
           this.str[2]=str3;

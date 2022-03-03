@@ -1,16 +1,16 @@
 <template>
   <div>
-    <el-container v-for="option in samples" :key="option.value" :style="'cursor:pointer;margin-bottom:20px;height: 200px;float:left; border: 1px solid #eee;width: '+wide+'%'">
+    <el-container v-for="option in samples" :key="option.value" :style="'cursor:pointer;margin-bottom:20px;height: '+height+'px;float:left; border: 1px solid #eee;width: '+wide+'%'">
       <el-container>
         <el-main style="padding:0">
-          <el-table empty-text="No new samples" :data="candidateCopy[option.value-1]" :header-cell-style="{background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default'}" @row-click="clickData">
-            <el-table-column prop="sampleName" :label="'round: '+option.value+': '+Object.keys(candidateCopy[option.value-1]).length+' samples'">
+          <el-table empty-text="Null" :data="candidateCopy[option.value-1]" :header-cell-style="{background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px'}" @row-click="clickData">
+            <el-table-column prop="sampleName" :label="'round:'+option.value+':'+Object.keys(candidateCopy[option.value-1]).length+'samples'">
             </el-table-column>
           </el-table>
         </el-main>
       </el-container>
     </el-container>
-    <el-table :data="selectsample" :header-cell-style="{background:'#F4B0B0',color:'#fff',align:'center'}" style="border:#DCDFE6 solid 1.5px ">
+    <el-table :data="selectsample" :header-cell-style="{background:'#F4B0B0',color:'#fff',align:'center'}" :style="'border:#DCDFE6 solid 1.5px;height:'+height+'px;width:'+wideSample+'%;'">
       <el-table-column prop="samplename" label="Sample Name" :show-overflow-tooltip="true">
       </el-table-column>
       <el-table-column prop="visitprobality" label="Visiting Probability" :show-overflow-tooltip="true">
@@ -48,7 +48,9 @@ export default {
       copyArray: this.options,
       samples: [],
       candidateCopy:[],
-      wide: 100,
+      wide:51,
+      wideSample:0,
+      height:0,
       selectsample: [
         {
           samplename: '',
@@ -60,8 +62,13 @@ export default {
   },
   watch: {
     round(val) {
+      this.height=150
+       this.wideSample=49
       this.currentround = val
-      this.wide = 100 / (this.round)  
+      if(val!=0)
+      this.wide = 51 / val
+      else
+      this.wide=0
       this.samples = this.copyArray.slice(0,this.currentround)
     },
     options(val)
@@ -70,6 +77,21 @@ export default {
       this.selectsample[0].visitprobality = ''
       this.selectsample[0].semanticsimilarities = ''
       this.selectsample[0].samplename = ''
+    },
+   wide(val)
+    {  
+      
+       if(this.wide==0)
+      {
+        this.height=0
+       this.wideSample=0
+      }
+       else
+       {
+        this.wideSample=49
+        this.height=150;
+        }
+      
     },
     candidateAnswers(val)
     {    
