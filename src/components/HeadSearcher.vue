@@ -161,18 +161,22 @@ export default {
     })
   },
   methods: {
-    selectChage()
-    {
-       let Obj = {}
+    selectChage() {
+      let Obj = {}
       Obj.query = this.containSearch
       Obj.flag = 1
+      console.log(Obj)
       this.$emit('choosedQuery', Obj)
     },
     querySearch(query) {
-      if (query !== '') {
-        this.options = this.fuse.search(query)
-      } else {
-        // this.options = []
+      this.options = this.fuse.search(query)
+      if (this.options.length === 0) {
+        this.options = [{
+          item: {
+            query: 'No relevant data found, please enter the correct query',
+            refIndex: 0
+          }
+        }]
       }
     },
       proceed() {

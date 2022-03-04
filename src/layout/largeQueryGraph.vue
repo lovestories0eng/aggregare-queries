@@ -46,7 +46,7 @@ export default {
       this.edgesArray = []
       this.nodesArray = []
       this.tags = []
-      for (let i=0;i<newValue.length && i < 100;i++) {
+      for (let i=0;i<newValue.length && i < 150;i++) {
         let from = newValue[i][0]
         let to = newValue[i][1]
         if (this.tags.indexOf(from) === -1) {
@@ -117,31 +117,31 @@ export default {
   margin-top: 15px;
 }
 
-/*/deep/ .vis-up {*/
-/*  top: 10px !important;*/
-/*}*/
+/deep/ .vis-up {
+  top: 10px !important;
+}
 
-/*/deep/ .vis-down {*/
-/*  top: 50px !important;*/
-/*}*/
+/deep/ .vis-down {
+  top: 50px !important;
+}
 
-/*/deep/ .vis-left {*/
-/*  top: 50px !important;*/
-/*}*/
+/deep/ .vis-left {
+  top: 50px !important;
+}
 
-/*/deep/ .vis-right {*/
-/*  top: 50px !important;*/
-/*}*/
+/deep/ .vis-right {
+  top: 50px !important;
+}
 
-/*/deep/ .vis-zoomIn {*/
-/*  top: 50px !important;*/
-/*}*/
+/deep/ .vis-zoomIn {
+  top: 50px !important;
+}
 
-/*/deep/ .vis-zoomOut {*/
-/*  top: 50px !important;*/
-/*}*/
+/deep/ .vis-zoomOut {
+  top: 50px !important;
+}
 
-/*/deep/ .vis-zoomExtends {*/
-/*  top: 10px !important;*/
-/*}*/
+/deep/ .vis-zoomExtends {
+  top: 10px !important;
+}
 </style>

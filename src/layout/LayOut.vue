@@ -118,6 +118,10 @@ export default {
       this.selectedSample = val.samplename
     },
     choosedQuery(val) {
+      if (val.query === 'No relevant data found, please enter the correct query') {
+        this.$message.error('Please enter the correct query')
+        return
+      }
       this.click = 1;
       this.query = val.query;
       axios.get("./data/" + val.query + ".json").then(res => {
