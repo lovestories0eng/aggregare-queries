@@ -22,8 +22,14 @@
         </candidate-answers>
       </div>
       <div class="query-graph-container">
-        <query-graph v-if="round !== 0" :graph-data="graphData" :selected-sample="selectedSample"></query-graph>
-        <largeQueryGraph v-else-if="round === 0" :graph-data="largeGraph"></largeQueryGraph>
+        <div v-if="round !== 0">
+          Query Result
+          <query-graph :graph-data="graphData" :selected-sample="selectedSample"></query-graph>
+        </div>
+        <div v-else-if="round === 0">
+          Community Network
+          <largeQueryGraph :graph-data="largeGraph"></largeQueryGraph>
+        </div>
       </div>
       <control-buttons></control-buttons>
     </el-main>
@@ -226,12 +232,13 @@ export default {
   width:70%;
 }
 .candidate-answers-container {
-
   width: 100%;
   float: right;
   margin-top:10px;
 }
 .query-graph-container{
+  text-align: center;
+  color: red;
   margin-top: 50px;
   width: 100%;
 }
