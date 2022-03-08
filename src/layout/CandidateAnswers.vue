@@ -3,19 +3,49 @@
     <el-container v-for="option in samples" :key="option.value" :style="'cursor:pointer;margin-bottom:20px;height: '+height+'px;float:left; border: 1px solid #eee;width: '+wide+'%'">
       <el-container>
         <el-main style="padding:0">
-          <el-table empty-text="Null" :data="candidateCopy[option.value-1]" :header-cell-style="{background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px'}" @row-click="clickData">
-            <el-table-column prop="sampleName" :label="'round:'+option.value+':'+Object.keys(candidateCopy[option.value-1]).length+'samples'">
+          <el-table empty-text="Null" :data="candidateCopy[option.value-1]" :header-cell-style="{whiteSpace:'pre-line',background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px'}" :cell-style="{padding: '0','text-align':'center'}" 
+                    :row-style="{height: '0'}" @row-click="clickData"
+          >
+            <el-table-column prop="sampleName" :label="'round:'+option.value+':'+Object.keys(candidateCopy[option.value-1]).length+'samples'" :show-overflow-tooltip="true">
+              <template slot="header">
+                <div>round:{{ option.value }}:</div>
+                <div>{{ Object.keys(candidateCopy[option.value-1]).length }}samples</div>
+              </template>
+              <template slot-scope="scope">
+                <span>{{ scope.row.sampleName }}</span>
+              </template>
             </el-table-column>
           </el-table>
         </el-main>
       </el-container>
     </el-container>
-    <el-table :data="selectsample" :header-cell-style="{background:'#F4B0B0',color:'#fff',align:'center'}" :style="'border:#DCDFE6 solid 1.5px;height:'+height+'px;width:'+wideSample+'%;'">
+    <el-table :data="selectsample" :header-cell-style="{whiteSpace:'pre-line',background:'#F4B0B0',color:'#fff',textAlign:'center'}" :style="'border:#DCDFE6 solid 1.5px;height:'+height+'px;width:'+wideSample+'%;'">
       <el-table-column prop="samplename" label="Sample Name" :show-overflow-tooltip="true">
+        <template slot="header">
+          <div>Sample</div>
+          <div>Name</div>
+        </template>
+        <template slot-scope="scope">
+          <span>{{ scope.row.samplename }}</span>
+        </template>
       </el-table-column>
       <el-table-column prop="visitprobality" label="Visiting Probability" :show-overflow-tooltip="true">
+        <template slot="header">
+          <div>Visiting</div>
+          <div>Probability</div>
+        </template>
+        <template slot-scope="scope">
+          <span>{{ scope.row.visitprobality }}</span>
+        </template>
       </el-table-column>
       <el-table-column prop="semanticsimilarities" label="Semantic Similarity" :show-overflow-tooltip="true">
+        <template slot="header">
+          <div>Semantic</div>
+          <div>Similarity</div>
+        </template>
+        <template slot-scope="scope">
+          <span>{{ scope.row.semanticsimilarities }}</span>
+        </template>
       </el-table-column>
     </el-table>
   </div>
@@ -48,7 +78,7 @@ export default {
       copyArray: this.options,
       samples: [],
       candidateCopy:[],
-      wide:51,
+      wide:65,
       wideSample:0,
       height:0,
       selectsample: [
@@ -63,10 +93,10 @@ export default {
   watch: {
     round(val) {
       this.height=150
-       this.wideSample=49
+       this.wideSample=35
       this.currentround = val
       if(val!=0)
-      this.wide = 51 / val
+      this.wide = 65 / val
       else
       this.wide=0
       this.samples = this.copyArray.slice(0,this.currentround)
@@ -88,7 +118,7 @@ export default {
       }
        else
        {
-        this.wideSample=49
+        this.wideSample=35
         this.height=150;
         }
       

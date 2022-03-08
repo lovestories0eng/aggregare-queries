@@ -100,8 +100,14 @@ export default {
    graphData(val) {
      if("undefined" == typeof val[2]||"undefined" == typeof val[0])
      return;
+     if(val[0]=="?(automobile)")
+     val[0]="?(cars)"
+    if(val[2]=="Advertising")
+     val[2]="advertising"
+      console.log(val[2]);
+     console.log(val[0]);
      let from=val[2].substring(0,3)
-     let to=val[0].substring(0,3)
+     let to=val[0].substring(2,5)
      let fromIndex=-1,toIndex=-1,fromEnd=-1,toEnd=-1
      let str1="",str2="",str3="",str4="",str5=""
      for(let i=0;i<=this.search.length-4;i++)
@@ -133,6 +139,7 @@ export default {
           }
 
       }
+       console.log(fromIndex,fromEnd,toIndex,toEnd);
       if(fromIndex!=-1&&toIndex!=-1)
           {
               str1=this.search.substring(0,toIndex)

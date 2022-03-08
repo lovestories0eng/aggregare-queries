@@ -1,10 +1,12 @@
 <template>
-  <div style="border:#DCDFE6 solid 1.5px ">
+  <div style="border:#DCDFE6 solid 1.5px;">
     <el-table
       :data="copydata"
       empty-text="Please choose a query"
       border
       :header-cell-style="{backgroundColor:'lightblue',color:'#ffff',fontWight:'500',textAlign:'center'}"
+      :row-style="{height: '0'}"
+      :cell-style="{padding: '0','text-align':'center'}"
     >
       <el-table-column
         prop="round"
