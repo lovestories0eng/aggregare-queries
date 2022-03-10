@@ -3,10 +3,10 @@
     <el-container v-for="option in samples" :key="option.value" :style="'cursor:pointer;margin-bottom:20px;height: '+height+'px;float:left; border: 1px solid #eee;width: '+wide+'%'">
       <el-container>
         <el-main style="padding:0">
-          <el-table empty-text="Null" :data="candidateCopy[option.value-1]" :header-cell-style="{whiteSpace:'pre-line',background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px'}" :cell-style="{padding: '0','text-align':'center'}" 
+          <el-table empty-text="Null" :data="candidateCopy[option.value-1]" :header-cell-style="{whiteSpace:'pre-line',background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px',height: '45px',padding: '0'}" :cell-style="{padding: '0','text-align':'center'}" 
                     :row-style="{height: '0'}" @row-click="clickData"
           >
-            <el-table-column prop="sampleName" :label="'round:'+option.value+':'+Object.keys(candidateCopy[option.value-1]).length+'samples'" :show-overflow-tooltip="true">
+            <el-table-column v-if="linejudge===false" prop="sampleName" :label="'round:'+option.value+':'+Object.keys(candidateCopy[option.value-1]).length+'samples'" :show-overflow-tooltip="true">
               <template slot="header">
                 <div>round:{{ option.value }}:</div>
                 <div>{{ Object.keys(candidateCopy[option.value-1]).length }}samples</div>
@@ -15,11 +15,13 @@
                 <span>{{ scope.row.sampleName }}</span>
               </template>
             </el-table-column>
+            <el-table-column v-if="linejudge===true" prop="sampleName" :label="'round:'+option.value+':'+Object.keys(candidateCopy[option.value-1]).length+'samples'" :show-overflow-tooltip="true">
+            </el-table-column>
           </el-table>
         </el-main>
       </el-container>
     </el-container>
-    <el-table :data="selectsample" :header-cell-style="{whiteSpace:'pre-line',background:'#F4B0B0',color:'#fff',textAlign:'center'}" :style="'border:#DCDFE6 solid 1.5px;height:'+height+'px;width:'+wideSample+'%;'">
+    <el-table :cell-style="{'text-align':'center'}" :data="selectsample" :header-cell-style="{whiteSpace:'pre-line',background:'#F4B0B0',color:'#fff',textAlign:'center',height: '0',padding: '0'}" :style="'border:#DCDFE6 solid 1.5px;height:'+height+'px;width:'+wideSample+'%;'">
       <el-table-column prop="samplename" label="Sample Name" :show-overflow-tooltip="true">
         <template slot="header">
           <div>Sample</div>
@@ -87,7 +89,8 @@ export default {
           visitprobality: '',
           semanticsimilarities: ''
         }
-      ]
+      ],
+      linejudge:true
     }
   },
   watch: {
@@ -100,6 +103,8 @@ export default {
       else
       this.wide=0
       this.samples = this.copyArray.slice(0,this.currentround)
+      if(val>=3)
+      this.linejudge=false
     },
     options(val)
     {

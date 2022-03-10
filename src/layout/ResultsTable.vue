@@ -4,7 +4,7 @@
       :data="copydata"
       empty-text="Please choose a query"
       border
-      :header-cell-style="{backgroundColor:'lightblue',color:'#ffff',fontWight:'500',textAlign:'center'}"
+      :header-cell-style="{backgroundColor:'lightblue',color:'#ffff',fontWight:'500',textAlign:'center',height: '0',padding: '0'}"
       :row-style="{height: '0'}"
       :cell-style="{padding: '0','text-align':'center'}"
     >

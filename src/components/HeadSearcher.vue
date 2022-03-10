@@ -1,13 +1,14 @@
 <template>
   <div class="show">
-    <el-col :span="13" style="display:flex;align-items:center">
+    <el-col :span="15" style="display:flex;align-items:center">
       <el-link :style="'width:'+widthLink+'%;display:flex;height:38px;text-align:start;justify-content:flex-start;border-bottom:1px solid #DCDFE6;font-size:'+fontsize+'px'" @click="widthChange()">
         <span style="padding-top:10px;">
           <span>{{ str[0] }}</span>
-          <span style="color:#F56C6C;font-weight:600">{{ str[1] }}</span>
+          <span style="color:#CF9F62;font-weight:600">{{ str[1] }}</span>
           <span>{{ str[2] }}</span>
-          <span style="color:#409EFF;font-weight:600">{{ str[3] }}</span>
+          <span style="color:#E88D8D;font-weight:600">{{ str[3] }}</span>
           <span>{{ str[4] }}</span>
+          <span>(Type:{{ type }})</span>
         </span>
       </el-link>
       <el-select
@@ -25,9 +26,8 @@
         <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" />
       </el-select>
     </el-col>
-    <el-col :span="11" style="display:flex;align-items:center;justify-content:center">
+    <el-col :span="9" style="display:flex;align-items:center;justify-content:center">
       <slot></slot>
-
       <el-tooltip content="submit query" style="margin-left:10px">
         <el-button type="primary" class="search-icon" @click="proceed">
           <svg t="1646027529363" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2442" width="200" height="200"><path d="M439.488 960l124.416-169.984-124.416-35.84L439.488 960 439.488 960 439.488 960M0 559.936l353.472 107.072 435.328-369.6-337.408 398.144 377.92 116.736L1024 64.064 0 559.936 0 559.936 0 559.936M0 559.936" p-id="2443" fill="#fff"></path></svg>
@@ -83,7 +83,8 @@ export default {
       containSearch:"",
       beforeContain:"Search",
       fontsize:0,
-      str:[]
+      str:[],
+      type:""
     }
   },
   watch:{
@@ -93,6 +94,7 @@ export default {
       this.containLink=val
       this.containSearch=""
       this.beforeContain=""
+      this.type=""
       this.widthLink=100
       this.widthSearch=0
       this.fontsize=14
@@ -153,6 +155,14 @@ export default {
           this.str[2]=str3;
           this.str[3]=str4;
           this.str[4]=str5;
+          if(this.search.substring(0,3)=="How")
+          { 
+            this.type="AVG"
+          }
+          else if(this.search.substring(0,4)=="What")
+          {
+            this.type="COUNT"
+          }
   }
   },
   mounted() {
@@ -200,6 +210,7 @@ export default {
     {
       this.containSearch=this.search
       this.containLink=""
+      this.type=""
       this.widthLink=0
       this.widthSearch=100
       this.fontsize=0
