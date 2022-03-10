@@ -1,6 +1,6 @@
 <template>
   <div class="show">
-    <el-col :span="15" style="display:flex;align-items:center">
+    <el-col :span="searchWidth" style="display:flex;align-items:center">
       <el-link :style="'width:'+widthLink+'%;display:flex;height:38px;text-align:start;justify-content:flex-start;border-bottom:1px solid #DCDFE6;font-size:'+fontsize+'px'" @click="widthChange()">
         <span style="padding-top:10px;">
           <span>{{ str[0] }}</span>
@@ -26,7 +26,7 @@
         <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" />
       </el-select>
     </el-col>
-    <el-col :span="9" style="display:flex;align-items:center;justify-content:center">
+    <el-col :span="leftWidth" style="display:flex;align-items:center;justify-content:center">
       <slot></slot>
       <el-tooltip content="submit query" style="margin-left:10px">
         <el-button type="primary" class="search-icon" @click="proceed">
@@ -84,12 +84,14 @@ export default {
       beforeContain:"Search",
       fontsize:0,
       str:[],
-      type:""
+      type:"",
+      searchWidth:10,
+      leftWidth:14
     }
   },
   watch:{
    query(val) {
-
+ 
       this.search=val
       this.containLink=val
       this.containSearch=""
@@ -98,6 +100,19 @@ export default {
       this.widthLink=100
       this.widthSearch=0
       this.fontsize=14
+      if(this.search.length>50){ 
+       this.searchWidth=15
+       this.leftWidth=9
+       }
+       else if(this.search.length<=35){
+       this.searchWidth=8
+       this.leftWidth=16
+      }
+      else{
+        this.searchWidth=10
+        this.leftWidth=14
+      }
+
    },
    graphData(val) {
      if("undefined" == typeof val[2]||"undefined" == typeof val[0])
@@ -155,6 +170,7 @@ export default {
           this.str[2]=str3;
           this.str[3]=str4;
           this.str[4]=str5;
+          this.type=""
           if(this.search.substring(0,3)=="How")
           { 
             this.type="AVG"
