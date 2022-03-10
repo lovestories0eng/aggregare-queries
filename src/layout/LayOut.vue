@@ -35,7 +35,7 @@
             {{ predicate.split(" ")[2] }}.
           </span>
           <span v-else class="entity">
-            ?(please choose a query)
+            (______).
           </span>
           <largeQueryGraph :graph-data="largeGraph"></largeQueryGraph>
         </div>
