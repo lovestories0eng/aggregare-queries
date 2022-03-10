@@ -219,7 +219,7 @@ export default {
       //2.创建一个edges对象
       this.edges = new Vis.DataSet([]);
       this.init(this.nodes, this.edges);
-      this.network.moveTo({ scale: 0.25 });
+      this.network.moveTo({ scale: 0.4 });
       let param = { nodes: this.nodesArray, edges: this.edgesArray };
       this.addNetworkParams(param)
     },

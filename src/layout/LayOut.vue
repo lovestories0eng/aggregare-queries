@@ -23,11 +23,20 @@
       </div>
       <div class="query-graph-container">
         <div v-if="round !== 0">
-          Query Result
+          A random sample of
+          <span class="entity">
+            {{ predicate.split(" ")[2] }}
+          </span>.
           <query-graph :graph-data="graphData" :selected-sample="selectedSample"></query-graph>
         </div>
         <div v-else-if="round === 0">
-          Community Network
+          A partial knowledge graph that contains the specific entity
+          <span v-if="predicate.length !== 0" class="entity">
+            {{ predicate.split(" ")[2] }}.
+          </span>
+          <span v-else class="entity">
+            ?(please choose a query)
+          </span>
           <largeQueryGraph :graph-data="largeGraph"></largeQueryGraph>
         </div>
       </div>
@@ -238,8 +247,12 @@ export default {
 }
 .query-graph-container{
   text-align: center;
-  color: red;
+  color: blue;
   margin-top: 50px;
   width: 100%;
+}
+
+.entity {
+  color: red;
 }
 </style>
