@@ -2,7 +2,7 @@
   <div style="border:#DCDFE6 solid 1.5px;">
     <el-table
       :data="copydata"
-      empty-text="Please choose a query"
+      empty-text="Approximate aggregate results with confidence interval"
       border
       :header-cell-style="{backgroundColor:'lightblue',color:'#ffff',fontWight:'500',textAlign:'center',height: '0',padding: '0'}"
       :row-style="{height: '0'}"

@@ -2,7 +2,7 @@
   <!-- vis关系图基础展示 -->
   <div id="mini-query-graph">
     <!--width,height 画布的宽度，高度。 可以是百分比或像素，一般在dom元素上设置 -->
-    <div id="query-graph-mini" class="network cancel" style="width:290px;height:38px;border:1px solid #ccc;color: #ffff"></div>
+    <div id="query-graph-mini" class="network cancel" style="width:378px;height:38px;border:1px solid #ccc;color: #ffff"></div>
   </div>
 </template>
 
@@ -37,7 +37,7 @@ export default {
     graphData(newValue) {
       this.edgesArray = []
       this.nodesArray = []
-      this.nodesArray = [{id: 1, name: newValue[2], color: '#FFC1C1', x: -100, y: 0}, {id: 2, name: newValue[0], color: '#FFD39B', x: 100, y: 0}]
+      this.nodesArray = [{id: 1, name: newValue[2], color: '#FFC1C1', x: -105, y: 0}, {id: 2, name: newValue[0], color: '#FFD39B', x: 130, y: 0}]
       this.edgesArray.push({from: 1, to: 2, label: newValue[1], color: '#0070c0'})
       this.reinitialize()
     }
@@ -52,7 +52,7 @@ export default {
       //2.创建一个edges对象
       this.edges = new Vis.DataSet([]);
       this.init(this.nodes, this.edges);
-      this.network.moveTo({ scale: 0.85 });
+      this.network.moveTo({ scale: 1 });
       let param = { nodes: this.nodesArray, edges: this.edgesArray };
       this.addNetworkParams(param)
     },

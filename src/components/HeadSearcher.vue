@@ -1,6 +1,6 @@
 <template>
   <div class="show">
-    <el-col :span="searchWidth" style="display:flex;align-items:center">
+    <el-col :span="13" style="display:flex;align-items:center">
       <el-link :style="'width:'+widthLink+'%;display:flex;height:38px;text-align:start;justify-content:flex-start;border-bottom:1px solid #DCDFE6;font-size:'+fontsize+'px'" @click="widthChange()">
         <span style="padding-top:10px;">
           <span>{{ str[0] }}</span>
@@ -8,7 +8,6 @@
           <span>{{ str[2] }}</span>
           <span style="color:#E88D8D;font-weight:600">{{ str[3] }}</span>
           <span>{{ str[4] }}</span>
-          <span>(Type:{{ type }})</span>
         </span>
       </el-link>
       <el-select
@@ -26,7 +25,7 @@
         <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" />
       </el-select>
     </el-col>
-    <el-col :span="leftWidth" style="display:flex;align-items:center;justify-content:center">
+    <el-col :span="11" style="display:flex;align-items:center;justify-content:center">
       <slot></slot>
       <el-tooltip content="submit query" style="margin-left:10px">
         <el-button type="primary" class="search-icon" @click="proceed">
@@ -121,8 +120,8 @@ export default {
      val[0]="?(cars)"
     if(val[2]=="Advertising")
      val[2]="advertising"
-      console.log(val[2]);
-     console.log(val[0]);
+     /* console.log(val[2]);
+     console.log(val[0]);*/
      let from=val[2].substring(0,3)
      let to=val[0].substring(2,5)
      let fromIndex=-1,toIndex=-1,fromEnd=-1,toEnd=-1
@@ -156,7 +155,7 @@ export default {
           }
 
       }
-       console.log(fromIndex,fromEnd,toIndex,toEnd);
+      /* console.log(fromIndex,fromEnd,toIndex,toEnd);*/
       if(fromIndex!=-1&&toIndex!=-1)
           {
               str1=this.search.substring(0,toIndex)
@@ -171,13 +170,30 @@ export default {
           this.str[3]=str4;
           this.str[4]=str5;
           this.type=""
-          if(this.search.substring(0,3)=="How")
+          if(this.search.substring(0,4)=="What")
           { 
-            this.type="AVG"
+            for(let i=0;i<=this.search.length-8;i++)
+            {
+              if(this.search.substring(i,i+7)=="average")
+              { let j=i+8
+                console.log("j:"+j);
+                while(this.search.substring(j,j+1)!=' ')
+                 {
+                     j++
+                 } 
+                 let attribute=this.search.substring(i+8,j)
+                 if(attribute=="oil")
+                 attribute=attribute+" consumption"
+                 else if(attribute=="0-100")
+                 attribute="0-100 accelerate"
+                  this.type="AVG("+attribute+")"
+                  console.log(this.type)
+              }
+            }
           }
-          else if(this.search.substring(0,4)=="What")
+          else if(this.search.substring(0,3)=="How")
           {
-            this.type="COUNT"
+            this.type="COUNT(*)"
           }
   }
   },
