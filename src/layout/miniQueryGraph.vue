@@ -46,8 +46,8 @@ export default {
     graphData(newValue) {
       this.edgesArray = []
       this.nodesArray = []
-      this.nodesArray = [{id: 1, name: newValue[2], color: '#FFC1C1', x: -105, y: 0}, {id: 2, name: newValue[0], color: '#FFD39B', x: 130, y: 0}]
-      this.edgesArray.push({from: 1, to: 2, label: newValue[1], color: '#0070c0'})
+      this.nodesArray = [{id: 1, name: newValue[2], color: '#FFC1C1', x: -160, y: 0}, {id: 2, name: newValue[0], color: '#FFD39B', x: 170, y: 0}]
+      this.edgesArray.push({from: 1, to: 2, label: newValue[1], color: '#0070c0', length: 330})
       this.reinitialize()
     }
   },
@@ -141,9 +141,8 @@ export default {
   font-size: 12px !important;
   font-weight: 600;
   top: 1px;
-  left: 160px;
+  left: 155px;
   position: absolute;
-  background: #fff;
   color: #EA3F3F;
   z-index: 999;
 }
