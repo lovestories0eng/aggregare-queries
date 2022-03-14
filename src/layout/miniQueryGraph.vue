@@ -1,10 +1,10 @@
 <template>
   <!-- vis关系图基础展示 -->
   <div id="mini-query-graph">
-    <div style="position: relative; width: 292px; height: 40px">
-      <div v-if="queryType.length !== 0" class="type">Type:{{ queryType }}</div>
+    <div style="position: relative; width:378px;height:38px;">
+      <div v-if="queryType.length !== 0" class="type">{{ queryType }}</div>
       <!--width,height 画布的宽度，高度。 可以是百分比或像素，一般在dom元素上设置 -->
-      <div id="query-graph-mini" class="network cancel" style="width:290px;height:38px;border:1px solid #ccc;color: #ffff"></div>
+      <div id="query-graph-mini" class="network cancel" style="width:378px;height:38px;border:1px solid #ccc;color: #ffff"></div>
     </div>
   </div>
 </template>
@@ -46,7 +46,7 @@ export default {
     graphData(newValue) {
       this.edgesArray = []
       this.nodesArray = []
-      this.nodesArray = [{id: 1, name: newValue[2], color: '#FFC1C1', x: -100, y: 10}, {id: 2, name: newValue[0], color: '#FFD39B', x: 100, y: 10}]
+      this.nodesArray = [{id: 1, name: newValue[2], color: '#FFC1C1', x: -105, y: 8}, {id: 2, name: newValue[0], color: '#FFD39B', x: 130, y: 8}]
       this.edgesArray.push({from: 1, to: 2, label: newValue[1], color: '#0070c0'})
       this.reinitialize()
     }
@@ -61,7 +61,7 @@ export default {
       //2.创建一个edges对象
       this.edges = new Vis.DataSet([]);
       this.init(this.nodes, this.edges);
-      this.network.moveTo({ scale: 0.85 });
+      this.network.moveTo({ scale: 0.9 });
       let param = { nodes: this.nodesArray, edges: this.edgesArray };
       this.addNetworkParams(param)
     },
@@ -139,13 +139,12 @@ export default {
 
 .type {
   font-size: 12px !important;
-  width: 70px;
-  height: 15px;
+  font-weight: 600;
   top: 1px;
-  left: 110px;
+  left: 160px;
   position: absolute;
   background: #fff;
-  color: blue;
+  color: #EA3F3F;
   z-index: 999;
 }
 </style>
