@@ -46,7 +46,7 @@ export default {
     graphData(newValue) {
       this.edgesArray = []
       this.nodesArray = []
-      this.nodesArray = [{id: 1, name: newValue[2], color: '#FFC1C1', x: -105, y: 8}, {id: 2, name: newValue[0], color: '#FFD39B', x: 130, y: 8}]
+      this.nodesArray = [{id: 1, name: newValue[2], color: '#FFC1C1', x: -105, y: 0}, {id: 2, name: newValue[0], color: '#FFD39B', x: 130, y: 0}]
       this.edgesArray.push({from: 1, to: 2, label: newValue[1], color: '#0070c0'})
       this.reinitialize()
     }
@@ -61,7 +61,7 @@ export default {
       //2.创建一个edges对象
       this.edges = new Vis.DataSet([]);
       this.init(this.nodes, this.edges);
-      this.network.moveTo({ scale: 0.9 });
+      this.network.moveTo({ scale: 0.78 });
       let param = { nodes: this.nodesArray, edges: this.edgesArray };
       this.addNetworkParams(param)
     },
