@@ -46,7 +46,7 @@ export default {
     graphData(newValue) {
       this.edgesArray = []
       this.nodesArray = []
-      this.nodesArray = [{id: 1, name: newValue[2], color: '#FFC1C1', x: -100, y: 0}, {id: 2, name: newValue[0], color: '#FFD39B', x: 100, y: 0}]
+      this.nodesArray = [{id: 1, name: newValue[2], color: '#FFC1C1', x: -100, y: 10}, {id: 2, name: newValue[0], color: '#FFD39B', x: 100, y: 10}]
       this.edgesArray.push({from: 1, to: 2, label: newValue[1], color: '#0070c0'})
       this.reinitialize()
     }

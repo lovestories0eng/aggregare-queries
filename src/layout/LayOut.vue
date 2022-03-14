@@ -149,10 +149,12 @@ export default {
         this.queryData = res
         this.queryData = this.dataProcess(this.queryData)
         this.maxRound = Object.keys(this.queryData).length - 1
-        if (val.flag === 1)
+        if (val.flag === 1) {
           this.round = 0
-        else if (val.flag === 2)
+        }
+        else if (val.flag === 2 && this.round === 0) {
           this.round = 1
+        }
         this.tableData = []
         this.candidateAnswers = []
         this.graphData = []
@@ -174,13 +176,14 @@ export default {
         return
       }
       if(this.round >= 1) {
+        this.$message.error('Query has already been submitted.')
         return
       } else {
         this.round = 1
       }
-      this.initTableData()
-      this.initGraphData()
-      this.initCandidateAnswers()
+      // this.initTableData()
+      // this.initGraphData()
+      // this.initCandidateAnswers()
     },
     getMessage() {
       if(this.click === 0)
