@@ -4,8 +4,17 @@
       <side-bar :sample-queries="sampleQueries" @choosedQuery="choosedQuery"></side-bar>
     </el-aside>
     <el-main class="right-column">
-      <head-searcher :graph-data="predicate.split(' ')" :query="query" :sample-queries="sampleQueries" @getQuery="getQuery" @getMessage="getMessage" @choosedQuery="choosedQuery" @selectChage="choosedQuery">
-        <miniQueryGraph :graph-data="predicate.split(' ')"></miniQueryGraph>
+      <head-searcher
+        :graph-data="predicate.split(' ')"
+        :query="query"
+        :sample-queries="sampleQueries"
+        @getQuery="getQuery"
+        @getMessage="getMessage"
+        @choosedQuery="choosedQuery"
+        @selectChage="choosedQuery"
+        @getMiniGraphType="getMiniGraphType"
+      >
+        <miniQueryGraph :query-type="miniGraphType" :graph-data="predicate.split(' ')"></miniQueryGraph>
       </head-searcher>
       <div style="padding-top:10px">
         <results-table :round="round" :table-data="tableData"></results-table>
@@ -25,18 +34,12 @@
         <div v-if="round !== 0">
           A random sample of
           <span class="entity">
-            {{ predicate.split(" ")[2] }}
+            {{ predicate.split(" ")[0].substring(2, predicate.split(" ")[0].length - 1) }}
           </span>.
           <query-graph :graph-data="graphData" :selected-sample="selectedSample"></query-graph>
         </div>
         <div v-else-if="round === 0">
-          A partial knowledge graph that contains the specific entity
-          <span v-if="predicate.length !== 0" class="entity">
-            {{ predicate.split(" ")[2] }}.
-          </span>
-          <span v-else class="entity">
-            (______).
-          </span>
+          A knowledge graph snapshot
           <largeQueryGraph :graph-data="largeGraph"></largeQueryGraph>
         </div>
       </div>
@@ -86,7 +89,8 @@ export default {
       click:0,
       selectedSample: '',
       predicate: '',
-      largeGraph: []
+      largeGraph: [],
+      miniGraphType: ''
     }
   },
   mounted() {
@@ -221,7 +225,9 @@ export default {
         })
         this.candidateAnswers.push(tempData)
       }
-
+    },
+    getMiniGraphType(val) {
+      this.miniGraphType = val
     }
   }
 }
