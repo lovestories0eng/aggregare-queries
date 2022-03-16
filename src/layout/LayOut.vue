@@ -137,8 +137,7 @@ export default {
       this.selectedSample = val.samplename
     },
     choosedQuery(val) {
-      if (val.query === 'No relevant data found, please enter the correct query') {
-        this.$message.error('Please enter the correct query')
+      if (val.query === '') {
         return
       }
       this.click = 1;
@@ -181,9 +180,9 @@ export default {
       } else {
         this.round = 1
       }
-      // this.initTableData()
-      // this.initGraphData()
-      // this.initCandidateAnswers()
+       this.initTableData()
+       this.initGraphData()
+       this.initCandidateAnswers()
     },
     getMessage() {
       if(this.click === 0)
