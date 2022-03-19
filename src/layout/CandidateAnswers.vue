@@ -134,6 +134,7 @@ export default {
       return;
       
        this.candidateCopy=[];
+       this.linejudge=true
        for(let i=0;i<=Object.keys(val).length-1;i++)
       {   
         let tableArray=[];
