@@ -49,7 +49,7 @@ export default {
       // 边Id,
       valueCount: 1,
       // 最多显示的路径条数
-      pathLimit: 150,
+      pathLimit: 250,
       // 需要高亮的路径
       selectedPath: [],
       // 曾经选择过的路径
@@ -116,7 +116,7 @@ export default {
       this.sampleMapId = {}
       this.idCount = 1
       // 数据量过大则进行样本裁剪
-      // newValue = this.dataCut(newValue, this.pathLimit)
+      newValue = this.dataCut(newValue, this.pathLimit)
       newValue.forEach(item => {
         let paths = item.path
         let count = 1

@@ -24,6 +24,12 @@ export default {
       default() {
         return ''
       }
+    },
+    dataType: {
+      type: Boolean,
+      default() {
+        return false
+      }
     }
   },
   data() {
@@ -38,29 +44,36 @@ export default {
       edgesArray: [],
       // 可视化参数设置
       options: options,
-      tags: []
+      tags: [],
     };
   },
   watch: {
     graphData(newValue) {
-      this.edgesArray = []
-      this.nodesArray = []
-      this.tags = []
-      for (let i=0;i<newValue.length && i < 150;i++) {
-        let from = newValue[i][0]
-        let to = newValue[i][1]
-        if (this.tags.indexOf(from) === -1) {
-          this.tags.push(from)
-          this.nodesArray.push({id: from, name: newValue[i][2]})
+      console.log(this.dataType)
+      if (this.dataType === true) {
+        this.edgesArray = []
+        this.nodesArray = []
+        this.tags = []
+        for (let i=0;i<newValue.length && i < 150;i++) {
+          let from = newValue[i][0]
+          let to = newValue[i][1]
+          if (this.tags.indexOf(from) === -1) {
+            this.tags.push(from)
+            this.nodesArray.push({id: from, name: newValue[i][2]})
+          }
+          if (this.tags.indexOf(to) === -1) {
+            this.tags.push(to)
+            this.nodesArray.push({id: to, name: newValue[i][4]})
+          }
+          this.edgesArray.push({from, to, label: newValue[i][3]})
         }
-        if (this.tags.indexOf(to) === -1) {
-          this.tags.push(to)
-          this.nodesArray.push({id: to, name: newValue[i][4]})
-        }
-        this.edgesArray.push({from, to, label: newValue[i][3]})
+        this.reinitialize()
+      } else if (this.dataType === false) {
+        this.nodesArray = newValue['nodesArray']
+        this.edgesArray = newValue['edgesArray']
+        console.log(this.edgesArray)
+        this.reinitialize()
       }
-      console.log()
-      this.reinitialize()
     }
   },
   mounted() {

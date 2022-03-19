@@ -31,16 +31,23 @@
         </candidate-answers>
       </div>
       <div class="query-graph-container">
-        <div v-if="round !== 0">
+        <div v-if="round === 0 && click !== 0">
+          A partial knowledge graph that contains the specific entity
+          <span class="entity">
+            {{ predicate.split(" ")[0].substring(2, predicate.split(" ")[0].length - 1) }}
+          </span>.
+          <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>
+        </div>
+        <div v-else-if="round === 0 && click === 0">
+          A knowledge graph snapshot
+          <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>
+        </div>
+        <div v-else-if="round >= 1">
           A random sample of
           <span class="entity">
             {{ predicate.split(" ")[0].substring(2, predicate.split(" ")[0].length - 1) }}
           </span>.
           <query-graph :graph-data="graphData" :selected-sample="selectedSample"></query-graph>
-        </div>
-        <div v-else-if="round === 0">
-          A knowledge graph snapshot
-          <largeQueryGraph :graph-data="largeGraph"></largeQueryGraph>
         </div>
       </div>
       <control-buttons></control-buttons>
@@ -86,16 +93,54 @@ export default {
       maxRound: 0,
       options: [],
       query: '',
-      click:0,
+      click: 0,
       selectedSample: '',
       predicate: '',
       largeGraph: [],
-      miniGraphType: ''
+      miniGraphType: '',
+      largeGraphDataType: false
     }
   },
   mounted() {
+    axios.get('knowledgeGraph.json').then(res => {
+      res = res.data
+      this.processKnowledgeGraphData(res)
+    })
   },
   methods: {
+    processKnowledgeGraphData(knowledgeGraph) {
+      let data = {}
+      let allPoints = []
+      let allPointsId = []
+      let pointMapId = []
+      let allEdges = []
+      let id = 1
+      for (let startPoint of Object.keys(knowledgeGraph)) {
+        if (allPoints.indexOf(startPoint) === -1) {
+          allPoints.push(startPoint)
+          allPointsId.push(id)
+          id++
+        }
+        for (let endPoint of knowledgeGraph[startPoint]) {
+          if (allPoints.indexOf(endPoint) === -1) {
+            allPoints.push(endPoint)
+            allPointsId.push(id)
+            id++
+          }
+          let tempEdge = { from: allPointsId[allPoints.indexOf(startPoint)], to: allPointsId[allPoints.indexOf(endPoint)] }
+          console.log(tempEdge)
+          allEdges.push(tempEdge)
+        }
+      }
+      for (let i=0;i<allPoints.length;i++) {
+        pointMapId.push({ id: allPointsId[i], name: allPoints[i] })
+      }
+      data['edgesArray'] = allEdges
+      data['nodesArray']= pointMapId
+      // console.log(data)
+      this.largeGraphDataType = false
+      this.largeGraph = data
+    },
     // 每一轮次的路径数据进行叠加
     dataProcess(Obj) {
       if (Object.keys(Obj).length - 1 === 0) {
@@ -165,7 +210,9 @@ export default {
       })
 
       axios.get("./data/" + val.query + ' graph' + ".json").then(res => {
+        this.largeGraphDataType = true
         this.largeGraph = res['data'].edges
+        console.log(this.largeGraph)
       })
     },
     // 提交查询后默认显示第一轮

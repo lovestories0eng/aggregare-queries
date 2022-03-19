@@ -17,4 +17,3 @@ let sampleQueries = [
 ]
 
 export default sampleQueries
-
