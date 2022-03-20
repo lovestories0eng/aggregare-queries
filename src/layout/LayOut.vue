@@ -98,43 +98,55 @@ export default {
       predicate: '',
       largeGraph: [],
       miniGraphType: '',
-      largeGraphDataType: false
+      largeGraphDataType: false,
+      nodeLimit: 200
     }
   },
   mounted() {
     axios.get('knowledgeGraph.json').then(res => {
       res = res.data
+      console.log(res)
       this.processKnowledgeGraphData(res)
     })
   },
   methods: {
     processKnowledgeGraphData(knowledgeGraph) {
+      let dataBase = []
+      let center = 'Database'
+      for (let i=0;i<this.nodeLimit;i++) {
+        dataBase.push(knowledgeGraph[center][i])
+      }
       let data = {}
       let allPoints = []
       let allPointsId = []
       let pointMapId = []
       let allEdges = []
       let id = 1
-      for (let startPoint of Object.keys(knowledgeGraph)) {
-        if (allPoints.indexOf(startPoint) === -1) {
-          allPoints.push(startPoint)
-          allPointsId.push(id)
-          id++
-        }
-        for (let endPoint of knowledgeGraph[startPoint]) {
-          if (allPoints.indexOf(endPoint) === -1) {
-            allPoints.push(endPoint)
+      for (let startPoint = 0;startPoint < dataBase.length;startPoint++) {
+        let tempStartPoint = dataBase[startPoint]
+        if (knowledgeGraph[tempStartPoint] === undefined) continue
+        allPoints.push(tempStartPoint)
+        allPointsId.push(id)
+        pointMapId.push({ id: id, name: tempStartPoint, color: 'yellow' })
+        let tempEdge = { from: 0, to: id }
+        let tempStartPointId = id
+        id++
+        allEdges.push(tempEdge)
+        let intermediateResults = []
+        for (let endPoint = 0;endPoint < knowledgeGraph[tempStartPoint].length;endPoint++) {
+          let tempEndPoint = knowledgeGraph[tempStartPoint][endPoint]
+          if (intermediateResults.indexOf(tempEndPoint) === -1) {
+            allPoints.push(tempEndPoint)
+            intermediateResults.push(tempEndPoint)
             allPointsId.push(id)
+            pointMapId.push({ id: id, name: tempEndPoint })
             id++
+            let tempEdge = { from: tempStartPointId, to: id - 1 }
+            allEdges.push(tempEdge)
           }
-          let tempEdge = { from: allPointsId[allPoints.indexOf(startPoint)], to: allPointsId[allPoints.indexOf(endPoint)] }
-          console.log(tempEdge)
-          allEdges.push(tempEdge)
         }
       }
-      for (let i=0;i<allPoints.length;i++) {
-        pointMapId.push({ id: allPointsId[i], name: allPoints[i] })
-      }
+      pointMapId.push({ id: 0, name: 'DataBase', color:'red' })
       data['edgesArray'] = allEdges
       data['nodesArray']= pointMapId
       // console.log(data)

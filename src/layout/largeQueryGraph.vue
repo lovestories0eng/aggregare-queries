@@ -14,7 +14,7 @@ export default {
   name: "LargeQueryGraph",
   props: {
     graphData: {
-      type: Array,
+      type: [Array, Object],
       default() {
         return []
       }
