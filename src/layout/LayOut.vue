@@ -34,7 +34,7 @@
         <div v-if="round === 0 && click !== 0">
           A partial knowledge graph that contains the specific entity
           <span class="entity">
-            {{ predicate.split(" ")[0].substring(2, predicate.split(" ")[0].length - 1) }}
+            {{ predicate.split(" ")[2].substring(0, predicate.split(" ")[0].length) }}
           </span>.
           <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>
         </div>
@@ -45,7 +45,7 @@
         <div v-else-if="round >= 1">
           A random sample of
           <span class="entity">
-            {{ predicate.split(" ")[0].substring(2, predicate.split(" ")[0].length - 1) }}
+            {{ predicate.split(" ")[2].substring(0, predicate.split(" ")[0].length) }}
           </span>.
           <query-graph :graph-data="graphData" :selected-sample="selectedSample"></query-graph>
         </div>
@@ -105,7 +105,6 @@ export default {
   mounted() {
     axios.get('knowledgeGraph.json').then(res => {
       res = res.data
-      console.log(res)
       this.processKnowledgeGraphData(res)
     })
   },
@@ -224,7 +223,6 @@ export default {
       axios.get("./data/" + val.query + ' graph' + ".json").then(res => {
         this.largeGraphDataType = true
         this.largeGraph = res['data'].edges
-        console.log(this.largeGraph)
       })
     },
     // 提交查询后默认显示第一轮

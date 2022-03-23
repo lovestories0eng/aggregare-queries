@@ -49,7 +49,6 @@ export default {
   },
   watch: {
     graphData(newValue) {
-      console.log(this.dataType)
       if (this.dataType === true) {
         this.edgesArray = []
         this.nodesArray = []
@@ -71,7 +70,6 @@ export default {
       } else if (this.dataType === false) {
         this.nodesArray = newValue['nodesArray']
         this.edgesArray = newValue['edgesArray']
-        console.log(this.edgesArray)
         this.reinitialize()
       }
     }

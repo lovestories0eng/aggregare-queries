@@ -3,19 +3,19 @@
     <el-container v-for="option in samples" :key="option.value" :style="'cursor:pointer;margin-bottom:20px;height: '+height+'px;float:left; border: 1px solid #eee;width: '+wide+'%'">
       <el-container>
         <el-main style="padding:0">
-          <el-table empty-text="Null" :data="candidateCopy[option.value-1]" :header-cell-style="{whiteSpace:'pre-line',background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px',height: '45px',padding: '0'}" :cell-style="{padding: '0','text-align':'center'}" 
+          <el-table empty-text="Null" :data="candidateCopy[option.value-1]" :header-cell-style="{whiteSpace:'pre-line',background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px',height: '45px',padding: '0'}" :cell-style="{padding: '0','text-align':'center'}"
                     :row-style="{height: '0'}" @row-click="clickData"
           >
-            <el-table-column v-if="linejudge===false" prop="sampleName" :label="'round:'+option.value+':'+Object.keys(candidateCopy[option.value-1]).length+'samples'" :show-overflow-tooltip="true">
+            <el-table-column v-if="linejudge===false" prop="sampleName" :label="'Round '+option.value+':'+Object.keys(candidateCopy[option.value-1]).length+' samples'" :show-overflow-tooltip="true">
               <template slot="header">
-                <div>round:{{ option.value }}:</div>
-                <div>{{ Object.keys(candidateCopy[option.value-1]).length }}samples</div>
+                <div>Round {{ option.value }}:</div>
+                <div>{{ Object.keys(candidateCopy[option.value-1]).length + " " }}samples</div>
               </template>
               <template slot-scope="scope">
                 <span>{{ scope.row.sampleName }}</span>
               </template>
             </el-table-column>
-            <el-table-column v-if="linejudge===true" prop="sampleName" :label="'round:'+option.value+':'+Object.keys(candidateCopy[option.value-1]).length+'samples'" :show-overflow-tooltip="true">
+            <el-table-column v-if="linejudge===true" prop="sampleName" :label="'Round '+option.value+':'+Object.keys(candidateCopy[option.value-1]).length+' samples'" :show-overflow-tooltip="true">
             </el-table-column>
           </el-table>
         </el-main>
@@ -114,8 +114,8 @@ export default {
       this.selectsample[0].samplename = ''
     },
    wide(val)
-    {  
-      
+    {
+
        if(this.wide==0)
       {
         this.height=0
@@ -126,22 +126,22 @@ export default {
         this.wideSample=35
         this.height=150;
         }
-      
+
     },
     candidateAnswers(val)
-    {    
+    {
       if(!val)
       return;
-      
+
        this.candidateCopy=[];
        this.linejudge=true
        for(let i=0;i<=Object.keys(val).length-1;i++)
-      {   
+      {
         let tableArray=[];
         if(i==0)
-       this.candidateCopy.push(val[i]); 
+       this.candidateCopy.push(val[i]);
         else
-        {  
+        {
           for(let j=0;j<=Object.keys(val[i]).length-1;j++)
           {
             let flag=1;
@@ -159,11 +159,11 @@ export default {
           if(!tableArray)
           tableArray.push({sampleName: "" ,visitprobality: "",semanticsimilarities: ""})
           this.candidateCopy.push(tableArray)
-        
+
         }
       }
-      
-       
+
+
     }
   },
   methods:{

@@ -119,8 +119,6 @@ export default {
      val[0]="?(cars)"
     if(val[2]==="Advertising")
      val[2]="advertising"
-      console.log(val[2]);
-     console.log(val[0]);
      let from=val[2].substring(0,3)
      let to=val[0].substring(2,5)
      let fromIndex=-1,toIndex=-1,fromEnd=-1,toEnd=-1
@@ -154,7 +152,6 @@ export default {
           }
 
       }
-       console.log(fromIndex,fromEnd,toIndex,toEnd);
       if(fromIndex!=-1&&toIndex!=-1)
           {
               str1=this.search.substring(0,toIndex)
@@ -170,23 +167,21 @@ export default {
           this.str[4]=str5;
           this.type=""
           if(this.search.substring(0,4)=="What")
-          { 
+          {
             for(let i=0;i<=this.search.length-8;i++)
             {
               if(this.search.substring(i,i+7)=="average")
               { let j=i+8
-                console.log("j:"+j);
                 while(this.search.substring(j,j+1)!=' ')
                  {
                      j++
-                 } 
+                 }
                  let attribute=this.search.substring(i+8,j)
                  if(attribute=="oil")
                  attribute=attribute+" consumption"
                  else if(attribute=="0-100")
                  attribute="0-100 accelerate"
                   this.type="AVG("+attribute+")"
-                  console.log(this.type)
               }
             }
           }
@@ -214,7 +209,6 @@ export default {
       let Obj = {}
       Obj.query = this.containSearch
       Obj.flag = 1
-      console.log(Obj)
       this.$emit('choosedQuery', Obj)
     },
     querySearch(query) {

@@ -91,6 +91,7 @@ export default {
       let step = 100 * 1.414
       let xStep = step * Math.cos(arc)
       let yStep = step * Math.sin(arc)
+
       this.updateNodeColor(selectedPathId[0], '#00b050', (nodeNum) * xStep, (nodeNum) * yStep, true)
       for (let i=1;i<selectedPathId.length - 1;i++) {
         this.updateNodeColor(selectedPathId[i], '#00b050', (nodeNum - i) * xStep, (nodeNum - i) * yStep, true)
@@ -100,11 +101,18 @@ export default {
 
 
       if (selectedPathHistoryId.length !== 0) {
+        let flag = false
         this.updateNodeColor(selectedPathHistoryId[0], '#eee',  undefined, undefined, false)
         for (let i=1;i<selectedPathHistoryId.length - 1;i++) {
+          if (i === 1 &&selectedPathId[i] === selectedPathHistoryId[i]) {
+            this.updateEdgeColor(this.findPathId(selectedPathHistoryId[i], selectedPathHistoryId[i-1]), '#848499', 1)
+            flag = !flag
+            continue
+          }
           this.updateNodeColor(selectedPathHistoryId[i], '#eee', undefined, undefined, false)
           this.updateEdgeColor(this.findPathId(selectedPathHistoryId[i], selectedPathHistoryId[i-1]), '#848499', 1)
         }
+      if (!flag)
         this.updateEdgeColor(this.findPathId(selectedPathHistoryId[selectedPathHistoryId.length - 1], selectedPathHistoryId[selectedPathHistoryId.length - 2]), '#848499', 1)
       }
 
