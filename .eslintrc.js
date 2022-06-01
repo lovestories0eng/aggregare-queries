@@ -21,6 +21,6 @@ module.exports = {
     'no-useless-escape': 'off',
     'vue/html-self-closing': 'off',
     'vue/no-v-html': 'off',
-    'indent': ["error", 2]
+    'indent': ["error", 2],
   }
 }

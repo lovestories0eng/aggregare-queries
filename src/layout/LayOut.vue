@@ -16,6 +16,7 @@
       >
         <miniQueryGraph :query-type="miniGraphType" :graph-data="predicate.split(' ')"></miniQueryGraph>
       </head-searcher>
+      <ModeSelect></ModeSelect>
       <div style="padding-top:10px">
         <results-table :round="round" :table-data="tableData"></results-table>
       </div>
@@ -40,10 +41,10 @@
           </span>.
           <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>
         </div>
-        <div v-else-if="round === 0 && click === 0">
-          A knowledge graph snapshot
-          <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>
-        </div>
+        <!--<div v-else-if="round === 0 && click === 0">-->
+        <!--  A knowledge graph snapshot-->
+        <!--  <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>-->
+        <!--</div>-->
         <div v-else-if="round >= 1">
           A random sample of
           <span class="entity">
@@ -68,6 +69,7 @@ import ControlButtons from "./ControlButtons";
 import miniQueryGraph from "layout/miniQueryGraph";
 import largeQueryGraph from "layout/largeQueryGraph";
 import SpecialGraph from "layout/SpecialGraph";
+import ModeSelect from "layout/ModeSelect";
 
 import sampleQueries from "../data/SampleQueries";
 import axios from "axios";
@@ -85,7 +87,8 @@ export default {
     ControlButtons,
     miniQueryGraph,
     largeQueryGraph,
-    SpecialGraph
+    SpecialGraph,
+    ModeSelect
   },
   data() {
     return {
@@ -250,19 +253,26 @@ export default {
       this.initGraphData()
       this.initCandidateAnswers()
     },
-    getMessage() {
-      if(this.click === 0)
-      {
+    async getMessage() {
+      if (this.click === 0) {
         Message.error('Please choose a query')
         return
       }
       else if(this.round  >= this.maxRound) {
+        console.log(this.round, this.maxRound)
         Message.error('Reaches the maximum number of iterations')
         return
       }
-      this.round++
-      this.initTableData()
-      this.initGraphData()
+      else {
+        for (let i = 0; i < this.maxRound - 1; i++) {
+          setTimeout(() => {
+            this.round++
+            console.log(this.round, this.maxRound)
+            this.initTableData()
+            this.initGraphData()
+          }, i * 1000)
+        }
+      }
     },
     initTableData() {
       if (this.round === 0)
