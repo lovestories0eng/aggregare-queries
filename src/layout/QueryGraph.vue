@@ -57,12 +57,12 @@ export default {
     };
   },
   watch: {
-    // 所选择地样本名称
+    // 所选择的样本名称
     selectedSample(newValue) {
       let selectedPathId = []
       let selectedPathHistoryId = []
       for (let i=0;i<this.originArray.length;i++) {
-        if (this.originArray[i].path[0] === newValue) {
+        if (this.originArray[i].path[0] === newValue) {1
           // 所选择的样本的查询路径
           if (this.selectedPath.length !== 0)
             this.selectedPathHistory = this.selectedPath

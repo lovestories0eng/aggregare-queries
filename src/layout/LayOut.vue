@@ -31,9 +31,11 @@
         </candidate-answers>
       </div>
       <div class="query-graph-container">
+        <!--<div v-if="round === maxRound && round !== 0 && !status">-->
+        <!--  <el-button @click="changeStatus" style="width: 150px; height: 40px; background-color:lightblue !important;color: black;">Click to show results</el-button>-->
+        <!--</div>-->
         <div v-if="round === 0 && click !== 0">
-          A partial knowledge graph that contains the specific entity
-          <span class="entity">
+          A partial knowledge graph that contains the specific entity<span class="entity">
             {{ predicate.split(" ")[2].substring(0, predicate.split(" ")[0].length) }}
           </span>.
           <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>
@@ -45,10 +47,11 @@
         <div v-else-if="round >= 1">
           A random sample of
           <span class="entity">
-            {{ predicate.split(" ")[2].substring(0, predicate.split(" ")[0].length) }}
+            {{ predicate.split(" ")[0].substring(2, predicate.split(" ")[0].length-1) }}
           </span>.
-          <query-graph :graph-data="graphData" :selected-sample="selectedSample"></query-graph>
+          <query-graph v-if="!status" :graph-data="graphData" :selected-sample="selectedSample"></query-graph>
         </div>
+        <SpecialGraph v-if="status" id="special-graph" style="height: 300px"></SpecialGraph>
       </div>
       <control-buttons></control-buttons>
     </el-main>
@@ -64,6 +67,7 @@ import QueryGraph from "./QueryGraph";
 import ControlButtons from "./ControlButtons";
 import miniQueryGraph from "layout/miniQueryGraph";
 import largeQueryGraph from "layout/largeQueryGraph";
+import SpecialGraph from "layout/SpecialGraph";
 
 import sampleQueries from "../data/SampleQueries";
 import axios from "axios";
@@ -80,7 +84,8 @@ export default {
     QueryGraph,
     ControlButtons,
     miniQueryGraph,
-    largeQueryGraph
+    largeQueryGraph,
+    SpecialGraph
   },
   data() {
     return {
@@ -99,7 +104,8 @@ export default {
       largeGraph: [],
       miniGraphType: '',
       largeGraphDataType: false,
-      nodeLimit: 200
+      nodeLimit: 200,
+      status: false
     }
   },
   mounted() {
@@ -109,6 +115,9 @@ export default {
     })
   },
   methods: {
+    changeStatus() {
+      this.status = true
+    },
     processKnowledgeGraphData(knowledgeGraph) {
       let dataBase = []
       let center = 'Database'
@@ -192,22 +201,22 @@ export default {
     getSelectedSample(val) {
       this.selectedSample = val.samplename
     },
-    choosedQuery(val) {
+    async choosedQuery(val) {
       if (val.query === '') {
         return
       }
       this.click = 1;
       this.query = val.query;
-      axios.get("./data/" + val.query + ".json").then(res => {
+      await axios.get("./data/" + val.query + ".json").then(res => {
         res = res.data
         this.predicate = res.predicate
+        console.log(this.predicate)
         this.queryData = res
         this.queryData = this.dataProcess(this.queryData)
         this.maxRound = Object.keys(this.queryData).length - 1
         if (val.flag === 1) {
           this.round = 0
-        }
-        else if (val.flag === 2 && this.round === 0) {
+        } else if (val.flag === 2 && this.round === 0) {
           this.round = 1
         }
         this.tableData = []

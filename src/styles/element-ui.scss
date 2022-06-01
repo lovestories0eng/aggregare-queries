@@ -4,3 +4,54 @@
   border: none !important;
   background: #1aabff !important;
 }
+
+@media only screen and (min-width: 0px){
+  .el-link {
+    font-size: 7px !important; /* 17.44÷16=109% */
+  }
+
+  .el-link--inner {
+    font-size: 7px !important; /* 17.44÷16=109% */
+  }
+}
+
+@media only screen and (min-width: 1000px) and (max-width: 1199px){
+  .el-link {
+    font-size: 8px !important; /* 17.44÷16=109% */
+  }
+
+  .el-link--inner {
+    font-size: 8px !important; /* 17.44÷16=109% */
+  }
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1599px){
+  .el-link {
+    font-size: 9px !important; /* 17.44÷16=109% */
+  }
+
+  .el-link--inner {
+    font-size: 9px !important; /* 17.44÷16=109% */
+  }
+}
+
+@media only screen and (min-width: 1600px) and (max-width: 1919px){
+  .el-link {
+    font-size: 10px !important; /* 17.44÷16=109% */
+  }
+
+  .el-link--inner {
+    font-size: 10px !important; /* 17.44÷16=109% */
+  }
+}
+
+@media only screen and (min-width: 1920px){
+  .el-link {
+    font-size: 11px !important; /* 15.04÷16=94% */
+  }
+
+  .el-link--inner {
+    font-size: 11px !important; /* 17.44÷16=109% */
+  }
+}
+
