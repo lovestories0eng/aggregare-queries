@@ -246,18 +246,18 @@ export default {
       } else {
         this.round = 1
       }
-       this.initTableData()
-       this.initGraphData()
-       this.initCandidateAnswers()
+      this.initTableData()
+      this.initGraphData()
+      this.initCandidateAnswers()
     },
     getMessage() {
       if(this.click === 0)
       {
-         Message.error('Please choose a query')
+        Message.error('Please choose a query')
         return
       }
       else if(this.round  >= this.maxRound) {
-         Message.error('Reaches the maximum number of iterations')
+        Message.error('Reaches the maximum number of iterations')
         return
       }
       this.round++

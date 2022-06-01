@@ -56,14 +56,14 @@
 <script>
 export default {
   name: "CandidateAnswers",
-   props: {
+  props: {
     candidateAnswers: {
       type: Array,
       default() {
         return []
       }
     },
-     options: {
+    options: {
       type: Array,
       default() {
         return []
@@ -73,7 +73,7 @@ export default {
       type: Number,
       default: 0
     }
-   },
+  },
   data() {
     return{
       currentround: 1,
@@ -96,15 +96,15 @@ export default {
   watch: {
     round(val) {
       this.height=150
-       this.wideSample=35
+      this.wideSample=35
       this.currentround = val
       if(val!=0)
-      this.wide = 65 / val
+        this.wide = 65 / val
       else
-      this.wide=0
+        this.wide=0
       this.samples = this.copyArray.slice(0,this.currentround)
       if(val>=3)
-      this.linejudge=false
+        this.linejudge=false
     },
     options(val)
     {
@@ -113,51 +113,51 @@ export default {
       this.selectsample[0].semanticsimilarities = ''
       this.selectsample[0].samplename = ''
     },
-   wide(val)
+    wide(val)
     {
 
-       if(this.wide==0)
+      if(this.wide==0)
       {
         this.height=0
-       this.wideSample=0
+        this.wideSample=0
       }
-       else
-       {
+      else
+      {
         this.wideSample=35
         this.height=150;
-        }
+      }
 
     },
     candidateAnswers(val)
     {
       if(!val)
-      return;
+        return;
 
-       this.candidateCopy=[];
-       this.linejudge=true
-       for(let i=0;i<=Object.keys(val).length-1;i++)
+      this.candidateCopy=[];
+      this.linejudge=true
+      for(let i=0;i<=Object.keys(val).length-1;i++)
       {
         let tableArray=[];
         if(i==0)
-       this.candidateCopy.push(val[i]);
+          this.candidateCopy.push(val[i]);
         else
         {
           for(let j=0;j<=Object.keys(val[i]).length-1;j++)
           {
             let flag=1;
-              for(let k=0;k<=Object.keys(val[i-1]).length-1;k++)
+            for(let k=0;k<=Object.keys(val[i-1]).length-1;k++)
+            {
+              if(val[i][j].sampleName===val[i-1][k].sampleName)
               {
-                  if(val[i][j].sampleName===val[i-1][k].sampleName)
-                  {
-                    flag=0;
-                    break;
-                  }
+                flag=0;
+                break;
               }
-              if(flag==1)
-             tableArray.push(val[i][j])
+            }
+            if(flag==1)
+              tableArray.push(val[i][j])
           }
           if(!tableArray)
-          tableArray.push({sampleName: "" ,visitprobality: "",semanticsimilarities: ""})
+            tableArray.push({sampleName: "" ,visitprobality: "",semanticsimilarities: ""})
           this.candidateCopy.push(tableArray)
 
         }

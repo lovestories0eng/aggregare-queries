@@ -112,8 +112,8 @@ export default {
           this.updateNodeColor(selectedPathHistoryId[i], '#eee', undefined, undefined, false)
           this.updateEdgeColor(this.findPathId(selectedPathHistoryId[i], selectedPathHistoryId[i-1]), '#848499', 1)
         }
-      if (!flag)
-        this.updateEdgeColor(this.findPathId(selectedPathHistoryId[selectedPathHistoryId.length - 1], selectedPathHistoryId[selectedPathHistoryId.length - 2]), '#848499', 1)
+        if (!flag)
+          this.updateEdgeColor(this.findPathId(selectedPathHistoryId[selectedPathHistoryId.length - 1], selectedPathHistoryId[selectedPathHistoryId.length - 2]), '#848499', 1)
       }
 
     },

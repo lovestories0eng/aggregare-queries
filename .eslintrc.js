@@ -20,6 +20,7 @@ module.exports = {
     'vue/no-unused-components': 'off',
     'no-useless-escape': 'off',
     'vue/html-self-closing': 'off',
-    'vue/no-v-html': 'off'
+    'vue/no-v-html': 'off',
+    'indent': ["error", 2]
   }
 }

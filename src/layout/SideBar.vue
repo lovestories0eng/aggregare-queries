@@ -69,11 +69,11 @@ export default {
 
   },
   methods: {
-      clickData(row) {
-       this.cardInfoList = row
-       this.cardInfoList.flag = 1
+    clickData(row) {
+      this.cardInfoList = row
+      this.cardInfoList.flag = 1
       this.$emit('choosedQuery',this.cardInfoList, 1);
-     },
+    },
     getHeight() {
       this.windowHeight = window.innerHeight
       this.autoHeight.height = (this.windowHeight - 40) + 'px';

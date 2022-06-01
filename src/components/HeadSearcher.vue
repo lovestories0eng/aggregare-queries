@@ -55,13 +55,13 @@ export default {
         return []
       }
     },
-   query:{
-       type: String,
+    query:{
+      type: String,
       default() {
         return '';
       }
     },
-      graphData: {
+    graphData: {
       type: Array,
       default() {
         return []
@@ -89,7 +89,7 @@ export default {
     }
   },
   watch:{
-   query(val) {
+    query(val) {
       this.search=val
       this.containLink=val
       this.containSearch=""
@@ -99,98 +99,98 @@ export default {
       this.widthSearch=0
       this.fontsize=14
       if(this.search.length>50){
-       this.searchWidth=15
-       this.leftWidth=9
-       }
-       else if(this.search.length<=35){
-       this.searchWidth=8
-       this.leftWidth=16
+        this.searchWidth=15
+        this.leftWidth=9
+      }
+      else if(this.search.length<=35){
+        this.searchWidth=8
+        this.leftWidth=16
       }
       else{
         this.searchWidth=10
         this.leftWidth=14
       }
 
-   },
-   graphData(val) {
-     if("undefined" == typeof val[2]||"undefined" == typeof val[0])
-     return;
-     if(val[0]==="?(automobile)")
-     val[0]="?(cars)"
-    if(val[2]==="Advertising")
-     val[2]="advertising"
-     let from=val[2].substring(0,3)
-     let to=val[0].substring(2,5)
-     let fromIndex=-1,toIndex=-1,fromEnd=-1,toEnd=-1
-     let str1="",str2="",str3="",str4="",str5=""
-     for(let i=0;i<=this.search.length-4;i++)
-     {
-       if(this.search.substring(i,i+3)===from||this.search.substring(i,i+1)>='A'&&this.search.substring(i,i+1)<='Z'&&i>=1&&fromIndex===-1)
+    },
+    graphData(val) {
+      if("undefined" == typeof val[2]||"undefined" == typeof val[0])
+        return;
+      if(val[0]==="?(automobile)")
+        val[0]="?(cars)"
+      if(val[2]==="Advertising")
+        val[2]="advertising"
+      let from=val[2].substring(0,3)
+      let to=val[0].substring(2,5)
+      let fromIndex=-1,toIndex=-1,fromEnd=-1,toEnd=-1
+      let str1="",str2="",str3="",str4="",str5=""
+      for(let i=0;i<=this.search.length-4;i++)
+      {
+        if(this.search.substring(i,i+3)===from||this.search.substring(i,i+1)>='A'&&this.search.substring(i,i+1)<='Z'&&i>=1&&fromIndex===-1)
         {
           fromIndex=i
-           for(let j=i+3;j<=this.search.length;j++)
-           {
-             if(this.search.substring(j,j+1)===' '&&this.search.substring(j+1,j+2)<'A'&&this.search.substring(j+1,j+2)>'Z'||j===this.search.length)
-              {
-                fromEnd=j;
-                break
-              }
+          for(let j=i+3;j<=this.search.length;j++)
+          {
+            if(this.search.substring(j,j+1)===' '&&this.search.substring(j+1,j+2)<'A'&&this.search.substring(j+1,j+2)>'Z'||j===this.search.length)
+            {
+              fromEnd=j;
+              break
+            }
 
-           }
+          }
         }
         if (this.search.substring(i,i+3)===to)
-          {  toIndex=i
-            for(let j=i+3;j<=this.search.length;j++)
+        {  toIndex=i
+          for(let j=i+3;j<=this.search.length;j++)
+          {
+            if(this.search.substring(j,j+1)===' '&&this.search.substring(j+1,j+3)!=='pl'||j===this.search.length)
             {
-              if(this.search.substring(j,j+1)===' '&&this.search.substring(j+1,j+3)!=='pl'||j===this.search.length)
-                {
-                  toEnd=j
-                  break
-                }
-
+              toEnd=j
+              break
             }
+
           }
+        }
 
       }
       if(fromIndex!=-1&&toIndex!=-1)
-          {
-              str1=this.search.substring(0,toIndex)
-              str2=this.search.substring(toIndex,toEnd)
-              str3=this.search.substring(toEnd,fromIndex)
-              str4=this.search.substring(fromIndex,fromEnd)
-              str5=this.search.substring(fromEnd)
-          }
-          this.str[0]=str1;
-          this.str[1]=str2;
-          this.str[2]=str3;
-          this.str[3]=str4;
-          this.str[4]=str5;
-          this.type=""
-          if(this.search.substring(0,4)=="What")
-          {
-            for(let i=0;i<=this.search.length-8;i++)
+      {
+        str1=this.search.substring(0,toIndex)
+        str2=this.search.substring(toIndex,toEnd)
+        str3=this.search.substring(toEnd,fromIndex)
+        str4=this.search.substring(fromIndex,fromEnd)
+        str5=this.search.substring(fromEnd)
+      }
+      this.str[0]=str1;
+      this.str[1]=str2;
+      this.str[2]=str3;
+      this.str[3]=str4;
+      this.str[4]=str5;
+      this.type=""
+      if(this.search.substring(0,4)=="What")
+      {
+        for(let i=0;i<=this.search.length-8;i++)
+        {
+          if(this.search.substring(i,i+7)=="average")
+          { let j=i+8
+            while(this.search.substring(j,j+1)!=' ')
             {
-              if(this.search.substring(i,i+7)=="average")
-              { let j=i+8
-                while(this.search.substring(j,j+1)!=' ')
-                 {
-                     j++
-                 }
-                 let attribute=this.search.substring(i+8,j)
-                 if(attribute=="oil")
-                 attribute=attribute+" consumption"
-                 else if(attribute=="0-100")
-                 attribute="0-100 accelerate"
-                  this.type="AVG("+attribute+")"
-              }
+              j++
             }
+            let attribute=this.search.substring(i+8,j)
+            if(attribute=="oil")
+              attribute=attribute+" consumption"
+            else if(attribute=="0-100")
+              attribute="0-100 accelerate"
+            this.type="AVG("+attribute+")"
           }
-          else if(this.search.substring(0,3)=="How")
-          {
-            this.type="COUNT(*)"
-          }
-          this.$emit('getMiniGraphType', this.type)
-  }
+        }
+      }
+      else if(this.search.substring(0,3)=="How")
+      {
+        this.type="COUNT(*)"
+      }
+      this.$emit('getMiniGraphType', this.type)
+    }
   },
   mounted() {
     this.searchPool = this.sampleQueries
@@ -222,14 +222,14 @@ export default {
         }]
       }
     },
-      proceed() {
+    proceed() {
       let Obj = {}
       Obj.query = this.search
       Obj.flag = 2
       this.$emit('getQuery')
       this.$emit('choosedQuery', Obj)
-      },
-      proceedContinue() {
+    },
+    proceedContinue() {
       this.$emit('getMessage');
     },
     widthChange()

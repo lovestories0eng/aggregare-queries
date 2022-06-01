@@ -52,8 +52,8 @@ export default {
   name: "ResultsTable",
   props: {
     round:{
-       type: Number,
-       default: 0
+      type: Number,
+      default: 0
     },
     tableData: {
       type: Array,
@@ -71,7 +71,7 @@ export default {
   },
   data(){
     return{
-    copydata:[]
+      copydata:[]
     }
   },
   watch:{
