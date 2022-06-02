@@ -41,10 +41,10 @@
           </span>.
           <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>
         </div>
-        <!--<div v-else-if="round === 0 && click === 0">-->
-        <!--  A knowledge graph snapshot-->
-        <!--  <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>-->
-        <!--</div>-->
+        <div v-else-if="round === 0 && click === 0">
+          A knowledge graph snapshot
+          <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>
+        </div>
         <div v-else-if="round >= 1">
           A random sample of
           <span class="entity">
@@ -248,15 +248,6 @@ export default {
           this.initTableData()
         }
         this.initGraphData()
-        // for (let i = 0; i < this.maxRound; i++) {
-        //   setTimeout(() => {
-        //     this.round++
-        //     console.log(this.round, this.maxRound)
-        //     this.initTableData()
-        //     this.initGraphData()
-        //     console.log(this.graphData)
-        //   }, i * 1000)
-        // }
       }
     },
     // 提交查询后默认显示第一轮
