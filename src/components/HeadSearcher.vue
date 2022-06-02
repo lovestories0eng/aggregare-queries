@@ -232,8 +232,7 @@ export default {
     proceedContinue() {
       this.$emit('getMessage');
     },
-    widthChange()
-    {
+    widthChange() {
       this.containSearch=this.search
       this.containLink=""
       this.type=""

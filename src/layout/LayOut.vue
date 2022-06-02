@@ -16,7 +16,7 @@
       >
         <miniQueryGraph :query-type="miniGraphType" :graph-data="predicate.split(' ')"></miniQueryGraph>
       </head-searcher>
-      <ModeSelect></ModeSelect>
+      <ModeSelect @modeSelect="modeSelect"></ModeSelect>
       <div style="padding-top:10px">
         <results-table :round="round" :table-data="tableData"></results-table>
       </div>
@@ -237,6 +237,28 @@ export default {
         this.largeGraph = res['data'].edges
       })
     },
+    modeSelect(mode) {
+      if (mode === 'normal') {
+        if (this.round === this.maxRound) {
+          this.$message.error('Query already submitted!')
+          return
+        }
+        for (let i=0;i < this.maxRound; i++) {
+          this.round++
+          this.initTableData()
+        }
+        this.initGraphData()
+        // for (let i = 0; i < this.maxRound; i++) {
+        //   setTimeout(() => {
+        //     this.round++
+        //     console.log(this.round, this.maxRound)
+        //     this.initTableData()
+        //     this.initGraphData()
+        //     console.log(this.graphData)
+        //   }, i * 1000)
+        // }
+      }
+    },
     // 提交查询后默认显示第一轮
     getQuery() {
       if(this.click === 0) {
@@ -253,6 +275,7 @@ export default {
       this.initGraphData()
       this.initCandidateAnswers()
     },
+    // 轮次继续
     async getMessage() {
       if (this.click === 0) {
         Message.error('Please choose a query')
@@ -286,7 +309,7 @@ export default {
       tempData["runtime of this round"] = this.queryData[this.round]["runtime of this round"]
 
       this.tableData.push(tempData)
-      this.graphData = this.queryData[this.round]
+      // this.graphData = this.queryData[this.round]
     },
     initGraphData() {
       if (this.round === 0)

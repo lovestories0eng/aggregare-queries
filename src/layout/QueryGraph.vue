@@ -117,63 +117,67 @@ export default {
       }
 
     },
-    graphData(newValue) {
-      this.originArray = newValue
-      this.nodesArray = []
-      this.edgesArray = []
-      this.sampleMapId = {}
-      this.idCount = 1
-      // 数据量过大则进行样本裁剪
-      newValue = this.dataCut(newValue, this.pathLimit)
-      newValue.forEach(item => {
-        let paths = item.path
-        let count = 1
-        for (let i=0;i<paths.length;i++) {
-          let tempKey = paths[i]
-          if (this.sampleMapId[tempKey] === undefined && count % 2 === 1) {
-            this.sampleMapId[tempKey] = this.idCount
-            this.nodesArray.push({ id: this.idCount, name: tempKey })
-            this.idCount++
+    graphData: {
+      handler(newValue) {
+        // console.log(newValue)
+        this.originArray = newValue
+        this.nodesArray = []
+        this.edgesArray = []
+        this.sampleMapId = {}
+        this.idCount = 1
+        // 数据量过大则进行样本裁剪
+        newValue = this.dataCut(newValue, this.pathLimit)
+        newValue.forEach(item => {
+          let paths = item.path
+          let count = 1
+          for (let i=0;i<paths.length;i++) {
+            let tempKey = paths[i]
+            if (this.sampleMapId[tempKey] === undefined && count % 2 === 1) {
+              this.sampleMapId[tempKey] = this.idCount
+              this.nodesArray.push({ id: this.idCount, name: tempKey })
+              this.idCount++
+            }
+            count++
           }
-          count++
-        }
-        count = 1
-        for (let i=0;i<paths.length;i++) {
-          if (count % 2 === 0) {
-            let next = this.sampleMapId[paths[i - 1]]
-            let previous = this.sampleMapId[paths[i + 1]]
-            if (this.edgesArray.length === 0) {
-              this.edgesArray.push({ from: previous, to: next, width: 1, id: this.valueCount, label:paths[i]})
-              this.valueCount++
-            } else {
-              let flag = true
-              for (let j=0;j<this.edgesArray.length;j++) {
-                if (next === (this.edgesArray[j]).to && previous === (this.edgesArray[j]).from) {
-                  flag = false
-                  break
-                }
-              }
-              if (flag) {
+          count = 1
+          for (let i=0;i<paths.length;i++) {
+            if (count % 2 === 0) {
+              let next = this.sampleMapId[paths[i - 1]]
+              let previous = this.sampleMapId[paths[i + 1]]
+              if (this.edgesArray.length === 0) {
                 this.edgesArray.push({ from: previous, to: next, width: 1, id: this.valueCount, label:paths[i]})
                 this.valueCount++
-                if (i === paths.length - 2) {
-                  this.nodesArray.forEach(item => {
-                    if (item.id === previous) {
-                      item.color = '#c00000'
-                    }
-                  })
+              } else {
+                let flag = true
+                for (let j=0;j<this.edgesArray.length;j++) {
+                  if (next === (this.edgesArray[j]).to && previous === (this.edgesArray[j]).from) {
+                    flag = false
+                    break
+                  }
+                }
+                if (flag) {
+                  this.edgesArray.push({ from: previous, to: next, width: 1, id: this.valueCount, label:paths[i]})
+                  this.valueCount++
+                  if (i === paths.length - 2) {
+                    this.nodesArray.forEach(item => {
+                      if (item.id === previous) {
+                        item.color = '#c00000'
+                      }
+                    })
+                  }
                 }
               }
             }
+            count++
           }
-          count++
-        }
-      })
-      // for debug
-      // console.log(this.nodesArray)
-      // console.log(this.edgesArray)
-      this.reinitialize()
-
+        })
+        // for debug
+        // console.log(this.nodesArray)
+        // console.log(this.edgesArray)
+        this.reinitialize()
+      },
+      immediate: true,
+      deep: true
     }
   },
   mounted() {
