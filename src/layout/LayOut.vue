@@ -242,6 +242,9 @@ export default {
         if (this.round >= this.maxRound) {
           this.$message.error('Query already submitted!')
           return
+        } else if (this.round >= 1) {
+          this.$message.error('You have chosen interactive mode!')
+          return
         }
         for (let i = 0;i < this.maxRound; i++) {
           this.round++
