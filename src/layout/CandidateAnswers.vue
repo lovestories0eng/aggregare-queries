@@ -98,7 +98,7 @@ export default {
       this.height = 150
       this.wideSample = 35
       this.currentround = val
-      if(val != 0)
+      if(val !== 0)
         this.wide = 65 / val
       else
         this.wide = 0
@@ -116,7 +116,7 @@ export default {
     wide(val)
     {
 
-      if(this.wide == 0)
+      if(this.wide === 0)
       {
         this.height = 0
         this.wideSample = 0
@@ -138,7 +138,7 @@ export default {
       for(let i = 0;i <= Object.keys(val).length - 1;i++)
       {
         let tableArray = [];
-        if(i == 0)
+        if(i === 0)
           this.candidateCopy.push(val[i]);
         else
         {
@@ -153,7 +153,7 @@ export default {
                 break;
               }
             }
-            if(flag == 1)
+            if(flag === 1)
               tableArray.push(val[i][j])
           }
           if(!tableArray)
