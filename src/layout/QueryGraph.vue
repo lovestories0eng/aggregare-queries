@@ -61,21 +61,21 @@ export default {
     selectedSample(newValue) {
       let selectedPathId = []
       let selectedPathHistoryId = []
-      for (let i=0;i<this.originArray.length;i++) {
+      for (let i = 0;i < this.originArray.length;i++) {
         if (this.originArray[i].path[0] === newValue) {1
           // 所选择的样本的查询路径
           if (this.selectedPath.length !== 0)
             this.selectedPathHistory = this.selectedPath
           this.selectedPath = this.originArray[i].path
           let count = 0
-          for (let i=0;i<this.selectedPath.length;i++) {
+          for (let i = 0;i < this.selectedPath.length;i++) {
             if (count % 2 === 0) {
               selectedPathId.push(this.sampleMapId[this.selectedPath[i]])
             }
             count ++
           }
           count = 0
-          for (let i=0;i<this.selectedPathHistory.length;i++) {
+          for (let i = 0;i < this.selectedPathHistory.length;i++) {
             if (count % 2 === 0) {
               selectedPathHistoryId.push(this.sampleMapId[this.selectedPathHistory[i]])
             }
@@ -93,9 +93,9 @@ export default {
       let yStep = step * Math.sin(arc)
 
       this.updateNodeColor(selectedPathId[0], '#00b050', (nodeNum) * xStep, (nodeNum) * yStep, true)
-      for (let i=1;i<selectedPathId.length - 1;i++) {
+      for (let i = 1;i < selectedPathId.length - 1;i++) {
         this.updateNodeColor(selectedPathId[i], '#00b050', (nodeNum - i) * xStep, (nodeNum - i) * yStep, true)
-        this.updateEdgeColor(this.findPathId(selectedPathId[i], selectedPathId[i-1]), '#0070c0', 5)
+        this.updateEdgeColor(this.findPathId(selectedPathId[i], selectedPathId[i - 1]), '#0070c0', 5)
       }
       this.updateEdgeColor(this.findPathId(selectedPathId[selectedPathId.length - 1], selectedPathId[selectedPathId.length - 2]), '#0070c0', 5)
 
@@ -103,14 +103,14 @@ export default {
       if (selectedPathHistoryId.length !== 0) {
         let flag = false
         this.updateNodeColor(selectedPathHistoryId[0], '#eee',  undefined, undefined, false)
-        for (let i=1;i<selectedPathHistoryId.length - 1;i++) {
-          if (i === 1 &&selectedPathId[i] === selectedPathHistoryId[i]) {
-            this.updateEdgeColor(this.findPathId(selectedPathHistoryId[i], selectedPathHistoryId[i-1]), '#848499', 1)
+        for (let i = 1;i < selectedPathHistoryId.length - 1;i++) {
+          if (i === 1 && selectedPathId[i] === selectedPathHistoryId[i]) {
+            this.updateEdgeColor(this.findPathId(selectedPathHistoryId[i], selectedPathHistoryId[i - 1]), '#848499', 1)
             flag = !flag
             continue
           }
           this.updateNodeColor(selectedPathHistoryId[i], '#eee', undefined, undefined, false)
-          this.updateEdgeColor(this.findPathId(selectedPathHistoryId[i], selectedPathHistoryId[i-1]), '#848499', 1)
+          this.updateEdgeColor(this.findPathId(selectedPathHistoryId[i], selectedPathHistoryId[i - 1]), '#848499', 1)
         }
         if (!flag)
           this.updateEdgeColor(this.findPathId(selectedPathHistoryId[selectedPathHistoryId.length - 1], selectedPathHistoryId[selectedPathHistoryId.length - 2]), '#848499', 1)
@@ -130,7 +130,7 @@ export default {
         newValue.forEach(item => {
           let paths = item.path
           let count = 1
-          for (let i=0;i<paths.length;i++) {
+          for (let i = 0;i < paths.length;i++) {
             let tempKey = paths[i]
             if (this.sampleMapId[tempKey] === undefined && count % 2 === 1) {
               this.sampleMapId[tempKey] = this.idCount
@@ -140,7 +140,7 @@ export default {
             count++
           }
           count = 1
-          for (let i=0;i<paths.length;i++) {
+          for (let i = 0;i < paths.length;i++) {
             if (count % 2 === 0) {
               let next = this.sampleMapId[paths[i - 1]]
               let previous = this.sampleMapId[paths[i + 1]]
@@ -149,7 +149,7 @@ export default {
                 this.valueCount++
               } else {
                 let flag = true
-                for (let j=0;j<this.edgesArray.length;j++) {
+                for (let j = 0;j < this.edgesArray.length;j++) {
                   if (next === (this.edgesArray[j]).to && previous === (this.edgesArray[j]).from) {
                     flag = false
                     break
@@ -185,7 +185,7 @@ export default {
   },
   methods: {
     findPathId(from, to) {
-      for (let i=0;i<this.edgesArray.length;i++) {
+      for (let i = 0;i < this.edgesArray.length;i++) {
         if ((this.edgesArray[i]).from === from && (this.edgesArray[i]).to === to) {
           return (this.edgesArray[i]).id
         }
@@ -219,7 +219,7 @@ export default {
       } else {
         this.$message.warning('There are too many paths, and some paths have been cut out for better display.')
         let newArray = []
-        for (let index=0;index<length;index++) {
+        for (let index = 0;index < length;index++) {
           newArray.push(pathArray[index])
         }
         return newArray

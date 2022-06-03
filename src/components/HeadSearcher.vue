@@ -1,6 +1,6 @@
 <template>
   <div class="show">
-    <el-col :span="13" style="display:flex;align-items:center">
+    <el-col :span="14" style="display:flex;align-items:center">
       <el-link :style="'width:'+widthLink+'%;display:flex;height:38px;text-align:start;justify-content:flex-start;border-bottom:1px solid #DCDFE6;font-size:'+fontsize+'px'" @click="widthChange()">
         <span style="padding-top:10px;">
           <span>{{ str[0] }}</span>
@@ -22,21 +22,12 @@
         :style="'width:'+widthSearch+'%'"
         @change="selectChage"
       >
+        <!-- 不显示下拉列表 -->
         <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" />
       </el-select>
     </el-col>
-    <el-col :span="11" style="display:flex;align-items:center;justify-content:center">
+    <el-col :span="12" style="display:flex;align-items:center;justify-content:center">
       <slot></slot>
-      <el-tooltip content="submit query" style="margin-left:10px">
-        <el-button type="primary" class="search-icon" @click="proceed">
-          <svg t="1646027529363" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2442" width="200" height="200"><path d="M439.488 960l124.416-169.984-124.416-35.84L439.488 960 439.488 960 439.488 960M0 559.936l353.472 107.072 435.328-369.6-337.408 398.144 377.92 116.736L1024 64.064 0 559.936 0 559.936 0 559.936M0 559.936" p-id="2443" fill="#fff"></path></svg>
-        </el-button>
-      </el-tooltip>
-      <el-tooltip content="continue">
-        <el-button type="primary" class="search-icon" @click="proceedContinue">
-          <svg t="1646027791988" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2864" width="200" height="200" fill="#fff"><path d="M104 0v1024l816-512z" p-id="2865"></path></svg>
-        </el-button>
-      </el-tooltip>
     </el-col>
   </div>
 </template>
@@ -90,61 +81,61 @@ export default {
   },
   watch:{
     query(val) {
-      this.search=val
-      this.containLink=val
-      this.containSearch=""
-      this.beforeContain=""
-      this.type=""
-      this.widthLink=100
-      this.widthSearch=0
-      this.fontsize=14
-      if(this.search.length>50){
-        this.searchWidth=15
-        this.leftWidth=9
+      this.search = val
+      this.containLink = val
+      this.containSearch = ""
+      this.beforeContain = ""
+      this.type = ""
+      this.widthLink = 100
+      this.widthSearch = 0
+      this.fontsize = 14
+      if(this.search.length > 50){
+        this.searchWidth = 15
+        this.leftWidth = 9
       }
-      else if(this.search.length<=35){
-        this.searchWidth=8
-        this.leftWidth=16
+      else if(this.search.length <= 35){
+        this.searchWidth = 8
+        this.leftWidth = 16
       }
       else{
-        this.searchWidth=10
-        this.leftWidth=14
+        this.searchWidth = 10
+        this.leftWidth = 14
       }
 
     },
     graphData(val) {
-      if("undefined" == typeof val[2]||"undefined" == typeof val[0])
+      if("undefined" === typeof val[2] || "undefined" === typeof val[0])
         return;
-      if(val[0]==="?(automobile)")
-        val[0]="?(cars)"
-      if(val[2]==="Advertising")
-        val[2]="advertising"
-      let from=val[2].substring(0,3)
-      let to=val[0].substring(2,5)
-      let fromIndex=-1,toIndex=-1,fromEnd=-1,toEnd=-1
-      let str1="",str2="",str3="",str4="",str5=""
-      for(let i=0;i<=this.search.length-4;i++)
+      if(val[0] === "?(automobile)")
+        val[0] = "?(cars)"
+      if(val[2] === "Advertising")
+        val[2] = "advertising"
+      let from = val[2].substring(0,3)
+      let to = val[0].substring(2,5)
+      let fromIndex = -1,toIndex = -1,fromEnd = -1,toEnd = -1
+      let str1 = "",str2 = "",str3 = "",str4 = "",str5 = ""
+      for(let i = 0;i <= this.search.length - 4;i++)
       {
-        if(this.search.substring(i,i+3)===from||this.search.substring(i,i+1)>='A'&&this.search.substring(i,i+1)<='Z'&&i>=1&&fromIndex===-1)
+        if(this.search.substring(i,i + 3) === from || this.search.substring(i,i + 1) >= 'A' && this.search.substring(i,i + 1) <= 'Z' && i >= 1 && fromIndex === -1)
         {
-          fromIndex=i
-          for(let j=i+3;j<=this.search.length;j++)
+          fromIndex = i
+          for(let j = i + 3;j <= this.search.length;j++)
           {
-            if(this.search.substring(j,j+1)===' '&&this.search.substring(j+1,j+2)<'A'&&this.search.substring(j+1,j+2)>'Z'||j===this.search.length)
+            if(this.search.substring(j,j + 1) === ' ' && this.search.substring(j + 1,j + 2) < 'A' && this.search.substring(j + 1,j + 2) > 'Z' || j === this.search.length)
             {
-              fromEnd=j;
+              fromEnd = j;
               break
             }
 
           }
         }
-        if (this.search.substring(i,i+3)===to)
-        {  toIndex=i
-          for(let j=i+3;j<=this.search.length;j++)
+        if (this.search.substring(i,i + 3) === to)
+        {  toIndex = i
+          for(let j = i + 3;j <= this.search.length;j++)
           {
-            if(this.search.substring(j,j+1)===' '&&this.search.substring(j+1,j+3)!=='pl'||j===this.search.length)
+            if(this.search.substring(j,j + 1) === ' ' && this.search.substring(j + 1,j + 3) !== 'pl' || j === this.search.length)
             {
-              toEnd=j
+              toEnd = j
               break
             }
 
@@ -152,42 +143,42 @@ export default {
         }
 
       }
-      if(fromIndex!=-1&&toIndex!=-1)
+      if(fromIndex !== -1 && toIndex !== -1)
       {
-        str1=this.search.substring(0,toIndex)
-        str2=this.search.substring(toIndex,toEnd)
-        str3=this.search.substring(toEnd,fromIndex)
-        str4=this.search.substring(fromIndex,fromEnd)
-        str5=this.search.substring(fromEnd)
+        str1 = this.search.substring(0,toIndex)
+        str2 = this.search.substring(toIndex,toEnd)
+        str3 = this.search.substring(toEnd,fromIndex)
+        str4 = this.search.substring(fromIndex,fromEnd)
+        str5 = this.search.substring(fromEnd)
       }
-      this.str[0]=str1;
-      this.str[1]=str2;
-      this.str[2]=str3;
-      this.str[3]=str4;
-      this.str[4]=str5;
-      this.type=""
-      if(this.search.substring(0,4)=="What")
+      this.str[0] = str1;
+      this.str[1] = str2;
+      this.str[2] = str3;
+      this.str[3] = str4;
+      this.str[4] = str5;
+      this.type = ""
+      if(this.search.substring(0,4) === "What")
       {
-        for(let i=0;i<=this.search.length-8;i++)
+        for(let i = 0;i <= this.search.length - 8;i++)
         {
-          if(this.search.substring(i,i+7)=="average")
-          { let j=i+8
-            while(this.search.substring(j,j+1)!=' ')
+          if(this.search.substring(i,i + 7) === "average")
+          { let j = i + 8
+            while(this.search.substring(j,j + 1) !== ' ')
             {
               j++
             }
-            let attribute=this.search.substring(i+8,j)
-            if(attribute=="oil")
-              attribute=attribute+" consumption"
-            else if(attribute=="0-100")
-              attribute="0-100 accelerate"
-            this.type="AVG("+attribute+")"
+            let attribute = this.search.substring(i + 8,j)
+            if(attribute === "oil")
+              attribute = attribute + " consumption"
+            else if(attribute === "0-100")
+              attribute = "0-100 accelerate"
+            this.type = "AVG(" + attribute + ")"
           }
         }
       }
-      else if(this.search.substring(0,3)=="How")
+      else if(this.search.substring(0,3) === "How")
       {
-        this.type="COUNT(*)"
+        this.type = "COUNT(*)"
       }
       this.$emit('getMiniGraphType', this.type)
     }
@@ -222,23 +213,23 @@ export default {
         }]
       }
     },
-    proceed() {
-      let Obj = {}
-      Obj.query = this.search
-      Obj.flag = 2
-      this.$emit('getQuery')
-      this.$emit('choosedQuery', Obj)
-    },
-    proceedContinue() {
-      this.$emit('getMessage');
-    },
+    // proceed() {
+    //   let Obj = {}
+    //   Obj.query = this.search
+    //   Obj.flag = 2
+    //   this.$emit('getQuery')
+    //   this.$emit('choosedQuery', Obj)
+    // },
+    // proceedContinue() {
+    //   this.$emit('getMessage');
+    // },
     widthChange() {
-      this.containSearch=this.search
-      this.containLink=""
-      this.type=""
-      this.widthLink=0
-      this.widthSearch=100
-      this.fontsize=0
+      this.containSearch = this.search
+      this.containLink = ""
+      this.type = ""
+      this.widthLink = 0
+      this.widthSearch = 100
+      this.fontsize = 0
       document.getElementById('select').focus();
     }
   }

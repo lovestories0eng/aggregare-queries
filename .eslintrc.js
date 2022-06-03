@@ -21,6 +21,11 @@ module.exports = {
     'no-useless-escape': 'off',
     'vue/html-self-closing': 'off',
     'vue/no-v-html': 'off',
+    // 缩进必须为两个空格
     'indent': ["error", 2],
+    // 等号、大于号、小于号左右必须空格
+    'space-infix-ops': ["error"],
+    // 必须使用三等号
+    'eqeqeq': ["error"]
   }
 }

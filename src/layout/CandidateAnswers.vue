@@ -95,20 +95,20 @@ export default {
   },
   watch: {
     round(val) {
-      this.height=150
-      this.wideSample=35
+      this.height = 150
+      this.wideSample = 35
       this.currentround = val
-      if(val!=0)
+      if(val != 0)
         this.wide = 65 / val
       else
-        this.wide=0
+        this.wide = 0
       this.samples = this.copyArray.slice(0,this.currentround)
-      if(val>=3)
-        this.linejudge=false
+      if(val >= 3)
+        this.linejudge = false
     },
     options(val)
     {
-      this.copyArray=val//因为初始化时候的option长为3后续选择别的option时没有更新过了，所以大于3的就会出bug
+      this.copyArray = val//因为初始化时候的option长为3后续选择别的option时没有更新过了，所以大于3的就会出bug
       this.selectsample[0].visitprobality = ''
       this.selectsample[0].semanticsimilarities = ''
       this.selectsample[0].samplename = ''
@@ -116,15 +116,15 @@ export default {
     wide(val)
     {
 
-      if(this.wide==0)
+      if(this.wide == 0)
       {
-        this.height=0
-        this.wideSample=0
+        this.height = 0
+        this.wideSample = 0
       }
       else
       {
-        this.wideSample=35
-        this.height=150;
+        this.wideSample = 35
+        this.height = 150;
       }
 
     },
@@ -133,27 +133,27 @@ export default {
       if(!val)
         return;
 
-      this.candidateCopy=[];
-      this.linejudge=true
-      for(let i=0;i<=Object.keys(val).length-1;i++)
+      this.candidateCopy = [];
+      this.linejudge = true
+      for(let i = 0;i <= Object.keys(val).length - 1;i++)
       {
-        let tableArray=[];
-        if(i==0)
+        let tableArray = [];
+        if(i == 0)
           this.candidateCopy.push(val[i]);
         else
         {
-          for(let j=0;j<=Object.keys(val[i]).length-1;j++)
+          for(let j = 0;j <= Object.keys(val[i]).length - 1;j++)
           {
-            let flag=1;
-            for(let k=0;k<=Object.keys(val[i-1]).length-1;k++)
+            let flag = 1;
+            for(let k = 0;k <= Object.keys(val[i - 1]).length - 1;k++)
             {
-              if(val[i][j].sampleName===val[i-1][k].sampleName)
+              if(val[i][j].sampleName === val[i - 1][k].sampleName)
               {
-                flag=0;
+                flag = 0;
                 break;
               }
             }
-            if(flag==1)
+            if(flag == 1)
               tableArray.push(val[i][j])
           }
           if(!tableArray)

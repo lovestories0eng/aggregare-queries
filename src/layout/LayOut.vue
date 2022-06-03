@@ -17,7 +17,7 @@
         <miniQueryGraph :query-type="miniGraphType" :graph-data="predicate.split(' ')"></miniQueryGraph>
       </head-searcher>
       <ModeSelect @modeSelect="modeSelect"></ModeSelect>
-      <div style="padding-top:10px">
+      <div style="margin-top:15px">
         <results-table :round="round" :table-data="tableData"></results-table>
       </div>
       <div class="candidate-answers-container">
@@ -41,10 +41,10 @@
           </span>.
           <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>
         </div>
-        <div v-else-if="round === 0 && click === 0">
-          A knowledge graph snapshot
-          <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>
-        </div>
+        <!--<div v-else-if="round === 0 && click === 0">-->
+        <!--  A knowledge graph snapshot-->
+        <!--  <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>-->
+        <!--</div>-->
         <div v-else-if="round >= 1">
           A random sample of
           <span class="entity">
@@ -124,7 +124,7 @@ export default {
     processKnowledgeGraphData(knowledgeGraph) {
       let dataBase = []
       let center = 'Database'
-      for (let i=0;i<this.nodeLimit;i++) {
+      for (let i = 0;i < this.nodeLimit;i++) {
         dataBase.push(knowledgeGraph[center][i])
       }
       let data = {}
@@ -159,7 +159,7 @@ export default {
       }
       pointMapId.push({ id: 0, name: 'DataBase', color:'red' })
       data['edgesArray'] = allEdges
-      data['nodesArray']= pointMapId
+      data['nodesArray'] = pointMapId
       // console.log(data)
       this.largeGraphDataType = false
       this.largeGraph = data
@@ -173,18 +173,18 @@ export default {
       // for (let u=1;u<=keys.length;u++) {
       //   console.log((Obj[u].queryPath).length)
       // }
-      for (let i=2;i<=keys.length - 1;i++) {
+      for (let i = 2;i <= keys.length - 1;i++) {
         let tempData = deepClone(Obj[i].queryPath)
         // 需要深拷贝
-        let tempDataHistory = deepClone(Obj[i-1].queryPath)
+        let tempDataHistory = deepClone(Obj[i - 1].queryPath)
         let tempDataLength = tempData.length
         let tempDataHistoryLength = tempDataHistory.length
         let currentPath
         let historyPath
-        for (let j=0;j<tempDataLength;j++) {
+        for (let j = 0;j < tempDataLength;j++) {
           currentPath = tempData[j].path
           let flag = true
-          for (let k=0;k<tempDataHistoryLength;k++) {
+          for (let k = 0;k < tempDataHistoryLength;k++) {
             historyPath = tempDataHistory[k].path
             if (currentPath.toString() === historyPath.toString()) {
               // console.log('true')
@@ -239,14 +239,22 @@ export default {
     },
     modeSelect(mode) {
       if (mode === 'normal') {
-        if (this.round === this.maxRound) {
+        if (this.round >= this.maxRound) {
           this.$message.error('Query already submitted!')
           return
         }
-        for (let i=0;i < this.maxRound; i++) {
+        for (let i = 0;i < this.maxRound; i++) {
           this.round++
           this.initTableData()
         }
+        this.initGraphData()
+      } else if (mode === 'interactive') {
+        if (this.round >= this.maxRound) {
+          this.$message.error('Reaches the maximum number of iterations')
+          return
+        }
+        this.round++
+        this.initTableData()
         this.initGraphData()
       }
     },

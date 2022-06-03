@@ -53,7 +53,7 @@ export default {
         this.edgesArray = []
         this.nodesArray = []
         this.tags = []
-        for (let i=0;i<newValue.length && i < 150;i++) {
+        for (let i = 0;i < newValue.length && i < 150;i++) {
           let from = newValue[i][0]
           let to = newValue[i][1]
           if (this.tags.indexOf(from) === -1) {
