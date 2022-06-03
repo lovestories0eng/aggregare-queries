@@ -31,6 +31,7 @@ export default {
 <style scoped>
 .select-button {
   height: 42px;
+  width:150px;
   font-size: 16px;
   font-weight: 700;
   color: #fff;

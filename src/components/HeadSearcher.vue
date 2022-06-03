@@ -1,8 +1,8 @@
 <template>
   <div class="show">
-    <el-col :span="14" style="display:flex;align-items:center">
-      <el-link :style="'width:'+widthLink+'%;display:flex;height:38px;text-align:start;justify-content:flex-start;border-bottom:1px solid #DCDFE6;font-size:'+fontsize+'px'" @click="widthChange()">
-        <span style="padding-top:10px;">
+    <el-col :span="13" style="display:flex;align-items:center">
+      <el-link v-if="colorShow" :style="'width:'+widthLink+'%;display:flex;height:38px;text-align:start;justify-content:flex-start;border-bottom:1px solid #DCDFE6;'" @click="widthChange()">
+        <span style="padding-top:10px;font-size: 14px;">
           <span>{{ str[0] }}</span>
           <span style="color:#CF9F62;font-weight:600">{{ str[1] }}</span>
           <span>{{ str[2] }}</span>
@@ -20,13 +20,20 @@
         :placeholder="beforeContain"
         class="header-search-select"
         :style="'width:'+widthSearch+'%'"
+        :default-first-option="true"
         @change="selectChage"
+        @blur="changeToLink()"
       >
         <!-- 不显示下拉列表 -->
         <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" />
       </el-select>
     </el-col>
-    <el-col :span="12" style="display:flex;align-items:center;justify-content:center">
+    <el-col :span="2">
+      <div>
+        <el-button type="primary" @click="selectChange()">submit</el-button>
+      </div>
+    </el-col>
+    <el-col :span="9" style="display:flex;align-items:center;justify-content:center">
       <slot></slot>
     </el-col>
   </div>
@@ -76,10 +83,21 @@ export default {
       str:[],
       type:"",
       searchWidth:10,
-      leftWidth:14
+      leftWidth:14,
+      colorShow:true
     }
   },
   watch:{
+    widthLink(val){
+      if(val === 0)
+      {
+        this.colorShow = false;
+      }
+      else
+      {
+        this.colorShow = true;
+      }
+    },
     query(val) {
       this.search = val
       this.containLink = val
@@ -229,8 +247,14 @@ export default {
       this.type = ""
       this.widthLink = 0
       this.widthSearch = 100
-      this.fontsize = 0
       document.getElementById('select').focus();
+    },
+    changeToLink() {
+      this.containSearch = ""
+      this.containLink = this.search
+      this.widthLink = 100
+      this.widthSearch = 0
+      this.colorShow = true;
     }
   }
 }
@@ -239,7 +263,7 @@ export default {
 <style lang="scss" scoped>
 
 .header-search-select {
-  font-size: 18px;
+  font-size: 14px;
   transition: width 0.2s;
   background: transparent;
   border-radius: 0;
@@ -271,6 +295,11 @@ export default {
     cursor: pointer;
     font-size: 14px;
 
+  }
+  ::v-deep .el-button{
+    line-height: 3;
+    width:100%;
+    font-weight: 700;
   }
 }
 </style>

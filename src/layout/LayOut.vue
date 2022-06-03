@@ -27,6 +27,7 @@
           :round="round"
           :max-round="maxRound"
           :click="click"
+          :answer="answer"
           @getSelectedSample="getSelectedSample"
         >
         </candidate-answers>
@@ -108,7 +109,8 @@ export default {
       miniGraphType: '',
       largeGraphDataType: false,
       nodeLimit: 200,
-      status: false
+      status: false,
+      answer:false
     }
   },
   mounted() {
@@ -250,12 +252,14 @@ export default {
           this.round++
           this.initTableData()
         }
+        this.answer = true
         this.initGraphData()
       } else if (mode === 'interactive') {
         if (this.round >= this.maxRound) {
           this.$message.error('Reaches the maximum number of iterations')
           return
         }
+        this.answer = false
         this.round++
         this.initTableData()
         this.initGraphData()

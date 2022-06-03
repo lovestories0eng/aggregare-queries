@@ -1,23 +1,67 @@
 <template>
   <div>
-    <el-container v-for="option in samples" :key="option.value" :style="'cursor:pointer;margin-bottom:20px;height: '+height+'px;float:left; border: 1px solid #eee;width: '+wide+'%'">
+    <div v-if="!answer">
+      <el-container v-for="option in samples" :key="option.value" :style="'cursor:pointer;margin-bottom:20px;height: '+height+'px;float:left; border: 1px solid #eee;width: '+wide+'%'">
+        <el-container>
+          <el-main style="padding:0">
+            <el-table v-if="linejudge===false" empty-text="Null" :data="candidateCopy[option.value-1]" :header-cell-style="{whiteSpace:'pre-line',background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px',height: '45px',padding: '0'}" :cell-style="{padding: '0','text-align':'center'}"
+                      :row-style="{height: '0'}" height="140" @row-click="clickData"
+            >
+              <el-table-column prop="sampleName" :label="'Round '+option.value+':'+Object.keys(candidateCopy[option.value-1]).length+' samples'" :show-overflow-tooltip="true">
+                <template slot="header">
+                  <div>Round {{ option.value }}:</div>
+                  <div>{{ Object.keys(candidateCopy[option.value-1]).length + " " }}samples</div>
+                </template>
+                <template slot-scope="scope">
+                  <span>{{ scope.row.sampleName }}</span>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-table v-if="linejudge===true" empty-text="Null" :data="candidateCopy[option.value-1]" :header-cell-style="{whiteSpace:'pre-line',background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px',height: '45px',padding: '0'}" :cell-style="{padding: '0','text-align':'center'}"
+                      :row-style="{height: '0'}" height="140" @row-click="clickData"
+            >
+              <el-table-column prop="sampleName" :label="'Round '+option.value+':'+Object.keys(candidateCopy[option.value-1]).length+' samples'" :show-overflow-tooltip="true">
+              </el-table-column>
+            </el-table>
+          </el-main>
+        </el-container>
+      </el-container>
+    </div>
+    <el-container v-if="answer" :style="'cursor:pointer;margin-bottom:20px;height: '+height+'px;float:left; border: 1px solid #eee;width: '+65+'%'">
       <el-container>
         <el-main style="padding:0">
-          <el-table empty-text="Null" :data="candidateCopy[option.value-1]" :header-cell-style="{whiteSpace:'pre-line',background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px',height: '45px',padding: '0'}" :cell-style="{padding: '0','text-align':'center'}"
-                    :row-style="{height: '0'}" @row-click="clickData"
+          <el-table height="45" :header-cell-style="{whiteSpace:'pre-line',background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px',height: '45px',padding: '0'}" :cell-style="{padding: '0','text-align':'center'}"
+                    :row-style="{height: '0'}" :data="finalAnswer" 
           >
-            <el-table-column v-if="linejudge===false" prop="sampleName" :label="'Round '+option.value+':'+Object.keys(candidateCopy[option.value-1]).length+' samples'" :show-overflow-tooltip="true">
-              <template slot="header">
-                <div>Round {{ option.value }}:</div>
-                <div>{{ Object.keys(candidateCopy[option.value-1]).length + " " }}samples</div>
-              </template>
-              <template slot-scope="scope">
-                <span>{{ scope.row.sampleName }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column v-if="linejudge===true" prop="sampleName" :label="'Round '+option.value+':'+Object.keys(candidateCopy[option.value-1]).length+' samples'" :show-overflow-tooltip="true">
+            <el-table-column :label="'All Samples: '+(Object.keys(finalAnswer[0]).length+Object.keys(finalAnswer[1]).length)">
             </el-table-column>
           </el-table>
+          <el-row>
+            <el-col :span="12">
+              <el-table :show-header="false" empty-text="Null" 
+                        :header-cell-style="{whiteSpace:'pre-line',background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px',height: '45px',padding: '0'}" :cell-style="{padding: '0','text-align':'center'}" :row-style="{height: '0'}"
+                        :data="finalAnswer[0]" @row-click="clickData"
+              >
+                <el-table-column prop="sampleName">
+                  <template slot-scope="scope">
+                    {{ scope.row.sampleName }}
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-col>
+            <el-col :span="12">
+              <el-table :show-header="false" empty-text="Null" 
+                        :header-cell-style="{whiteSpace:'pre-line',background:'#EDCA96',color:'#ffff',textAlign:'center',cursor:'default',height:'30px',fontSize:'14px',height: '45px',padding: '0'}" :cell-style="{padding: '0','text-align':'center'}" :row-style="{height: '0'}"
+                        :data="finalAnswer[1]" @row-click="clickData"
+              >
+                <el-table-column prop="sampleName">
+                  <template slot-scope="scope">
+                    {{ scope.row.sampleName }}
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-col>
+          </el-row>
         </el-main>
       </el-container>
     </el-container>
@@ -72,6 +116,10 @@ export default {
     round:{
       type: Number,
       default: 0
+    },
+    answer:{
+      type:Boolean,
+      default:false
     }
   },
   data() {
@@ -90,7 +138,8 @@ export default {
           semanticsimilarities: ''
         }
       ],
-      linejudge:true
+      linejudge:true,
+      finalAnswer:[]
     }
   },
   watch: {
@@ -130,10 +179,12 @@ export default {
     },
     candidateAnswers(val)
     {
+      this.answer = false
       if(!val)
         return;
 
       this.candidateCopy = [];
+      this.finalAnswer = [];
       this.linejudge = true
       for(let i = 0;i <= Object.keys(val).length - 1;i++)
       {
@@ -159,11 +210,21 @@ export default {
           if(!tableArray)
             tableArray.push({sampleName: "" ,visitprobality: "",semanticsimilarities: ""})
           this.candidateCopy.push(tableArray)
-
         }
       }
-
-
+      let lenth = Object.keys(val).length
+      let array = [];
+      for(let i = 0;i <= Object.keys(val[lenth - 1]).length - 1;i++)//分两列显示
+      {   
+        array.push(val[lenth - 1][i])
+        if(i === parseInt(Object.keys(val[lenth - 1]).length / 2))
+        { 
+          console.log(1111)
+          this.finalAnswer.push(array)  
+          array = []
+        }   
+      }
+      this.finalAnswer.push(array)
     }
   },
   methods:{
@@ -187,6 +248,9 @@ export default {
 
   .el-aside {
     color: #333;
+  }
+  .thead {
+   display: none;
   }
 </style>
 
