@@ -10,13 +10,27 @@
           <span>{{ str[4] }}</span>
         </span>
       </el-link>
-      <el-select
-        id="select"
+      <!--<el-select-->
+      <!--  id="select"-->
+      <!--  ref="headerSearchSelect"-->
+      <!--  v-model="containSearch"-->
+      <!--  :remote-method="querySearch"-->
+      <!--  filterable-->
+      <!--  remote-->
+      <!--  :placeholder="beforeContain"-->
+      <!--  class="header-search-select"-->
+      <!--  :style="'width:'+widthSearch+'%'"-->
+      <!--  :default-first-option="true"-->
+      <!--  @change="selectChage"-->
+      <!--  @blur="changeToLink()"-->
+      <!--&gt;-->
+      <!--  &lt;!&ndash; 不显示下拉列表 &ndash;&gt;-->
+      <!--  <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" />-->
+      <!--</el-select>-->
+      <el-input
+        id="input"
         ref="headerSearchSelect"
         v-model="containSearch"
-        :remote-method="querySearch"
-        filterable
-        remote
         :placeholder="beforeContain"
         class="header-search-select"
         :style="'width:'+widthSearch+'%'"
@@ -24,9 +38,7 @@
         @change="selectChage"
         @blur="changeToLink()"
       >
-        <!-- 不显示下拉列表 -->
-        <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" />
-      </el-select>
+      </el-input>
     </el-col>
     <el-col :span="2">
       <div>
@@ -215,6 +227,7 @@ export default {
   },
   methods: {
     selectChage() {
+      console.log("change")
       let Obj = {}
       Obj.query = this.containSearch
       Obj.flag = 1
@@ -247,7 +260,8 @@ export default {
       this.type = ""
       this.widthLink = 0
       this.widthSearch = 100
-      document.getElementById('select').focus();
+      // document.getElementById('select').focus();
+      document.getElementById('input').focus();
     },
     changeToLink() {
       this.containSearch = ""

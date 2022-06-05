@@ -232,6 +232,8 @@ export default {
         this.initTableData()
         this.initGraphData()
         this.initCandidateAnswers()
+      }).catch(() => {
+        this.$message.error("No relevant query found, please enter another query!")
       })
 
       axios.get("./data/" + val.query + ' graph' + ".json").then(res => {
