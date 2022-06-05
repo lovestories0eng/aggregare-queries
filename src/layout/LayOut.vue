@@ -16,7 +16,7 @@
       >
         <miniQueryGraph :query-type="miniGraphType" :graph-data="predicate.split(' ')"></miniQueryGraph>
       </head-searcher>
-      <ModeSelect @modeSelect="modeSelect"></ModeSelect>
+      <ModeSelect :round="round" :max-round="maxRound" @modeSelect="modeSelect"></ModeSelect>
       <div style="margin-top:15px">
         <results-table :round="round" :table-data="tableData"></results-table>
       </div>
@@ -110,7 +110,7 @@ export default {
       largeGraphDataType: false,
       nodeLimit: 200,
       status: false,
-      answer:false
+      answer: false
     }
   },
   mounted() {
@@ -241,6 +241,10 @@ export default {
     },
     modeSelect(mode) {
       if (mode === 'normal') {
+        if (this.maxRound === 0) {
+          this.$message.error('Please submit query first!')
+          return
+        }
         if (this.round >= this.maxRound) {
           this.$message.error('Query already submitted!')
           return
@@ -255,6 +259,10 @@ export default {
         this.answer = true
         this.initGraphData()
       } else if (mode === 'interactive') {
+        if (this.maxRound === 0) {
+          this.$message.error('Please submit query first!')
+          return
+        }
         if (this.round >= this.maxRound) {
           this.$message.error('Reaches the maximum number of iterations')
           return
@@ -263,6 +271,14 @@ export default {
         this.round++
         this.initTableData()
         this.initGraphData()
+      } else if (mode === 'chooseInteractive') {
+        if (this.maxRound === 0) {
+          this.$message.error("Please submit query first!")
+          return
+        }
+        if (this.round >= 1) {
+          this.$message.error("Query has already been submitted")
+        }
       }
     },
     // 提交查询后默认显示第一轮
