@@ -2,7 +2,7 @@
   <div id="side-bar">
     <el-table
       stripe
-      :data="sampleQueries"
+      :data="sampleData"
       :height="autoHeight.height"
       :header-cell-style="{'font-size':'20px','color':'#303133','font-weight': '520'}"
       @row-click="clickData"
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import sample from '../data/SampleQueries_choose';
 export default {
   name: "SideBar",
   filters: {
@@ -54,7 +55,8 @@ export default {
       autoHeight: {
         height: ''
       },
-      cardInfoList:''
+      cardInfoList:'',
+      sampleData:sample
     }
   },
   created() {

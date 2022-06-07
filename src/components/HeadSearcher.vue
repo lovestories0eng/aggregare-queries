@@ -10,33 +10,29 @@
           <span>{{ str[4] }}</span>
         </span>
       </el-link>
-      <!--<el-select-->
-      <!--  id="select"-->
-      <!--  ref="headerSearchSelect"-->
-      <!--  v-model="containSearch"-->
-      <!--  :remote-method="querySearch"-->
-      <!--  filterable-->
-      <!--  remote-->
-      <!--  :placeholder="beforeContain"-->
-      <!--  class="header-search-select"-->
-      <!--  :style="'width:'+widthSearch+'%'"-->
-      <!--  :default-first-option="true"-->
-      <!--  @change="selectChage"-->
-      <!--  @blur="changeToLink()"-->
-      <!--&gt;-->
-      <!--  &lt;!&ndash; 不显示下拉列表 &ndash;&gt;-->
-      <!--  <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" />-->
-      <!--</el-select>-->
-      <el-input
-        id="input"
+      <!--  <el-select
+        id="select"
         ref="headerSearchSelect"
         v-model="containSearch"
+        :remote-method="querySearch"
+        filterable
+        remote
         :placeholder="beforeContain"
         class="header-search-select"
         :style="'width:'+widthSearch+'%'"
         :default-first-option="true"
-        @change="selectChage"
         @blur="changeToLink()"
+      >
+        <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" /> 
+      </el-select>-->
+      <el-input v-if="widthSearch===100"
+                id="input"
+                ref="headerSearchSelect"
+                v-model="containSearch"
+                class="header-search-select"
+                :style="'width:'+widthSearch+'%'"
+                @change="selectChage"
+                @blur="changeToLink()"
       >
       </el-input>
     </el-col>
@@ -55,7 +51,7 @@
 // fuse is a lightweight fuzzy-search module
 // make search results more in line with expectations
 import Fuse from 'fuse.js'
-
+import allQueries from "../data/SampleQueries";
 export default {
   name: 'HeaderSearch',
   props: {
@@ -79,7 +75,7 @@ export default {
     }
 
   },
-  data() {
+  data() { //clickJudge判断是不是由自己输入的，searchCopy存放内容根据点击或输入判断，search存的是对应的查询
     return {
       search: '',
       options: [],
@@ -96,7 +92,9 @@ export default {
       type:"",
       searchWidth:10,
       leftWidth:14,
-      colorShow:true
+      colorShow:true,
+      clickJudge:false,
+      searchCopy:''
     }
   },
   watch:{
@@ -111,9 +109,13 @@ export default {
       }
     },
     query(val) {
+      if(this.clickJudge )
+      {this.searchCopy = this.containSearch
+        this.clickJudge = false}
+      else
+      { this.searchCopy = val
+        this.containSearch = ''}
       this.search = val
-      this.containLink = val
-      this.containSearch = ""
       this.beforeContain = ""
       this.type = ""
       this.widthLink = 100
@@ -181,12 +183,61 @@ export default {
         str4 = this.search.substring(fromIndex,fromEnd)
         str5 = this.search.substring(fromEnd)
       }
+      //根据查询问题找到关键词
       this.str[0] = str1;
       this.str[1] = str2;
       this.str[2] = str3;
       this.str[3] = str4;
       this.str[4] = str5;
       this.type = ""
+      let key = []
+      let s = ''
+      console.log("containSearch")
+      console.log(this.containSearch)
+      key = this.containSearch.split(' ')
+      console.log("key")
+      console.log(key)
+      let flag1 = false
+      let flag2 = false
+      for(let i = 0;i < Object.keys(key).length;i++)
+      {
+        
+        if(key[i] === this.str[1].split(' ')[0])
+        {
+          this.str[0] = s
+          this.str[1] = this.str[1] + ' '
+          s = ''
+          console.log(this.str[0])
+          flag1 = true
+          continue
+        }
+        else if(key[i] === this.str[3].split(' ')[0])
+        {
+          this.str[2] = s
+          this.str[3] = this.str[3] + ' '
+          console.log(this.str[2])
+          s = ''
+          flag2 = true
+          continue
+        }
+        s = s + key[i] + ' '
+      }
+      this.str[4] = s
+      for(let i = 0;i < 4;i++)
+      {
+        console.log("str" + i)
+        console.log(this.str[i])
+      }
+      /*if((flag1 === false || flag2 === false) && Object.keys(key).length !== 1)
+      {
+        this.str[0] = this.containSearch
+        for(let i = 1;i < 4;i++)
+        {
+          this.str[i] = ''
+        }
+        this.$message.error("No relevant query found, please enter another query!")
+      }*/
+
       if(this.search.substring(0,4) === "What")
       {
         for(let i = 0;i <= this.search.length - 8;i++)
@@ -228,9 +279,31 @@ export default {
   methods: {
     selectChage() {
       console.log("change")
+      console.log(allQueries)
       let Obj = {}
-      Obj.query = this.containSearch
+      let max = 0
+      let s = []
+      s = this.containSearch.split(' ')
+      for(let i = 0;i < Object.keys(allQueries).length;i++)
+      {
+        let count = 0;
+        let s1 = []
+        s1 = allQueries[i].query.split(' ')
+        for(let j = 0;j < Object.keys(s).length;j++)
+        {
+          for(let k = 0;k < Object.keys(s1).length;k++)
+          {
+            if(s1[k] === s[j])
+              count++
+          }
+        }
+        if(count > max)
+        { max = count
+          Obj.query = allQueries[i].query
+        }
+      }
       Obj.flag = 1
+      this.clickJudge = true
       this.$emit('choosedQuery', Obj)
     },
     querySearch(query) {
@@ -255,8 +328,6 @@ export default {
     //   this.$emit('getMessage');
     // },
     widthChange() {
-      this.containSearch = this.search
-      this.containLink = ""
       this.type = ""
       this.widthLink = 0
       this.widthSearch = 100
@@ -264,8 +335,6 @@ export default {
       document.getElementById('input').focus();
     },
     changeToLink() {
-      this.containSearch = ""
-      this.containLink = this.search
       this.widthLink = 100
       this.widthSearch = 0
       this.colorShow = true;
