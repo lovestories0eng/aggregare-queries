@@ -31,17 +31,16 @@
                 v-model="containSearch"
                 class="header-search-select"
                 :style="'width:'+widthSearch+'%'"
-                @change="selectChage"
                 @blur="changeToLink()"
       >
       </el-input>
     </el-col>
-    <el-col :span="2">
+    <el-col :span="1.5">
       <div>
-        <el-button type="primary" @click="selectChange()">submit</el-button>
+        <el-button type="primary" style="font-size:12px" @click="selectChange(0)">submit</el-button>
       </div>
     </el-col>
-    <el-col :span="9" style="display:flex;align-items:center;justify-content:center">
+    <el-col :span="9.5" style="display:flex;align-items:center;justify-content:center">
       <slot></slot>
     </el-col>
   </div>
@@ -111,10 +110,14 @@ export default {
     query(val) {
       if(this.clickJudge )
       {this.searchCopy = this.containSearch
-        this.clickJudge = false}
+        this.clickJudge = false
+        console.log("clickJudge true")
+        console.log(this.containSearch)}
       else
       { this.searchCopy = val
-        this.containSearch = ''}
+        this.containSearch = ''
+        console.log("clickJudge false")
+        console.log(this.containSearch)}
       this.search = val
       this.beforeContain = ""
       this.type = ""
@@ -194,36 +197,69 @@ export default {
       let s = ''
       console.log("containSearch")
       console.log(this.containSearch)
-      key = this.containSearch.split(' ')
+      key = this.containSearch.trim().split(/[,_\s.]/)
       console.log("key")
       console.log(key)
+      console.log("str[1]")
+      console.log(this.str[1].toLowerCase().trim().split(/[,_\s.]/)[0])
+      console.log("str[3]")
+      console.log(this.str[3].toLowerCase().trim().split(/[,_\s.]/)[0])
       let flag1 = false
       let flag2 = false
-      for(let i = 0;i < Object.keys(key).length;i++)
+      let jump = false
+      if(Object.keys(key).length > 1)
+      { for(let i = 0;i < Object.keys(key).length;i++)
       {
         
-        if(key[i] === this.str[1].split(' ')[0])
+        if(key[i].toLowerCase() === this.str[1].toLowerCase().trim().split(/[,_\s.]/)[0])
         {
           this.str[0] = s
-          this.str[1] = this.str[1] + ' '
+          if(key[i] !== this.str[1].trim().split(/[,_\s.]/)[0])//判断输入的关键词大小写问题
+            this.str[1] = this.str[1].toLowerCase() + ' '
+          else
+            this.str[1] = this.str[1] + ' '
           s = ''
           console.log(this.str[0])
           flag1 = true
+          if(Object.keys(this.str[1].toLowerCase().trim().split(/[,_\s.]/)).length > 1)
+          { 
+            if(this.str[1].indexOf("_") !== -1)
+            {
+              this.str[1] = this.str[1].toLowerCase().trim().split(/[,_\s.]/)[0] + " " + this.str[1].toLowerCase().trim().split(/[,_\s.]/)[1] + " "
+            }
+            jump = true
+          }
           continue
         }
-        else if(key[i] === this.str[3].split(' ')[0])
+        else if(key[i].toLowerCase() === this.str[3].toLowerCase().trim().split(/[,_\s.]/)[0])
         {
           this.str[2] = s
-          this.str[3] = this.str[3] + ' '
+          if(key[i] !== this.str[3].trim().split(/[,_\s.]/)[0])//判断输入的关键词大小写问题
+            this.str[3] = this.str[3].toLowerCase() + ' '
+          else
+            this.str[3] = this.str[3] + ' '
           console.log(this.str[2])
           s = ''
           flag2 = true
+          if(Object.keys(this.str[3].toLowerCase().trim().split(/[,_\s.]/)).length > 1)
+          {
+            if(this.str[3].indexOf("_") !== -1)
+            {
+              this.str[3] = this.str[3].toLowerCase().trim().split(/[,_\s.]/)[0] + " " + this.str[3].toLowerCase().trim().split(/[,_\s.]/)[1] + " "
+            }
+            jump = true
+
+          }
           continue
         }
-        s = s + key[i] + ' '
+        if(!jump)
+          s = s + key[i] + ' '
+        else
+          jump = false
+      }
       }
       this.str[4] = s
-      for(let i = 0;i < 4;i++)
+      for(let i = 0;i < 5;i++)
       {
         console.log("str" + i)
         console.log(this.str[i])
@@ -277,18 +313,18 @@ export default {
     })
   },
   methods: {
-    selectChage() {
+    selectChange(val) {
       console.log("change")
       console.log(allQueries)
       let Obj = {}
       let max = 0
       let s = []
-      s = this.containSearch.split(' ')
+      s = this.containSearch.trim().split(/\s+/)
       for(let i = 0;i < Object.keys(allQueries).length;i++)
       {
         let count = 0;
         let s1 = []
-        s1 = allQueries[i].query.split(' ')
+        s1 = allQueries[i].query.trim().split(/\s+/)
         for(let j = 0;j < Object.keys(s).length;j++)
         {
           for(let k = 0;k < Object.keys(s1).length;k++)
@@ -300,10 +336,12 @@ export default {
         if(count > max)
         { max = count
           Obj.query = allQueries[i].query
+          this.searchCopy = this.containSearch
         }
       }
       Obj.flag = 1
-      this.clickJudge = true
+      if(val === 0)//submit提交
+        this.clickJudge = true
       this.$emit('choosedQuery', Obj)
     },
     querySearch(query) {
@@ -332,7 +370,7 @@ export default {
       this.widthLink = 0
       this.widthSearch = 100
       // document.getElementById('select').focus();
-      document.getElementById('input').focus();
+      //document.getElementById('input').focus();
     },
     changeToLink() {
       this.widthLink = 100
