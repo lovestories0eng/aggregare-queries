@@ -13,7 +13,9 @@ let sampleQueries = [
   { query: 'What’s the average height of soccer player from Spain' },
   { query: 'What’s the average oil consumption of cars that produced in Germany' },
   { query: 'What’s the average value of soccer player from Spain' },
-  { query: 'What’s the average weight of basketball player from United_States' }
+  { query: 'What’s the average weight of basketball player from United_States' },
+  { query: 'How many cars be produced in Germany' },
+  { query: 'What is the average price of cars be produced in Germany' },
 ]
 
 export default sampleQueries

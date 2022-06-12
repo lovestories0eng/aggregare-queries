@@ -23,7 +23,7 @@
         :default-first-option="true"
         @blur="changeToLink()"
       >
-        <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" /> 
+        <el-option v-for="{ item } in options" :key="item.query" :value="item.query" :label="item.query" />
       </el-select>-->
       <el-input v-if="widthSearch===100"
                 id="input"
@@ -37,7 +37,7 @@
     </el-col>
     <el-col :span="1.5">
       <div>
-        <el-button type="primary" style="font-size:12px" @click="selectChange(0)">submit</el-button>
+        <el-button class="submit-button" type="primary" style="font-size:12px;margin: 0 2px" @click="selectChange(0)">submit</el-button>
       </div>
     </el-col>
     <el-col :span="9.5" style="display:flex;align-items:center;justify-content:center">
@@ -210,7 +210,7 @@ export default {
       if(Object.keys(key).length > 1)
       { for(let i = 0;i < Object.keys(key).length;i++)
       {
-        
+
         if(key[i].toLowerCase() === this.str[1].toLowerCase().trim().split(/[,_\s.]/)[0])
         {
           this.str[0] = s
@@ -222,7 +222,7 @@ export default {
           console.log(this.str[0])
           flag1 = true
           if(Object.keys(this.str[1].toLowerCase().trim().split(/[,_\s.]/)).length > 1)
-          { 
+          {
             if(this.str[1].indexOf("_") !== -1)
             {
               this.str[1] = this.str[1].toLowerCase().trim().split(/[,_\s.]/)[0] + " " + this.str[1].toLowerCase().trim().split(/[,_\s.]/)[1] + " "
@@ -422,5 +422,13 @@ export default {
     width:100%;
     font-weight: 700;
   }
+}
+
+.submit-button:hover {
+  color: black !important;
+}
+
+.submit-button:focus {
+  color: black !important;
 }
 </style>

@@ -16,7 +16,7 @@
       >
         <miniQueryGraph :query-type="miniGraphType" :graph-data="predicate.split(' ')"></miniQueryGraph>
       </head-searcher>
-      <ModeSelect :round="round" :max-round="maxRound" @modeSelect="modeSelect"></ModeSelect>
+      <ModeSelect :query="query" :round="round" :max-round="maxRound" @modeSelect="modeSelect"></ModeSelect>
       <div style="margin-top:15px">
         <results-table :round="round" :table-data="tableData"></results-table>
       </div>
@@ -42,10 +42,10 @@
           </span>.
           <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>
         </div>
-        <!--<div v-else-if="round === 0 && click === 0">-->
-        <!--  A knowledge graph snapshot-->
-        <!--  <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>-->
-        <!--</div>-->
+        <div v-else-if="round === 0 && click === 0">
+          A knowledge graph snapshot
+          <largeQueryGraph :graph-data="largeGraph" :data-type="largeGraphDataType"></largeQueryGraph>
+        </div>
         <div v-else-if="round >= 1">
           A random sample of
           <span class="entity">
