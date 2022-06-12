@@ -329,6 +329,8 @@ export default {
         {
           for(let k = 0;k < Object.keys(s1).length;k++)
           {
+            if(s1[k] === "many" && s[j] === "count")
+              count++
             if(s1[k] === s[j])
               count++
           }
