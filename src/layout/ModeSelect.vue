@@ -1,6 +1,6 @@
 <template>
   <div style="height: 42px; margin-top: 10px">
-    <el-col :span="4">
+    <el-col :span="3">
       <div style="visibility: hidden;">占位</div>
     </el-col>
 
@@ -18,8 +18,8 @@
         </span>
       </el-col>
 
-      <el-col :span="3" style="display:flex;align-items:center;flex-wrap: nowrap;justify-content: space-around;">
-        <el-input v-model="confidenceLevel" style="width: 80%;"></el-input>
+      <el-col :span="4" style="display:flex;align-items:center;flex-wrap: nowrap;justify-content: space-around;">
+        <el-input v-model="confidenceLevel" style="width: 100%;"></el-input>
         <span style="width: 78px; text-align:center; font-size: 12px;">
           confidence level
         </span>
@@ -35,7 +35,7 @@
     </div>
 
     <div v-else>
-      <el-col :span="7">
+      <el-col :span="8">
         <div style="visibility: hidden;">占位</div>
       </el-col>
     </div>
@@ -44,7 +44,7 @@
       <div style="visibility: hidden;">占位</div>
     </el-col>
 
-    <el-col :span="4" style="display:flex;align-items:center;flex-wrap: nowrap;justify-content: space-around;">
+    <el-col :span="5" style="display:flex;align-items:center;flex-wrap: nowrap;justify-content: space-around;">
       <el-tooltip content="round by round">
         <el-button class="select-button" @click="chooseInteractive()">Interactive model</el-button>
         <!-- changeStatus('interactive') -->
